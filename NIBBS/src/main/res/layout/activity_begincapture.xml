@@ -104,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:paddingHorizontal="10dp"
-        android:background="@color/cardview_dark_background"
+        android:background="@color/green"
         android:text="Capture Form Data"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -130,6 +130,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
+            android:textColor="@color/green"
             android:text="NEXT"
             android:textSize="15dp" />
         <View

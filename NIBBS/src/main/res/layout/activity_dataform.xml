@@ -9,7 +9,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/green"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/white"
                 android:text="Enrolment SDK"
                 android:textSize="13dp" />
 
@@ -106,6 +107,7 @@
         <EditText
             android:id="@+id/dateofbirthEditText"
             android:layout_width="match_parent"
+            android:editable="false"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -149,6 +151,7 @@
 
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

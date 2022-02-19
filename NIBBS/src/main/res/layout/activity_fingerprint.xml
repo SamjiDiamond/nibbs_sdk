@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="Left Fingers"
                 android:textSize="13dp" />
 
@@ -156,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="Right Fingers"
                 android:textSize="13dp" />
         </LinearLayout>
@@ -178,6 +180,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
+            android:textColor="@color/green"
             android:text="Thumbs"
             android:textSize="13dp" />
 
@@ -232,6 +235,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="Re-Capture Fingerprint"
                 android:textSize="13dp" />
 
@@ -266,6 +270,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="BACK"
                 android:textSize="15dp" />
 
@@ -297,6 +302,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="NEXT"
                 android:textSize="15dp" />
 

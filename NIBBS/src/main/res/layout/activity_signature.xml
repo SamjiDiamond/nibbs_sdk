@@ -83,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
+        android:textColor="@color/green"
         android:text="Captured Signature"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +96,16 @@
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" >
+        <ImageView
+            android:id="@+id/signaturepreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
+        android:id="@+id/signature"
         android:layout_height="50dp"
         android:elevation="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -123,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="Re-Capture Signature"
                 android:textSize="13dp" />
 
@@ -158,6 +166,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/green"
                 android:text="BACK"
                 android:textSize="15dp" />
 
@@ -189,6 +198,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
+                android:textColor="@color/dackgreen"
                 android:text="COMPLETE"
                 android:textSize="15dp" />
 
