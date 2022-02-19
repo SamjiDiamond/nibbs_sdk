@@ -9,8 +9,9 @@ public class Datamodel {
     private String dateofbirth;
     private String gender;
     private String maritalstatus;
+    private String uploadstatus;
 
-    public Datamodel(int id, String title, String surname, String firstname, String middlename, String dateofbirth, String gender, String maritalstatus) {
+    public Datamodel(int id, String title, String surname, String firstname, String middlename, String dateofbirth, String gender, String maritalstatus, String uploadstatus) {
         this.id = id;
         this.title = title;
         this.surname = surname;
@@ -19,6 +20,7 @@ public class Datamodel {
         this.dateofbirth = dateofbirth;
         this.gender = gender;
         this.maritalstatus = maritalstatus;
+        this.uploadstatus = uploadstatus;
     }
 
     @Override
@@ -32,6 +34,7 @@ public class Datamodel {
                 ", dateofbirth='" + dateofbirth + '\'' +
                 ", gender='" + gender + '\'' +
                 ", maritalstatus='" + maritalstatus + '\'' +
+                ", uploadstatus='" + uploadstatus + '\'' +
                 '}';
     }
 
@@ -98,4 +101,13 @@ public class Datamodel {
     public void setMaritalstatus(String maritalstatus) {
         this.maritalstatus = maritalstatus;
     }
+
+    public String getUploadstatus() {
+        return uploadstatus;
+    }
+
+    public void setUploadstatus(String uploadstatus) {
+        this.uploadstatus = uploadstatus;
+    }
+
 }

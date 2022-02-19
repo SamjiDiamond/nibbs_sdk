@@ -21,6 +21,7 @@ public class Databasehelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATEOFBIRT = "DATEOFBIRT";
     public static final String COLUMN_GENDER = "GENDER";
     public static final String COLUMN_MARITALSTATUS = "MARITALSTATUS";
+    public static final String COLUMN_UPLOADSTATUS = "UPLOADSTATUS";
 
     public Databasehelper(@Nullable Context context) {
         super(context, "dataform.db", null, 1);
@@ -31,7 +32,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         String createtablestatement = "CREATE TABLE " + DATA_TABLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " " + COLUMN_TITLE + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_FIRSTNAME + " TEXT, " +
                 COLUMN_MIDDLENAME + " TEXT,  " + COLUMN_DATEOFBIRT + " TEXT, " + " " + COLUMN_GENDER +
-                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT)";
+                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT," + COLUMN_UPLOADSTATUS + " TEXT)";
         sqLiteDatabase.execSQL(createtablestatement);
     }
 
@@ -50,6 +51,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DATEOFBIRT, datamodel.getDateofbirth());
         cv.put(COLUMN_GENDER, datamodel.getGender());
         cv.put(COLUMN_MARITALSTATUS, datamodel.getMaritalstatus());
+        cv.put(COLUMN_UPLOADSTATUS, datamodel.getUploadstatus());
 
         long insert = db.insert(DATA_TABLE, null, cv);
         if (insert == -1){
@@ -75,7 +77,10 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datadob = cursor.getString(5);
                 String datagender = cursor.getString(6);
                 String datamaritalstatus = cursor.getString(7);
-                Datamodel newdata = new Datamodel(dataid,datatitle,datasurname,datafirstname,datamiddlename,datadob,datagender,datamaritalstatus);
+                String datauploadstatus = cursor.getString(8);
+                Datamodel newdata = new Datamodel(dataid,datatitle,
+                        datasurname,datafirstname,datamiddlename,
+                        datadob,datagender,datamaritalstatus,datauploadstatus);
                 returnList.add(newdata);
 
             }while(cursor.moveToNext());
@@ -88,9 +93,19 @@ public class Databasehelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public boolean Deleteone(Datamodel datamodel){
+    public boolean deleteone(Datamodel datamodel){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "DELETE FROM " + DATA_TABLE + " WHERE " + COLUMN_ID + " = " + datamodel.getId();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()){
+            return  true;
+        }else {
+            return  false;
+        }
+    }
+    public boolean updateone(Datamodel datamodel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "UPDATE " + DATA_TABLE + " SET " + COLUMN_UPLOADSTATUS + " = " + datamodel.getUploadstatus() + " WHERE " + COLUMN_ID + " = " + datamodel.getId();
         Cursor cursor = db.rawQuery(queryString, null);
         if (cursor.moveToFirst()){
             return  true;

@@ -80,7 +80,8 @@ public class DataformActivity extends AppCompatActivity {
 
     public void validate(){
         if (title.getText().toString().isEmpty()){
-            toast("title");
+//            toast("title");
+            viewlist();
         }else if (surname.getText().toString().isEmpty()){
             toast("Surname");
         }else if (firstname.getText().toString().isEmpty()){
@@ -97,9 +98,10 @@ public class DataformActivity extends AppCompatActivity {
             try {
                 datamodel = new Datamodel(1,title.getText().toString(),surname.getText().toString(),
                         firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-                        gender.getText().toString(), marital.getText().toString());
+                        gender.getText().toString(), marital.getText().toString(), "0");
 
                 databasehelper.addone(datamodel);
+                toast("data saved");
             } catch (Exception e) {
                 e.printStackTrace();
 //                datamodel = new Datamodel(1,"Mrs","odejinmi","ayomiposi",
@@ -110,6 +112,7 @@ public class DataformActivity extends AppCompatActivity {
 
     public void viewlist(){
          List<Datamodel> everyone = databasehelper.getEveryone();
+         toast(everyone.toString());
     }
 
     public void deleteone(){
