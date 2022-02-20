@@ -47,18 +47,18 @@ public class DataformActivity extends AppCompatActivity {
                 picker.show();
 
 
-//                MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(5,12, 1999);
-//                //new MonthYearPickerDialog();
-//
-//                pd.setListener(new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-//                        dateico.setText(selectedDay +"/"+  selectedMonth + "/" + selectedYear );
-//
-//
-//                    }
-//                });
-                //pd.show();
+                MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(5,12, 1999);
+                //new MonthYearPickerDialog();
+
+                pd.setListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        dateico.setText(selectedDay +"/"+  selectedMonth + "/" + selectedYear );
+
+
+                    }
+                });
+//                pd.show();
 
             }
         });

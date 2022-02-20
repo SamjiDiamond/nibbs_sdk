@@ -37,8 +37,8 @@ ImageView signature;
             @Override
             public void onClick(View view) {
                     final AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(SignatureActivity.this);
-                                alertDialogBuilder.setTitle("Network  Error");
-                                alertDialogBuilder.setMessage("No internet connection, kindly check your network and retake the picture");
+                                alertDialogBuilder.setTitle("BVN Enrolment Ticket");
+                                alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
                                 alertDialogBuilder.setPositiveButton("OK",
                                         new DialogInterface.OnClickListener() {
         @Override

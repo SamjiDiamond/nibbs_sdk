@@ -4,9 +4,12 @@
 
     <application>
         <activity
+            android:name=".MonthYearPickerDialog"
+            android:exported="false" />
+        <activity
             android:name=".SigningpageActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SignatureActivity"
             android:exported="false"
@@ -35,9 +38,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>
