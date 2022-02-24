@@ -98,7 +98,11 @@ public class DataformActivity extends AppCompatActivity {
             try {
                 datamodel = new Datamodel(1,title.getText().toString(),surname.getText().toString(),
                         firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-                        gender.getText().toString(), marital.getText().toString(), "0");
+                        gender.getText().toString(), marital.getText().toString(), "0",
+                        firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
+                        gender.getText().toString(), marital.getText().toString(), "0",
+                        dateico.getText().toString(), gender.getText().toString(), marital.getText().toString(),
+                        "0");
 
                 databasehelper.addone(datamodel);
                 toast("data saved");

@@ -17,11 +17,21 @@ public class Databasehelper extends SQLiteOpenHelper {
     public static final String COLUMN_SURNAME = "SURNAME";
     public static final String COLUMN_FIRSTNAME = "FIRSTNAME";
     public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_MIDDLENAME = "M" + COLUMN_ID + "DLENAME";
-    public static final String COLUMN_DATEOFBIRT = "DATEOFBIRT";
+    public static final String COLUMN_MIDDLENAME = "MIDLENAME";
+    public static final String COLUMN_DATEOFBIRTH = "DATEOFBIRTH";
     public static final String COLUMN_GENDER = "GENDER";
     public static final String COLUMN_MARITALSTATUS = "MARITALSTATUS";
     public static final String COLUMN_UPLOADSTATUS = "UPLOADSTATUS";
+    public static final String COLUMN_INSTITUTION_CODE = "INSTITUTION_CODE";
+    public static final String COLUMN_INSTITUTION_NAME = "INSTITUTION_NAME";
+    public static final String COLUMN_AGENT_CODE = "AGENT_CODE";
+    public static final String COLUMN_TICKET_ID = "TICKET_ID";
+    public static final String COLUMN_VALIDATION_STATUS = "VALIDATION_STATUS";
+    public static final String COLUMN_CAPTURE_DATE = "CAPTURE_DATE";
+    public static final String COLUMN_SYNC_DATE = "SYNC_DATE";
+    public static final String COLUMN_VALIDATION_DATE = "VALIDATION_DATE";
+    public static final String COLUMN_STATE_OF_CAPTURE = "STATE_OF_CAPTURE";
+    public static final String COLUMN_STATE_OF_SYNC = "STATE_OF_SYNC";
 
     public Databasehelper(@Nullable Context context) {
         super(context, "dataform.db", null, 1);
@@ -31,8 +41,12 @@ public class Databasehelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createtablestatement = "CREATE TABLE " + DATA_TABLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " " + COLUMN_TITLE + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_FIRSTNAME + " TEXT, " +
-                COLUMN_MIDDLENAME + " TEXT,  " + COLUMN_DATEOFBIRT + " TEXT, " + " " + COLUMN_GENDER +
-                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT," + COLUMN_UPLOADSTATUS + " TEXT)";
+                COLUMN_MIDDLENAME + " TEXT,  " + COLUMN_DATEOFBIRTH + " TEXT, " + " " + COLUMN_GENDER +
+                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT," + COLUMN_UPLOADSTATUS + " TEXT,"
+                + COLUMN_INSTITUTION_CODE + " TEXT," + COLUMN_INSTITUTION_NAME + " TEXT," + COLUMN_AGENT_CODE + " TEXT,"
+                + COLUMN_TICKET_ID + " TEXT," + COLUMN_VALIDATION_STATUS + " TEXT," + COLUMN_CAPTURE_DATE + " TEXT,"
+                + COLUMN_SYNC_DATE + " TEXT," + COLUMN_VALIDATION_DATE + " TEXT," + COLUMN_STATE_OF_CAPTURE + " TEXT,"
+                + COLUMN_STATE_OF_SYNC + " TEXT)";
         sqLiteDatabase.execSQL(createtablestatement);
     }
 
@@ -48,7 +62,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SURNAME, datamodel.getSurname());
         cv.put(COLUMN_FIRSTNAME, datamodel.getFirstname());
         cv.put(COLUMN_MIDDLENAME, datamodel.getMiddlename());
-        cv.put(COLUMN_DATEOFBIRT, datamodel.getDateofbirth());
+        cv.put(COLUMN_DATEOFBIRTH, datamodel.getDateofbirth());
         cv.put(COLUMN_GENDER, datamodel.getGender());
         cv.put(COLUMN_MARITALSTATUS, datamodel.getMaritalstatus());
         cv.put(COLUMN_UPLOADSTATUS, datamodel.getUploadstatus());
@@ -80,7 +94,10 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datauploadstatus = cursor.getString(8);
                 Datamodel newdata = new Datamodel(dataid,datatitle,
                         datasurname,datafirstname,datamiddlename,
-                        datadob,datagender,datamaritalstatus,datauploadstatus);
+                        datadob,datagender,datamaritalstatus,datauploadstatus,
+                        datasurname,datafirstname,datamiddlename,
+                        datadob,datagender,datamaritalstatus,datauploadstatus,
+                        datagender,datamaritalstatus,datauploadstatus);
                 returnList.add(newdata);
 
             }while(cursor.moveToNext());

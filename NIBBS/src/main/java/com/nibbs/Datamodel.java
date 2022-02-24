@@ -10,8 +10,24 @@ public class Datamodel {
     private String gender;
     private String maritalstatus;
     private String uploadstatus;
+    private String institutioncode;
+    private String institutionname;
+    private String agentcode;
+    private String ticketid;
+    private String validationstatus;
+    private String capturedate;
+    private String syncdate;
+    private String validationdate;
+    private String stateofcapture;
+    private String stateofsync;
 
-    public Datamodel(int id, String title, String surname, String firstname, String middlename, String dateofbirth, String gender, String maritalstatus, String uploadstatus) {
+    public Datamodel(int id, String title, String surname,
+                     String firstname, String middlename, String dateofbirth,
+                     String gender, String maritalstatus, String uploadstatus,
+                     String institutioncode, String institutionname, String agentcode,
+                     String ticketid, String validationstatus, String capturedate,
+                     String syncdate, String validationdate, String stateofcapture,
+                     String stateofsync) {
         this.id = id;
         this.title = title;
         this.surname = surname;
@@ -21,6 +37,16 @@ public class Datamodel {
         this.gender = gender;
         this.maritalstatus = maritalstatus;
         this.uploadstatus = uploadstatus;
+        this.institutioncode = institutioncode;
+        this.institutionname = institutionname;
+        this.agentcode = agentcode;
+        this.ticketid = ticketid;
+        this.validationstatus = validationstatus;
+        this.capturedate = capturedate;
+        this.syncdate = syncdate;
+        this.validationdate = validationdate;
+        this.stateofcapture = stateofcapture;
+        this.stateofsync = stateofsync;
     }
 
     @Override
@@ -109,5 +135,86 @@ public class Datamodel {
     public void setUploadstatus(String uploadstatus) {
         this.uploadstatus = uploadstatus;
     }
+
+    public String getInstitutioncode() {
+        return institutioncode;
+    }
+
+    public void setInstitutioncode(String institutioncode) {
+        this.institutioncode = institutioncode;
+    }
+
+    public String getInstitutionname() {
+        return institutionname;
+    }
+
+    public void setInstitutionname(String institutionname) {
+        this.institutionname = institutionname;
+    }
+
+    public String getAgentcode() {
+        return agentcode;
+    }
+
+    public void setAgentcode(String agentcode) {
+        this.agentcode = agentcode;
+    }
+
+    public String getTicketid() {
+        return ticketid;
+    }
+
+    public void setTicketid(String ticketid) {
+        this.ticketid = ticketid;
+    }
+
+    public String getValidationstatus() {
+        return validationstatus;
+    }
+
+    public void setValidationstatus(String validationstatus) {
+        this.validationstatus = validationstatus;
+    }
+
+    public String getCapturedate() {
+        return capturedate;
+    }
+
+    public void setCapturedate(String capturedate) {
+        this.capturedate = capturedate;
+    }
+
+    public String getSyncdate() {
+        return syncdate;
+    }
+
+    public void setSyncdate(String syncdate) {
+        this.syncdate = syncdate;
+    }
+
+    public String getValidationdate() {
+        return validationdate;
+    }
+
+    public void setValidationdate(String validationdate) {
+        this.validationdate = validationdate;
+    }
+
+    public String getStateofcapture() {
+        return stateofcapture;
+    }
+
+    public void setStateofcapture(String stateofcapture) {
+        this.stateofcapture = stateofcapture;
+    }
+
+    public String getStateofsync() {
+        return stateofsync;
+    }
+
+    public void setStateofsync(String stateofsync) {
+        this.stateofsync =stateofsync;
+    }
+
 
 }
