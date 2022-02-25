@@ -28,11 +28,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -61,7 +63,9 @@ public class FacecaptureActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 1450;
     public String mCurrentPhotoPath;
     ImageView image;
+    TextView eyecoordinate;
     public String encodedImage="";
+    public String eyecoordinateText="";
     private ProgressDialog pDialog;
 
     // High-accuracy landmark detection and face classification
@@ -77,20 +81,6 @@ public class FacecaptureActivity extends AppCompatActivity {
             new FaceDetectorOptions.Builder()
                     .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
                     .build();
-
-    private class YourAnalyzer implements ImageAnalysis.Analyzer {
-
-        @Override
-        public void analyze(ImageProxy imageProxy) {
-            Image mediaImage = imageProxy.getImage();
-            if (mediaImage != null) {
-                InputImage image =
-                        InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
-                // Pass image to an ML Kit Vision API
-                // ...
-            }
-        }
-    }
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
@@ -132,6 +122,7 @@ public class FacecaptureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facecapture);
         image = findViewById(R.id.imageview);
+        eyecoordinate = findViewById(R.id.eyecoordinate);
         LinearLayout backlayout = findViewById(R.id.backlayout);
         backlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +205,9 @@ public class FacecaptureActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
                 image.setImageBitmap(bitmap);
 //                processCameraPicture(mCurrentPhotoPath);
+
+                InputImage image = InputImage.fromBitmap(bitmap, 0);
+                detectFaces(image);
             }else {
                 Toast.makeText(getApplicationContext(),"Path is empty",
                         LENGTH_LONG).show();
@@ -224,18 +218,6 @@ public class FacecaptureActivity extends AppCompatActivity {
                     LENGTH_LONG).show();
 
         }
-    }
-  //checking internet
-    public boolean isInternetConnected() {
-        // At activity startup we manually check the internet status and change
-        // the text status
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-
     }
 
     private void detectFaces(InputImage image) {
@@ -266,31 +248,43 @@ public class FacecaptureActivity extends AppCompatActivity {
                                         // Task completed successfully
                                         // [START_EXCLUDE]
                                         // [START get_face_info]
+
+                                        Log.d("face success", "onSuccess: ");
                                         for (Face face : faces) {
                                             Rect bounds = face.getBoundingBox();
                                             float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
                                             float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
+                                            eyecoordinateText+="Head Bounds: "+ bounds+"\n";
+                                            eyecoordinateText+="Head Rotation(Y-Axis): "+ rotY+"\n";
+                                            eyecoordinateText+="Head Rotation(Z-Axis): "+ rotZ+"\n";
 
                                             // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
                                             // nose available):
                                             FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
                                             if (leftEar != null) {
                                                 PointF leftEarPos = leftEar.getPosition();
+                                                Log.d("leftEarPos", leftEarPos.toString());
+                                                eyecoordinateText+="Left Ear Position: "+ leftEarPos.toString()+"\n";
                                             }
 
                                             // If classification was enabled:
                                             if (face.getSmilingProbability() != null) {
                                                 float smileProb = face.getSmilingProbability();
+                                                eyecoordinateText+="User Smiling: "+ String.valueOf(smileProb)+"\n";
                                             }
                                             if (face.getRightEyeOpenProbability() != null) {
                                                 float rightEyeOpenProb = face.getRightEyeOpenProbability();
+                                                Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
+                                                eyecoordinateText+="Right Eye Open: "+ String.valueOf(rightEyeOpenProb)+"\n";
                                             }
 
                                             // If face tracking was enabled:
                                             if (face.getTrackingId() != null) {
                                                 int id = face.getTrackingId();
+                                                Log.d("id", String.valueOf(id));
                                             }
                                         }
+                                        eyecoordinate.setText(eyecoordinateText);
                                         // [END get_face_info]
                                         // [END_EXCLUDE]
                                     }
@@ -301,6 +295,7 @@ public class FacecaptureActivity extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         // Task failed with an exception
                                         // ...
+                                        Log.e("face error",e.toString());
                                     }
                                 });
         // [END run_detector]
