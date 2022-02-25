@@ -65,7 +65,7 @@ public class SigningpageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                String path = saveToInternalStorage(signatureBitmap);
+                String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext());
                 if (path !=null) {
                 Intent intent = new Intent();
                 intent.putExtra("sign", path);
@@ -84,29 +84,6 @@ public class SigningpageActivity extends AppCompatActivity {
 
     }
 
-  private String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return directory.getAbsolutePath();
-    }
 
     /**
      * Checks if the app has permission to write to device storage
