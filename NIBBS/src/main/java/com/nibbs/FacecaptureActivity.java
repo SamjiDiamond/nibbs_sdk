@@ -84,7 +84,8 @@ public class FacecaptureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-                startActivity(in);
+                startActivityForResult(in, 1);
+//                startActivity(in);
 //                takepicture();
             }
         });
@@ -143,7 +144,9 @@ public class FacecaptureActivity extends AppCompatActivity {
                 Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
                 Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("picture"));
                 image.setImageBitmap(b);
+                eyecoordinate.setText(Constant.eyecoordinateText);
             }
+            return;
         }
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();

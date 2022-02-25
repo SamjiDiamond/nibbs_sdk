@@ -7,34 +7,72 @@
         android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:text="Camera Demo application\nDeveloped by Ravi Sharma"-->
+<!--        android:textColor="@android:color/black" />-->
 
-    <Button
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="50dp"
+        android:src="@drawable/selfiearea" />
+
+    <ImageView
         android:id="@+id/captureImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Turn Flashlight"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/capture"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"/>
 
-    <Button
+<!--    <Button-->
+<!--        android:id="@+id/captureImage"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginBottom="10dp"/>-->
+
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_marginRight="25dp"-->
+<!--        android:layout_toLeftOf="@id/captureImage" />-->
+
+    <ImageView
         android:id="@+id/flash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:text="Capture"
+        android:src="@drawable/flashlight"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
-        android:layout_toLeftOf="@id/captureImage" />
+        android:layout_toLeftOf="@id/captureImage"/>
 
-    <Button
+    <ImageView
         android:id="@+id/flipCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/switchcamera"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
-        android:text="Switch Camera"
         android:layout_marginLeft="25dp"
-        android:layout_toRightOf="@id/captureImage" />
+        android:layout_toRightOf="@id/captureImage"/>
+
+<!--    <Button-->
+<!--        android:id="@+id/flipCamera"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_marginLeft="25dp"-->
+<!--        android:layout_toRightOf="@id/captureImage" />-->
 
 </RelativeLayout>

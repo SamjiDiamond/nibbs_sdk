@@ -52,6 +52,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Surface;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,9 +74,9 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private Camera camera;
-    private Button flipCamera;
-    private Button flashCameraButton;
-    private Button captureImage;
+    private ImageView flipCamera;
+    private ImageView flashCameraButton;
+    private ImageView captureImage;
     private int cameraId;
     private boolean flashmode = false;
     private int rotation;
@@ -95,9 +96,9 @@ public class CameraActivity extends AppCompatActivity implements Callback,
         setContentView(R.layout.activity_camera);
         // camera surface view created
         cameraId = CameraInfo.CAMERA_FACING_BACK;
-        flipCamera = (Button) findViewById(R.id.flipCamera);
-        flashCameraButton = (Button) findViewById(R.id.flash);
-        captureImage = (Button) findViewById(R.id.captureImage);
+        flipCamera =  findViewById(R.id.flipCamera);
+        flashCameraButton = findViewById(R.id.flash);
+        captureImage = findViewById(R.id.captureImage);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
@@ -273,6 +274,16 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                     rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
                             loadedImage.getWidth(), loadedImage.getHeight(),
                             rotateMatrix, false);
+//                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
+//                    detectFaces(image);
+//                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext());
+//                    if (path !=null) {
+//                        Log.d("TAG", "onPictureTaken: "+ path);
+//                        Intent intent = new Intent();
+//                        intent.putExtra("picture", path);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+//                    }
                     String state = Environment.getExternalStorageState();
                     File folder = null;
                     if (state.contains(Environment.MEDIA_MOUNTED)) {
@@ -384,5 +395,86 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+    private void detectFaces(InputImage image) {
+        // [START set_detector_options]
+        FaceDetectorOptions options =
+                new FaceDetectorOptions.Builder()
+                        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                        .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+                        .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+                        .setMinFaceSize(0.15f)
+                        .enableTracking()
+                        .build();
+        // [END set_detector_options]
+
+        // [START get_detector]
+        FaceDetector detector = FaceDetection.getClient(options);
+        // Or use the default options:
+        // FaceDetector detector = FaceDetection.getClient();
+        // [END get_detector]
+
+        // [START run_detector]
+        Task<List<Face>> result =
+                detector.process(image)
+                        .addOnSuccessListener(
+                                new OnSuccessListener<List<Face>>() {
+                                    @Override
+                                    public void onSuccess(List<Face> faces) {
+                                        // Task completed successfully
+                                        // [START_EXCLUDE]
+                                        // [START get_face_info]
+
+                                        Log.d("face success", "onSuccess: ");
+                                        for (Face face : faces) {
+                                            Rect bounds = face.getBoundingBox();
+                                            float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
+                                            float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
+                                            Constant.eyecoordinateText+="Head Bounds: "+ bounds+"\n";
+                                            Constant.eyecoordinateText+="Head Rotation(Y-Axis): "+ rotY+"\n";
+                                            Constant.eyecoordinateText+="Head Rotation(Z-Axis): "+ rotZ+"\n";
+
+                                            // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
+                                            // nose available):
+                                            FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
+                                            if (leftEar != null) {
+                                                PointF leftEarPos = leftEar.getPosition();
+                                                Log.d("leftEarPos", leftEarPos.toString());
+                                                Constant.eyecoordinateText+="Left Ear Position: "+ leftEarPos.toString()+"\n";
+                                            }
+
+                                            // If classification was enabled:
+                                            if (face.getSmilingProbability() != null) {
+                                                float smileProb = face.getSmilingProbability();
+                                                Constant.eyecoordinateText+="User Smiling: "+ String.valueOf(smileProb)+"\n";
+                                            }
+                                            if (face.getRightEyeOpenProbability() != null) {
+                                                float rightEyeOpenProb = face.getRightEyeOpenProbability();
+                                                Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
+                                                Constant.eyecoordinateText+="Right Eye Open: "+ String.valueOf(rightEyeOpenProb)+"\n";
+                                            }
+
+                                            // If face tracking was enabled:
+                                            if (face.getTrackingId() != null) {
+                                                int id = face.getTrackingId();
+                                                Log.d("id", String.valueOf(id));
+                                            }
+                                        }
+//                                        eyecoordinate.setText(Constant.eyecoordinateText);
+                                        // [END get_face_info]
+                                        // [END_EXCLUDE]
+                                    }
+                                })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Task failed with an exception
+                                        // ...
+                                        Log.e("face error",e.toString());
+                                    }
+                                });
+        // [END run_detector]
     }
 }
