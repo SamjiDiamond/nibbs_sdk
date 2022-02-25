@@ -144,7 +144,8 @@ public class FacecaptureActivity extends AppCompatActivity {
         captureimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               takepicture();
+                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                startActivity(in);
             }
         });
     }
