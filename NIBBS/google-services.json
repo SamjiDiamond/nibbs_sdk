@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "98098525714",
+    "project_id": "nibsssdk",
+    "storage_bucket": "nibsssdk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98098525714:android:a03631fdebd65509544acb",
+        "android_client_info": {
+          "package_name": "com.nibbs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98098525714-0un3u7or7lnve52cbjgpaevtdsabd9nk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwj0rUIDVF-TFntvCD19msuSU0WoAHyI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98098525714-0un3u7or7lnve52cbjgpaevtdsabd9nk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".CameraActivity"
+            android:exported="false" />
+        <activity
             android:name=".MonthYearPickerDialog"
             android:exported="false" />
         <activity
@@ -40,10 +43,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="face" />
-        <!-- To use multiple models: android:value="face,model2,model3" -->
     </application>
 
 </manifest>
