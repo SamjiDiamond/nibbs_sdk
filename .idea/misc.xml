@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/buttondesign.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_begincapture.xml" value="0.1" />
+        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/text_view_circle.xml" value="0.1" />
+        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/text_view_circle_disable.xml" value="0.1" />
+        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_begincapture.xml" value="0.5" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_dataform.xml" value="0.25" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_facecapture.xml" value="0.67" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/app/src/main/res/layout/activity_main.xml" value="0.1" />

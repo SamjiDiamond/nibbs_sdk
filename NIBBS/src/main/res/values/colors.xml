@@ -10,4 +10,7 @@
     <color name="green">#4cd038</color>
     <color name="dackgreen">#2db83d</color>
     <color name="dark">#333</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="darkyellow">#FF9800</color>
+    <color name="grey">#808080</color>
 </resources>

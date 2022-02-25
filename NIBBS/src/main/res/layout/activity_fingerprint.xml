@@ -236,7 +236,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/green"
-                android:text="Re-Capture Fingerprint"
+                android:text="Capture Fingerprint"
                 android:textSize="13dp" />
 
         </LinearLayout>

@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Re-Capture Image"
+                android:text="Capture Image"
                 android:textColor="@color/green"
                 android:textSize="13dp" />
 

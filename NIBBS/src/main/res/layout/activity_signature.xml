@@ -131,7 +131,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/green"
-                android:text="Re-Capture Signature"
+                android:text="Capture Signature"
                 android:textSize="13dp" />
 
         </LinearLayout>
