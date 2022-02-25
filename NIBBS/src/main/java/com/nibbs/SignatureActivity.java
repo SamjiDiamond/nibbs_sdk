@@ -69,23 +69,11 @@ ImageView signature;
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
-                loadImageFromStorage(data.getStringExtra("sign"));
+                Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("sign"));
+                signature.setImageBitmap(b);
             }
         }
     }
 
-    private void loadImageFromStorage(String path)
-    {
 
-        try {
-            File f=new File(path, "profile.jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            signature.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
 }
