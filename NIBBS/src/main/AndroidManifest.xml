@@ -4,10 +4,23 @@
 
     <application>
         <activity
-            android:name=".CameraActivity"
-            android:exported="false" />
+            android:name=".BeginfingerprintActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".MonthYearPickerDialog"
+            android:name=".BeginfaceActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".LastdatacaptureActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".DatacaptureActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CameraActivity"
             android:exported="false" />
         <activity
             android:name=".SigningpageActivity"

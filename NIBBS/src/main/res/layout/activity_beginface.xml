@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".BegincaptureActivity">
+    tools:context=".BeginfaceActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -34,14 +33,13 @@
                 android:layout_height="26dp"
                 android:src="@drawable/topbutton"/>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/dackgreen"
-                android:text="Data Capture"
+                android:text="Face Capture"
                 android:textSize="13dp" />
 
             <View
@@ -54,13 +52,14 @@
                 android:layout_height="26dp"
                 android:src="@drawable/blacktoparrow"/>
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/black"
-                android:text="Face Capture"
+                android:text="Fingerprint Capture"
                 android:textSize="13dp" />
 
             <View
@@ -92,9 +91,9 @@
         app:layout_constraintVertical_bias="0.383">
 
         <ImageView
-            android:layout_width="79dp"
-            android:layout_height="47dp"
-            android:src="@drawable/data" />
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:src="@drawable/faceavater" />
 
         <View
             android:layout_width="30dp"
@@ -110,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Form Data"
+                android:text="Face Capture"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -118,7 +117,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Carefully enter the user details in the fields appropriately."
+                android:text="Read out the instruction
+                on the screen to the individual. LOOK
+                INTO THE CAMERA. Click on green button. ."
                 android:textColor="@color/black"
                 android:textSize="10dp" />
 
@@ -132,7 +133,7 @@
         android:layout_height="56dp"
         android:background="@drawable/button"
         android:paddingHorizontal="10dp"
-        android:text="Start Data Capture"
+        android:text="Start Face Capture"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15dp"
