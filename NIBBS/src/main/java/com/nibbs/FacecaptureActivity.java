@@ -17,6 +17,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ public class FacecaptureActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 1450;
     public String mCurrentPhotoPath;
     ImageView image;
-    TextView eyecoordinate;
 
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -61,7 +61,6 @@ public class FacecaptureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facecapture);
         image = findViewById(R.id.imageview);
-        eyecoordinate = findViewById(R.id.eyecoordinate);
         LinearLayout backlayout = findViewById(R.id.backlayout);
         backlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +72,13 @@ public class FacecaptureActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
+                Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
                 startActivity(in);
 //                finish();
             }
         });
 
-        CardView captureimage = findViewById(R.id.captureimage);
+        Button captureimage = findViewById(R.id.captureimage);
         captureimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +143,7 @@ public class FacecaptureActivity extends AppCompatActivity {
                 Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
                 Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("picture"));
                 image.setImageBitmap(b);
-                eyecoordinate.setText(Constant.eyecoordinateText);
+//                eyecoordinate.setText(Constant.eyecoordinateText);
             }
             return;
         }
@@ -235,7 +234,7 @@ public class FacecaptureActivity extends AppCompatActivity {
                                                 Log.d("id", String.valueOf(id));
                                             }
                                         }
-                                        eyecoordinate.setText(Constant.eyecoordinateText);
+//                                        eyecoordinate.setText(Constant.eyecoordinateText);
                                         // [END get_face_info]
                                         // [END_EXCLUDE]
                                     }

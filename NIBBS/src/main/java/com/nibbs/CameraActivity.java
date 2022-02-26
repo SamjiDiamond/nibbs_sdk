@@ -8,6 +8,7 @@ import androidx.camera.core.ImageCapture;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -274,6 +275,8 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                     rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
                             loadedImage.getWidth(), loadedImage.getHeight(),
                             rotateMatrix, false);
+                    Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+                    startActivity(in);
 //                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
 //                    detectFaces(image);
 //                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext());

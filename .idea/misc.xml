@@ -3,20 +3,48 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/buttondesign.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/text_view_circle.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/drawable/text_view_circle_disable.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_begincapture.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_camera.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_dataform.xml" value="0.25" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_facecapture.xml" value="0.25" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_fingerprint.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_signature.xml" value="0.1" />
-        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/drawable/backarrow_background.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/capture_button.xml" value="0.1115" />
+        <entry key="NIBBS/src/main/res/drawable/curvelayout.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/greenbuttonlayout.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/greencurvelayout.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/horizontal_line.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/lightgreencurvelayout.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/redbuttonlayout.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/text_view_circle.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/layout-v28/activity_begincapture.xml" value="0.18206521739130435" />
+        <entry key="NIBBS/src/main/res/layout/activity_begincapture.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/layout/activity_beginface.xml" value="0.25" />
+        <entry key="NIBBS/src/main/res/layout/activity_beginfingerprint.xml" value="0.2222222222222222" />
+        <entry key="NIBBS/src/main/res/layout/activity_camera.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/layout/activity_datacapture.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/layout/activity_dataform.xml" value="0.191958495460441" />
+        <entry key="NIBBS/src/main/res/layout/activity_facecapture.xml" value="0.17391304347826086" />
+        <entry key="NIBBS/src/main/res/layout/activity_fingerprint.xml" value="0.11875" />
+        <entry key="NIBBS/src/main/res/layout/activity_lastdatacapture.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/layout/activity_main.xml" value="0.13632246376811594" />
+        <entry key="NIBBS/src/main/res/layout/activity_month_year_picker_dialog.xml" value="0.11822916666666666" />
+        <entry key="NIBBS/src/main/res/layout/activity_signature.xml" value="0.17391304347826086" />
+        <entry key="NIBBS/src/main/res/layout/activity_signingpage.xml" value="0.17391304347826086" />
+        <entry key="NIBBS/src/main/res/layout/begincaptureappbar.xml" value="0.11018518518518519" />
+        <entry key="NIBBS/src/main/res/layout/bottom_sheet_calendar.xml" value="0.165" />
+        <entry key="NIBBS/src/main/res/layout/bottom_sheet_gender.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/layout/bottom_sheet_marital.xml" value="0.25" />
+        <entry key="NIBBS/src/main/res/layout/bottom_sheet_title.xml" value="0.13236846923828133" />
+        <entry key="NIBBS/src/main/res/layout/my_custom_layout.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/backarrow.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/backarrow_round.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/xml/file_paths.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12364130434782608" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
