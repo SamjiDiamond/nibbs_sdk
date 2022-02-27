@@ -18,6 +18,7 @@ public class BeginfaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                in.putExtra("data", "LOOK INTO THE CAMERA.");
                 startActivity(in);
 //                finish();
             }

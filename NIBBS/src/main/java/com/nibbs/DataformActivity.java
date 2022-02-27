@@ -3,10 +3,14 @@ package com.nibbs;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,13 +32,9 @@ import java.util.List;
 public class DataformActivity extends AppCompatActivity {
 
     DatePickerDialog picker;
-    Databasehelper databasehelper;
-    EditText title, firstname, surname, middle, dateico, gender, marital;
-    Datamodel datamodel;
+    EditText title, firstname, surname, middle,
+            dateico, gender, marital,soo,lga;
     ImageView backbutton;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String date;
     private String alldate = "";
     TextView textView;
     ArrayList<String> day = new ArrayList<>();
@@ -44,12 +44,11 @@ public class DataformActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dataform);
-        databasehelper = new Databasehelper(DataformActivity.this);
         dateico = findViewById(R.id.dateofbirthEditText);
         dateico.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialogdate();
+                showBottomSheetDialogdate(view);
 
             }
         });
@@ -57,7 +56,7 @@ public class DataformActivity extends AppCompatActivity {
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialogtitle();
+                showBottomSheetDialogtitle(view);
             }
         });
         surname = findViewById(R.id.surnameEditText);
@@ -67,23 +66,25 @@ public class DataformActivity extends AppCompatActivity {
         gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialoggender();
+                showBottomSheetDialoggender(view);
             }
         });
         marital = findViewById(R.id.maritalstatusEditText);
         marital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialogmarital();
+                showBottomSheetDialogmarital(view);
             }
         });
+        soo = findViewById(R.id.stateoforiginEditText);
+        lga = findViewById(R.id.lgaEditText);
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                validate();
-                Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
-                startActivity(in);
+                validate();
+//                Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
+//                startActivity(in);
             }
         });
 
@@ -95,14 +96,15 @@ public class DataformActivity extends AppCompatActivity {
             }
         });
     }
-    private void showBottomSheetDialogtitle() {
+    private void showBottomSheetDialogtitle(View v) {
 
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(DataformActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String tutorials[] = { "Mrs", "Miss", "Mr", "Chief"};
-        ListView list = bottomSheetDialog.findViewById(R.id.list);
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("hello");
+        ListView list = dialogView.findViewById(R.id.list);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, tutorials);
         list.setAdapter(arrayAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,18 +112,20 @@ public class DataformActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 title.setText(clickedItem);
-                bottomSheetDialog.cancel();
+                alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        bottomSheetDialog.show();
+        alertDialog.show();
     }
-    private void showBottomSheetDialogmarital() {
-
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_title);
+    private void showBottomSheetDialogmarital(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DataformActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String tutorials[] = { "Single", "Married", "Divorsed", "Widow", "Widower"};
-        ListView list = bottomSheetDialog.findViewById(R.id.list);
+        ListView list = dialogView.findViewById(R.id.list);
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add("hello");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, tutorials);
@@ -131,18 +135,20 @@ public class DataformActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 marital.setText(clickedItem);
-                bottomSheetDialog.cancel();
+                alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        bottomSheetDialog.show();
+        alertDialog.show();
     }
-    private void showBottomSheetDialoggender() {
-
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_title);
+    private void showBottomSheetDialoggender(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DataformActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String tutorials[] = { "Male", "Female"};
-        ListView list = bottomSheetDialog.findViewById(R.id.list);
+        ListView list = dialogView.findViewById(R.id.list);
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add("hello");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, tutorials);
@@ -152,43 +158,58 @@ public class DataformActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 gender.setText(clickedItem);
-                bottomSheetDialog.cancel();
+                alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        bottomSheetDialog.show();
+        alertDialog.show();
     }
-    private void showBottomSheetDialogdate() {
-
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_calendar);
-
+    private void showBottomSheetDialogdate(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DataformActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_calendar, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String month[] = { "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
-        textView = bottomSheetDialog.findViewById(R.id.textView);
-        ListView list = bottomSheetDialog.findViewById(R.id.month);
+        textView = dialogView.findViewById(R.id.textView);
+        TextView daytext = dialogView.findViewById(R.id.daytext);
+        TextView yeartext = dialogView.findViewById(R.id.yeartext);
+        ListView list = dialogView.findViewById(R.id.month);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, month);
         list.setAdapter(arrayAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
-                alldate = clickedItem;
-                textView.setText(alldate);
+//                alldate = clickedItem;
+                textView.setText(clickedItem);
+//                if (alldate.equals("September")||alldate.equals("April")||alldate.equals("June")||alldate.equals("November")){
+//                    day.remove(32);
+//                }else if (alldate.equals("February")){
+//                    number = 31;
+//                }else {
+//                    number = 32;
+//                }
 //                generatedays();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        generatedays();
-        ListView daylist = bottomSheetDialog.findViewById(R.id.day);
+        ArrayList<String> day1 = new ArrayList<>();
+        for(int i = 1; i < number; i++){
+            day1.add(""+i);
+        }
+        day.addAll(day1);
+        ListView daylist = dialogView.findViewById(R.id.day);
         ArrayAdapter<String> dayarrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, day);
         daylist.setAdapter(dayarrayAdapter);
         daylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) daylist.getItemAtPosition(position);
-                alldate += " - " +clickedItem;
-                textView.setText(alldate);
+//                alldate += " - " +clickedItem;
+                daytext.setText(" - " +clickedItem);
+
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
@@ -199,29 +220,31 @@ public class DataformActivity extends AppCompatActivity {
             for(int i = 1930; i < currentyear; i++){
                 year.add(""+i);
             }
-        ListView yearlist = bottomSheetDialog.findViewById(R.id.year);
+        ListView yearlist = dialogView.findViewById(R.id.year);
         ArrayAdapter<String> yeararrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, year);
         yearlist.setAdapter(yeararrayAdapter);
+
         yearlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) yearlist.getItemAtPosition(position);
-                alldate += " - " +clickedItem;
-                textView.setText(alldate);
+//                alldate += " - " +clickedItem;
+                yeartext.setText(" - "+clickedItem);
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
 
-        Button submit = bottomSheetDialog.findViewById(R.id.submit);
+        Button submit = dialogView.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateico.setText(alldate);
-                bottomSheetDialog.cancel();
+                dateico.setText(textView.getText().toString()+daytext.getText().toString()+yeartext.getText().toString());
+                alertDialog.cancel();
+//                bottomSheetDialog.cancel();
             }
         });
 
-        bottomSheetDialog.show();
+        alertDialog.show();
     }
 
     void generatedays(){
@@ -233,60 +256,49 @@ public class DataformActivity extends AppCompatActivity {
             number = 32;
         }
         day.clear();
+        ArrayList<String> day1 = new ArrayList<>();
         for(int i = 1; i < number; i++){
-            day.add(""+i);
+            day1.add(""+i);
         }
+        day.addAll(day1);
     }
     public void validate(){
         if (title.getText().toString().isEmpty()){
-            toast("title");
-//            viewlist();
+            Constant.toast(this,"title");
         }else if (surname.getText().toString().isEmpty()){
-            toast("Surname");
+            Constant.toast(this,"Surname");
         }else if (firstname.getText().toString().isEmpty()){
-            toast("First name");
+            Constant.toast(this,"First name");
         }else if (middle.getText().toString().isEmpty()){
-            toast("Middle name");
+            Constant.toast(this,"Middle name");
         }else if (dateico.getText().toString().isEmpty()){
-            toast("Date of Birth");
+            Constant.toast(this,"Date of Birth");
         }else if (gender.getText().toString().isEmpty()){
-            toast("Gender");
+            Constant.toast(this,"Gender");
         }else if (marital.getText().toString().isEmpty()){
-            toast("Marital Status");
+            Constant.toast(this,"Marital Status");
+        }else if (soo.getText().toString().isEmpty()){
+            Constant.toast(this,"State Of Origin");
+        }else if (lga.getText().toString().isEmpty()){
+            Constant.toast(this, "Local Government Area");
         }else {
-            try {
-                datamodel = new Datamodel(1,title.getText().toString(),surname.getText().toString(),
-                        firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-                        gender.getText().toString(), marital.getText().toString(), "0",
-                        firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-                        gender.getText().toString(), marital.getText().toString(), "0",
-                        dateico.getText().toString(), gender.getText().toString(), marital.getText().toString(),
-                        "0");
-
-                databasehelper.addone(datamodel);
+            savedata();
                 Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
                 startActivity(in);
-//                finish();
-                toast("data saved");
-            } catch (Exception e) {
-                e.printStackTrace();
-//                datamodel = new Datamodel(1,"Mrs","odejinmi","ayomiposi",
-//                        "Ruth", "26/10/1995", "female", "Married");
-            }
+
         }
     }
 
-    public void viewlist(){
-         List<Datamodel> everyone = databasehelper.getEveryone();
-         toast(everyone.toString());
+    void savedata(){
+        Constant.title = title.getText().toString();
+        Constant.surname = surname.getText().toString();
+        Constant.firstname = firstname.getText().toString();
+        Constant.middlename = middle.getText().toString();
+        Constant.dob = dateico.getText().toString();
+        Constant.gender = gender.getText().toString();
+        Constant.maritalstatus = marital.getText().toString();
+        Constant.soo = soo.getText().toString();
+        Constant.lga = lga.getText().toString();
     }
 
-    public void deleteone(){
-//        Datamodel delete = (Datamodel) ;
-//        databasehelper.Deleteone(delete);
-    }
-
-    public void toast(String word){
-        Toast.makeText(this, word+" cannot be empty", Toast.LENGTH_LONG).show();
-    }
 }

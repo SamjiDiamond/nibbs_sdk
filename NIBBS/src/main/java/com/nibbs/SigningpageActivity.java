@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
@@ -32,7 +33,7 @@ public class SigningpageActivity extends AppCompatActivity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    Button savebutton,resetbutton;
+    ImageView savebutton,resetbutton;
     SignaturePad mSignaturePad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class SigningpageActivity extends AppCompatActivity {
                 resetbutton.setEnabled(false);
             }
         });
-        savebutton = findViewById(R.id.save);
+        savebutton = findViewById(R.id.captureImage);
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,18 +70,18 @@ public class SigningpageActivity extends AppCompatActivity {
                 if (path !=null) {
                 Intent intent = new Intent();
                 intent.putExtra("sign", path);
-                setResult(RESULT_OK, intent);
-                finish();
+//                setResult(RESULT_OK, intent);
+//                finish();
                 }
             }
         });
-        resetbutton = findViewById(R.id.reset);
-        resetbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSignaturePad.clear();
-            }
-        });
+//        resetbutton = findViewById(R.id.reset);
+//        resetbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mSignaturePad.clear();
+//            }
+//        });
 
     }
 

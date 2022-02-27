@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,4 +61,29 @@ public class Constant {
         }
         return b;
     }
+
+    public static void toast(Context context,String word){
+        Toast.makeText(context, word+" cannot be empty", Toast.LENGTH_LONG).show();
+    }
+    public static String title;
+    public static String surname;
+    public static String firstname;
+    public static String middlename;
+    public static String dob;
+    public static String maritalstatus;
+    public static String gender;
+    public static String soo;
+    public static String lga;
+    public static String residentialaddress;
+    public static String stateofresidence;
+    public static String lgaofresidence;
+    public static String landmarks;
+    public static String email;
+    public static String phonenumber;
+    public static String phonenumber2;
+    public static String accountlevel;
+    public static String nin;
+    public static String selectbank;
+    public static String stateofcapture;
+    public static String lgaofcapture;
 }

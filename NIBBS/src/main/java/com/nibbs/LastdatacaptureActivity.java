@@ -2,10 +2,13 @@ package com.nibbs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,31 +25,20 @@ import java.util.Calendar;
 
 public class LastdatacaptureActivity extends AppCompatActivity {
 
-    DatePickerDialog picker;
-    Databasehelper databasehelper;
-    EditText title, firstname, surname, middle, dateico, gender, marital;
-    Datamodel datamodel;
+    EditText title, firstname, surname, middle, dateico;
     ImageView backbutton;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String date;
-    private String alldate = "";
-    TextView textView;
-    ArrayList<String> day = new ArrayList<>();
-    int number  = 32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lastdatacapture);
 
-        databasehelper = new Databasehelper(LastdatacaptureActivity.this);
         dateico = findViewById(R.id.dateofbirthEditText);
         title = findViewById(R.id.titleEditText);
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialogtitle();
+                showBottomSheetDialogtitle(view);
             }
         });
         surname = findViewById(R.id.surnameEditText);
@@ -54,7 +46,7 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         firstname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomSheetDialogmarital();
+                showBottomSheetDialogmarital(view);
 
             }
         });
@@ -64,8 +56,7 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), BeginfaceActivity.class);
-                startActivity(in);
+                validate();
             }
         });
 
@@ -78,12 +69,14 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         });
     }
 
-    private void showBottomSheetDialogtitle() {
-
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_title);
+    private void showBottomSheetDialogtitle(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LastdatacaptureActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String tutorials[] = { "Level 1 - Low Level Accounts", "Level 2 - Mid Level Accounts", "Level 3 - High Level Accounts"};
-        ListView list = bottomSheetDialog.findViewById(R.id.list);
+        ListView list = dialogView.findViewById(R.id.list);
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add("hello");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, tutorials);
@@ -93,16 +86,18 @@ public class LastdatacaptureActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 title.setText(clickedItem);
-                bottomSheetDialog.cancel();
+                alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        bottomSheetDialog.show();
+        alertDialog.show();
     }
-    private void showBottomSheetDialogmarital() {
-
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_title);
+    private void showBottomSheetDialogmarital(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LastdatacaptureActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
         String tutorials[] = {"Access Bank Plc","Access Bank (Diamond)","ALAT by WEMA","ASO Savings and Loans", "Citibank Nigeria Limited",
                 "Ecobank Nigeria Plc","Ekondo Microfinance Bank", "Fidelity Bank Plc", "FIRST BANK NIGERIA LIMITED", "First City Monument Bank Plc",
                 "Guaranty Trust Bank Plc","Heritage Banking time Ltd.", "Jaiz Bank", "Key Stone Bank", "Kuda Bank", "Parallex Bank", "Polaris Bank",
@@ -111,7 +106,7 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         String listbank_code[] = new String[]{ "044","063","035A","401","023","050","562","070","011","214","058","030","301","082","50211","526","076",
                 "101","221","068","232","100","032","033","215","035","057",
         };
-        ListView list = bottomSheetDialog.findViewById(R.id.list);
+        ListView list = dialogView.findViewById(R.id.list);
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add("hello");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.my_custom_layout, tutorials);
@@ -121,10 +116,38 @@ public class LastdatacaptureActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 firstname.setText(clickedItem);
-                bottomSheetDialog.cancel();
+                alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
         });
-        bottomSheetDialog.show();
+        alertDialog.show();
+    }
+
+    public void validate(){
+        if (title.getText().toString().isEmpty()){
+            Constant.toast(this,"Account Level");
+        }else if (surname.getText().toString().isEmpty()){
+            Constant.toast(this,"NIN");
+        }else if (surname.getText().toString().length() != 11){
+            Constant.toast(this,"NIN not completed");
+        }else if (firstname.getText().toString().isEmpty()){
+            Constant.toast(this,"Select Bank");
+        }else if (middle.getText().toString().isEmpty()){
+            Constant.toast(this,"State Of Capture");
+        }else if (dateico.getText().toString().isEmpty()){
+            Constant.toast(this,"LGA Of Capture");
+        }else {
+            savedata();
+            Intent in = new Intent(getApplicationContext(), BeginfaceActivity.class);
+            startActivity(in);
+        }
+    }
+
+    void savedata(){
+        Constant.accountlevel = title.getText().toString();
+        Constant.nin = surname.getText().toString();
+        Constant.selectbank = middle.getText().toString();
+        Constant.stateofcapture = middle.getText().toString();
+        Constant.lgaofcapture = dateico.getText().toString();
     }
 }

@@ -11,4 +11,6 @@
     <color name="dackgreen">#2D980E</color>
     <color name="lightgreen">#EDFFE8</color>
     <color name="dark">#333</color>
+    <color name="red">#F51111</color>
+    <color name="lightgrey">#ECE6E6</color>
 </resources>

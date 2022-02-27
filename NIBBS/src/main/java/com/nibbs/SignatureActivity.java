@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -52,7 +53,7 @@ ImageView signature;
 
             }
         });
-        CardView signpage = findViewById(R.id.signature);
+        Button signpage = findViewById(R.id.captureimage);
         signpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
