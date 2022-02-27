@@ -24,7 +24,7 @@ public class FingerprintActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), SignatureActivity.class);
+                Intent in = new Intent(getApplicationContext(), BeginsignatureActivity.class);
                 startActivity(in);
 //                finish();
             }

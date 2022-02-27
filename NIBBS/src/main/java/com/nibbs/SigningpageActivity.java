@@ -33,7 +33,7 @@ public class SigningpageActivity extends AppCompatActivity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    ImageView savebutton,resetbutton;
+    ImageView savebutton;
     SignaturePad mSignaturePad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +51,14 @@ public class SigningpageActivity extends AppCompatActivity {
             public void onSigned() {
                 //Event triggered when the pad is signed
                 savebutton.setEnabled(true);
-                resetbutton.setEnabled(true);
+//                resetbutton.setEnabled(true);
             }
 
             @Override
             public void onClear() {
                 //Event triggered when the pad is cleared
                 savebutton.setEnabled(false);
-                resetbutton.setEnabled(false);
+//                resetbutton.setEnabled(false);
             }
         });
         savebutton = findViewById(R.id.captureImage);
@@ -68,8 +68,11 @@ public class SigningpageActivity extends AppCompatActivity {
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext());
                 if (path !=null) {
-                Intent intent = new Intent();
-                intent.putExtra("sign", path);
+                    Intent in = new Intent(getApplicationContext(), SignatureActivity.class);
+//                    in.putExtra("data", path);
+                    startActivity(in);
+//                Intent intent = new Intent();
+//                intent.putExtra("sign", path);
 //                setResult(RESULT_OK, intent);
 //                finish();
                 }

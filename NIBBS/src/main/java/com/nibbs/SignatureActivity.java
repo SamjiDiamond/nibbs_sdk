@@ -2,12 +2,10 @@ package com.nibbs;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,17 +13,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class SignatureActivity extends AppCompatActivity {
 ImageView signature;
+Bundle extras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
         signature = findViewById(R.id.signaturepreview);
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("data");
+            Bitmap b = Constant.loadImageFromStorage(value);
+            signature.setImageBitmap(b);
+            //The key argument here must match that used in the other activity
+        }
         LinearLayout backlayout = findViewById(R.id.backlayout);
         backlayout.setOnClickListener(new View.OnClickListener() {
             @Override

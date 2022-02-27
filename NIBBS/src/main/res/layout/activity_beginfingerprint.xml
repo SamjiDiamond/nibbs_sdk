@@ -88,7 +88,7 @@
             android:src="@drawable/fingerprint" />
 
         <View
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:layout_height="0dp" />
 
         <LinearLayout
@@ -100,7 +100,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="8dp"
                 android:text="Fingerprint Capture"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -108,11 +107,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Connect Android device to Kojak or Dermalog
-                Scanners. \n\n
-                Follow display instructions to capture fingerprint
-                image."
+                android:text="Connect Android device to Kojak or Dermalog Scanners. \n\n\nFollow display instructions to capture fingerprint image."
                 android:textColor="@color/black"
                 android:textSize="10dp" />
 
