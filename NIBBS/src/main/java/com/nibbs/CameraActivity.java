@@ -54,6 +54,7 @@ import android.view.ContextThemeWrapper;
 import android.view.Surface;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -77,11 +78,11 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     private Camera camera;
     private ImageView flipCamera;
     private ImageView flashCameraButton;
-    private ImageView captureImage;
+    private ImageView captureImage,backbutton;
     private int cameraId;
     private boolean flashmode = false;
     private int rotation;
-
+    Bundle extras;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -98,6 +99,14 @@ public class CameraActivity extends AppCompatActivity implements Callback,
         // camera surface view created
         cameraId = CameraInfo.CAMERA_FACING_BACK;
         flipCamera =  findViewById(R.id.flipCamera);
+        backbutton =  findViewById(R.id.backbutton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        TextView cameratext = findViewById(R.id.cameratext);
         flashCameraButton = findViewById(R.id.flash);
         captureImage = findViewById(R.id.captureImage);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
@@ -107,7 +116,6 @@ public class CameraActivity extends AppCompatActivity implements Callback,
         captureImage.setOnClickListener(this);
         flashCameraButton.setOnClickListener(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
         if (Camera.getNumberOfCameras() > 1) {
             flipCamera.setVisibility(View.VISIBLE);
         }
@@ -115,7 +123,12 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                 PackageManager.FEATURE_CAMERA_FLASH)) {
             flashCameraButton.setVisibility(View.GONE);
         }
-
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("key");
+            cameratext.setText(extras.getString("data"));
+            //The key argument here must match that used in the other activity
+        }
     }
 
 
@@ -275,8 +288,19 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                     rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
                             loadedImage.getWidth(), loadedImage.getHeight(),
                             rotateMatrix, false);
-                    Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
-                    startActivity(in);
+                    if (extras.getString("data").equals("LOOK INTO THE CAMERA.")){
+                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                        in.putExtra("data", "SMILE TO THE CAMERA.");
+                        startActivity(in);
+                    }else if (extras.getString("data").equals("SMILE TO THE CAMERA.")){
+                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                        in.putExtra("data", "CLOSE YOUR EYES.");
+                        startActivity(in);
+                    }else {
+                        Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+//                        in.putExtra("data", "CLOSE YOUR EYES.");
+                        startActivity(in);
+                    }
 //                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
 //                    detectFaces(image);
 //                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext());

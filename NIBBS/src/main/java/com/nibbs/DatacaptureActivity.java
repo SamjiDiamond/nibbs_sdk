@@ -17,24 +17,13 @@ import java.util.Calendar;
 
 public class DatacaptureActivity extends AppCompatActivity {
 
-    DatePickerDialog picker;
-    Databasehelper databasehelper;
     EditText title, firstname, surname, middle, dateico, gender, marital;
-    Datamodel datamodel;
     ImageView backbutton;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String date;
-    private String alldate = "";
-    TextView textView;
-    ArrayList<String> day = new ArrayList<>();
-    int number  = 32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datacapture);
-        databasehelper = new Databasehelper(DatacaptureActivity.this);
         dateico = findViewById(R.id.dateofbirthEditText);
         title = findViewById(R.id.titleEditText);
         surname = findViewById(R.id.surnameEditText);
@@ -47,10 +36,12 @@ public class DatacaptureActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), LastdatacaptureActivity.class);
-                startActivity(in);
+                validate();
+//                Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
+//                startActivity(in);
             }
         });
+
 
         backbutton = findViewById(R.id.backbutton);
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -60,4 +51,43 @@ public class DatacaptureActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void validate(){
+        if (title.getText().toString().isEmpty()){
+            Constant.toast(this,"Residential Address");
+        }else if (surname.getText().toString().isEmpty()){
+            Constant.toast(this,"State Of Residence");
+        }else if (firstname.getText().toString().isEmpty()){
+            Constant.toast(this,"LGA Of Residence");
+        }else if (middle.getText().toString().isEmpty()){
+            Constant.toast(this,"Landmarks");
+        }else if (dateico.getText().toString().isEmpty()){
+            Constant.toast(this,"Email");
+        }else if (gender.getText().toString().isEmpty()){
+            Constant.toast(this,"Phone Number");
+        }else if (marital.getText().toString().isEmpty()){
+            Constant.toast(this,"Phone Number 2");
+//        }else if (soo.getText().toString().isEmpty()){
+//            Constant.toast(this,"State Of Origin");
+//            Constant.maritalstatus = marital.getText().toString();
+//        }else if (lga.getText().toString().isEmpty()){
+//            Constant.toast(this, "Local Government Area");
+//            Constant.soo = soo.getText().toString();
+        }else {
+            savedata();
+            Intent in = new Intent(getApplicationContext(), LastdatacaptureActivity.class);
+            startActivity(in);
+        }
+    }
+
+    void savedata(){
+        Constant.residentialaddress = title.getText().toString();
+        Constant.stateofresidence = surname.getText().toString();
+        Constant.lgaofresidence = middle.getText().toString();
+        Constant.landmarks = middle.getText().toString();
+        Constant.email = dateico.getText().toString();
+        Constant.phonenumber = gender.getText().toString();
+        Constant.phonenumber2 = marital.getText().toString();
+    }
+
 }

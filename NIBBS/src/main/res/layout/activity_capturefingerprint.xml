@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Signature Capture"
+            android:text="Fingerprint Capture"
             android:textColor="@color/white"/>
         <ImageView
             android:layout_width="24dp"
@@ -34,30 +34,30 @@
         android:layout_marginBottom="10dp"
         android:background="@color/lightgrey"
         android:gravity="center"
-        android:text="Illustrate your signature on the screen"
+        android:text="Left Index Finger"
         android:textColor="@color/red" />
 
-
-        <com.github.gcacace.signaturepad.views.SignaturePad
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/signature_pad"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:background="@color/white"
-            android:layout_marginVertical="150dp"
-            android:layout_marginHorizontal="50dp"
-            app:penColor="@android:color/black"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginVertical="150dp"
+        android:layout_marginHorizontal="50dp" >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fingerprintpreview"
             />
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/captureImage"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:src="@drawable/capture"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/capture" />
+        android:layout_marginBottom="10dp"/>
 
 
 </RelativeLayout>

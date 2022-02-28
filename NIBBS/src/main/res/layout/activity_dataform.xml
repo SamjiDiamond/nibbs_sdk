@@ -207,8 +207,7 @@
                 android:id="@+id/submit"
                 android:layout_width="213dp"
                 android:layout_height="56dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/button"
                 android:paddingHorizontal="10dp"
                 android:text="Proceed"
@@ -219,6 +218,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lgaInputLayout" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/submit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
