@@ -40,19 +40,8 @@ Bundle extras;
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    final AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(SignatureActivity.this);
-                                alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                                alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
-                                alertDialogBuilder.setPositiveButton("OK",
-                                        new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface arg0, int arg1) {
-
-
-        }
-    });
-    AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+                Intent in = new Intent(getApplicationContext(), PreviewActivity.class);
+                startActivity(in);
 
             }
         });
@@ -68,16 +57,16 @@ Bundle extras;
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
-                Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("sign"));
-                signature.setImageBitmap(b);
-            }
-        }
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 1) {
+//            if(resultCode == RESULT_OK) {
+//                Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
+//                Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("sign"));
+//                signature.setImageBitmap(b);
+//            }
+//        }
+//    }
 
 
 }

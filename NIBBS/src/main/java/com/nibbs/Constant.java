@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Constant {
+    public static String cameradescription;
     public static List<Rect> HeadBounds;
     public static List<PointF> LeftEarPosition;
     public static List<Float> HeadRotationy, HeadRotationz,
@@ -86,4 +87,5 @@ public class Constant {
     public static String selectbank;
     public static String stateofcapture;
     public static String lgaofcapture;
+    public static String signatureimage;
 }

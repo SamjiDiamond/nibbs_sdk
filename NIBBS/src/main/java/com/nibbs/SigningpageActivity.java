@@ -31,8 +31,6 @@ import java.io.OutputStreamWriter;
 
 public class SigningpageActivity extends AppCompatActivity {
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     ImageView savebutton;
     SignaturePad mSignaturePad;
     @Override
@@ -69,12 +67,13 @@ public class SigningpageActivity extends AppCompatActivity {
                 String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext());
                 if (path !=null) {
                     Intent in = new Intent(getApplicationContext(), SignatureActivity.class);
-//                    in.putExtra("data", path);
+                    Constant.signatureimage = path;
+                    in.putExtra("data", path);
                     startActivity(in);
 //                Intent intent = new Intent();
 //                intent.putExtra("sign", path);
 //                setResult(RESULT_OK, intent);
-//                finish();
+                finish();
                 }
             }
         });
@@ -88,25 +87,4 @@ public class SigningpageActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * Checks if the app has permission to write to device storage
-     * <p/>
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity the activity from which permissions are checked
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
 }

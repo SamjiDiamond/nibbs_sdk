@@ -90,7 +90,9 @@
                 <EditText
                     android:id="@+id/surnameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +107,9 @@
                 <EditText
                     android:id="@+id/firstnameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +124,9 @@
                 <EditText
                     android:id="@+id/middleEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -186,7 +192,9 @@
                 <EditText
                     android:id="@+id/stateoforiginEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -201,7 +209,9 @@
                 <EditText
                     android:id="@+id/lgaEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -216,7 +226,9 @@
                 <EditText
                     android:id="@+id/titleEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -231,7 +243,9 @@
                 <EditText
                     android:id="@+id/surnameEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -246,7 +260,9 @@
                 <EditText
                     android:id="@+id/firstnameEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -261,7 +277,9 @@
                 <EditText
                     android:id="@+id/middleEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -276,7 +294,9 @@
                 <EditText
                     android:id="@+id/dateofbirthEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -291,7 +311,9 @@
                 <EditText
                     android:id="@+id/genderEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -306,7 +328,9 @@
                 <EditText
                     android:id="@+id/maritalstatusEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -320,7 +344,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/maritalstatusInputLayout1">
 
                 <EditText
-                    android:id="@+id/titleEditTex2t"
+                    android:id="@+id/titleEditText2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
@@ -334,12 +358,14 @@
                 android:layout_margin="12dp"
                 android:hint="NIN"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleInputLayout1">
+                app:layout_constraintTop_toBottomOf="@+id/titleInputLayout2">
 
                 <EditText
                     android:id="@+id/surnameEditText2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -349,7 +375,7 @@
                 android:layout_margin="12dp"
                 android:hint="Select Bank"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/surnameInputLayout1">
+                app:layout_constraintTop_toBottomOf="@+id/surnameInputLayout2">
 
                 <EditText
                     android:id="@+id/firstnameEditText2"
@@ -366,12 +392,14 @@
                 android:layout_margin="12dp"
                 android:hint="State Of Capture"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstnameInputLayout1">
+                app:layout_constraintTop_toBottomOf="@+id/firstnameInputLayout2">
 
                 <EditText
                     android:id="@+id/middleEditText2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -381,7 +409,7 @@
                 android:layout_margin="12dp"
                 android:hint="LGA Of Capture"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/middlenameInputLayout1">
+                app:layout_constraintTop_toBottomOf="@+id/middlenameInputLayout2">
 
                 <EditText
                     android:id="@+id/dateofbirthEditText2"
