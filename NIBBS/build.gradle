@@ -32,7 +32,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
 
-                groupId = 'com.github.odejinmi'
+                groupId = 'com.github.SamjiDiamond'
                 artifactId = 'Nibss_android_sdk'
                 version = '1.0.0'
             }
