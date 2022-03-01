@@ -24,6 +24,8 @@ import android.widget.Button;
 import java.io.File;
 import java.io.IOException;
 import java.security.Policy;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -67,11 +69,7 @@ import com.google.mlkit.vision.face.FaceDetectorOptions;
 import com.google.mlkit.vision.face.FaceLandmark;
 
 public class CameraActivity extends AppCompatActivity implements Callback,
-        OnClickListener, SurfaceHolder.Callback {
-
-    private ImageCapture imageCapture;
-    private File outputDirectory;
-    private ExecutorService cameraExecutor;
+        OnClickListener, SurfaceHolder.Callback,Camera.FaceDetectionListener {
 
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
@@ -83,6 +81,8 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     private boolean flashmode = false;
     private int rotation;
     Bundle extras;
+
+    Bitmap loadedImage = null;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -131,8 +131,6 @@ public class CameraActivity extends AppCompatActivity implements Callback,
         }
     }
 
-
-
     public void surfaceCreated(SurfaceHolder holder) {
         if (!openCamera(CameraInfo.CAMERA_FACING_BACK)) {
             alertCameraDialog();
@@ -146,6 +144,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
         releaseCamera();
         try {
             camera = Camera.open(cameraId);
+            camera.setFaceDetectionListener(new CameraActivity());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,6 +160,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                 });
                 camera.setPreviewDisplay(surfaceHolder);
                 camera.startPreview();
+                startFaceDetection(); // start face detection feature
                 result = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -248,7 +248,30 @@ public class CameraActivity extends AppCompatActivity implements Callback,
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
+        if (holder.getSurface() == null){
+            // preview surface does not exist
+            Log.d("TAG", "holder.getSurface() == null");
+            return;
+        }
 
+        try {
+            camera.stopPreview();
+
+        } catch (Exception e){
+            // ignore: tried to stop a non-existent preview
+            Log.d("TAG", "Error stopping camera preview: " + e.getMessage());
+        }
+
+        try {
+            camera.setPreviewDisplay(holder);
+            camera.startPreview();
+
+            startFaceDetection(); // re-start face detection feature
+
+        } catch (Exception e){
+            // ignore: tried to stop a non-existent preview
+            Log.d("TAG", "Error starting camera preview: " + e.getMessage());
+        }
     }
 
 
@@ -277,7 +300,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
             public void onPictureTaken(byte[] data, Camera camera) {
                 try {
                     // convert byte array into bitmap
-                    Bitmap loadedImage = null;
+
                     Bitmap rotatedBitmap = null;
                     loadedImage = BitmapFactory.decodeByteArray(data, 0,
                             data.length);
@@ -288,19 +311,26 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                     rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
                             loadedImage.getWidth(), loadedImage.getHeight(),
                             rotateMatrix, false);
-                    if (extras.getString("data").equals("LOOK INTO THE CAMERA.")){
-                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-                        in.putExtra("data", "SMILE TO THE CAMERA.");
-                        startActivity(in);
-                    }else if (extras.getString("data").equals("SMILE TO THE CAMERA.")){
-                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-                        in.putExtra("data", "CLOSE YOUR EYES.");
-                        startActivity(in);
-                    }else {
-                        Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
+                    detectFaces(image);
+//                    if (extras.getString("data").equals("LOOK INTO THE CAMERA.")){
+//                        String path = Constant.saveToInternalStorage(loadedImage,getApplicationContext(),"photo");
+//                        Constant.faceimage = path;
+//                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+//                        in.putExtra("data", "SMILE TO THE CAMERA.");
+//                        startActivity(in);
+//                    }else if (extras.getString("data").equals("SMILE TO THE CAMERA.")){
+//                        Intent in = new Intent(getApplicationContext(), CameraActivity.class);
 //                        in.putExtra("data", "CLOSE YOUR EYES.");
-                        startActivity(in);
-                    }
+//                        startActivity(in);
+//                    }else {
+//                        Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+////                        in.putExtra("data", "CLOSE YOUR EYES.");
+//                        startActivity(in);
+//                    }
+
+
+
 //                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
 //                    detectFaces(image);
 //                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext());
@@ -311,52 +341,52 @@ public class CameraActivity extends AppCompatActivity implements Callback,
 //                        setResult(RESULT_OK, intent);
 //                        finish();
 //                    }
-                    String state = Environment.getExternalStorageState();
-                    File folder = null;
-                    if (state.contains(Environment.MEDIA_MOUNTED)) {
-                        folder = new File(Environment
-                                .getExternalStorageDirectory() + "/Demo");
-                    } else {
-                        folder = new File(Environment
-                                .getExternalStorageDirectory() + "/Demo");
-                    }
-
-                    boolean success = true;
-                    if (!folder.exists()) {
-                        success = folder.mkdirs();
-                    }
-                    if (success) {
-                        java.util.Date date = new java.util.Date();
-                        imageFile = new File(folder.getAbsolutePath()
-                                + File.separator
-                                + new Timestamp(date.getTime()).toString()
-                                + "Image.jpg");
-
-                        imageFile.createNewFile();
-                    } else {
-                        Toast.makeText(getBaseContext(), "Image Not saved",
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-
-                    // save image into gallery
-                    rotatedBitmap.compress(CompressFormat.JPEG, 100, ostream);
-
-                    FileOutputStream fout = new FileOutputStream(imageFile);
-                    fout.write(ostream.toByteArray());
-                    fout.close();
-                    ContentValues values = new ContentValues();
-
-                    values.put(Images.Media.DATE_TAKEN,
-                            System.currentTimeMillis());
-                    values.put(Images.Media.MIME_TYPE, "image/jpeg");
-                    values.put(MediaStore.MediaColumns.DATA,
-                            imageFile.getAbsolutePath());
-
-                    CameraActivity.this.getContentResolver().insert(
-                            Images.Media.EXTERNAL_CONTENT_URI, values);
+//                    String state = Environment.getExternalStorageState();
+//                    File folder = null;
+//                    if (state.contains(Environment.MEDIA_MOUNTED)) {
+//                        folder = new File(Environment
+//                                .getExternalStorageDirectory() + "/Demo");
+//                    } else {
+//                        folder = new File(Environment
+//                                .getExternalStorageDirectory() + "/Demo");
+//                    }
+//
+//                    boolean success = true;
+//                    if (!folder.exists()) {
+//                        success = folder.mkdirs();
+//                    }
+//                    if (success) {
+//                        java.util.Date date = new java.util.Date();
+//                        imageFile = new File(folder.getAbsolutePath()
+//                                + File.separator
+//                                + new Timestamp(date.getTime()).toString()
+//                                + "Image.jpg");
+//
+//                        imageFile.createNewFile();
+//                    } else {
+//                        Toast.makeText(getBaseContext(), "Image Not saved",
+//                                Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+//
+//                    // save image into gallery
+//                    rotatedBitmap.compress(CompressFormat.JPEG, 100, ostream);
+//
+//                    FileOutputStream fout = new FileOutputStream(imageFile);
+//                    fout.write(ostream.toByteArray());
+//                    fout.close();
+//                    ContentValues values = new ContentValues();
+//
+//                    values.put(Images.Media.DATE_TAKEN,
+//                            System.currentTimeMillis());
+//                    values.put(Images.Media.MIME_TYPE, "image/jpeg");
+//                    values.put(MediaStore.MediaColumns.DATA,
+//                            imageFile.getAbsolutePath());
+//
+//                    CameraActivity.this.getContentResolver().insert(
+//                            Images.Media.EXTERNAL_CONTENT_URI, values);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -425,83 +455,131 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     }
 
     private void detectFaces(InputImage image) {
-        // [START set_detector_options]
-        FaceDetectorOptions options =
-                new FaceDetectorOptions.Builder()
-                        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-                        .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-                        .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-                        .setMinFaceSize(0.15f)
-                        .enableTracking()
-                        .build();
-        // [END set_detector_options]
+            // [START set_detector_options]
+            FaceDetectorOptions options =
+                    new FaceDetectorOptions.Builder()
+                            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+                            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+                            .setMinFaceSize(0.15f)
+                            .enableTracking()
+                            .build();
+            // [END set_detector_options]
 
-        // [START get_detector]
-        FaceDetector detector = FaceDetection.getClient(options);
-        // Or use the default options:
-        // FaceDetector detector = FaceDetection.getClient();
-        // [END get_detector]
+            // [START get_detector]
+            FaceDetector detector = FaceDetection.getClient(options);
+            // Or use the default options:
+            // FaceDetector detector = FaceDetection.getClient();
+            // [END get_detector]
 
-        // [START run_detector]
-        Task<List<Face>> result =
-                detector.process(image)
-                        .addOnSuccessListener(
-                                new OnSuccessListener<List<Face>>() {
-                                    @Override
-                                    public void onSuccess(List<Face> faces) {
-                                        // Task completed successfully
-                                        // [START_EXCLUDE]
-                                        // [START get_face_info]
+            // [START run_detector]
+            Task<List<Face>> result =
+                    detector.process(image)
+                            .addOnSuccessListener(
+                                    new OnSuccessListener<List<Face>>() {
+                                        @Override
+                                        public void onSuccess(List<Face> faces) {
+                                            // Task completed successfully
+                                            // [START_EXCLUDE]
+                                            // [START get_face_info]
 
-                                        Log.d("face success", "onSuccess: ");
-                                        for (Face face : faces) {
-                                            Rect bounds = face.getBoundingBox();
-                                            float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
-                                            float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
-                                            Constant.eyecoordinateText+="Head Bounds: "+ bounds+"\n";
-                                            Constant.eyecoordinateText+="Head Rotation(Y-Axis): "+ rotY+"\n";
-                                            Constant.eyecoordinateText+="Head Rotation(Z-Axis): "+ rotZ+"\n";
+                                            for (Face face : faces) {
+                                                Rect bounds = face.getBoundingBox();
+                                                float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
+                                                float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
+                                                Constant.eyecoordinateText += "Head Bounds: " + bounds + "\n";
+                                                Constant.HeadBounds.add(bounds);
+                                                Constant.eyecoordinateText += "Head Rotation(Y-Axis): " + rotY + "\n";
+                                                Constant.HeadRotationy.add(rotY);
+                                                Constant.eyecoordinateText += "Head Rotation(Z-Axis): " + rotZ + "\n";
+                                                Constant.HeadRotationz.add(rotZ);
 
-                                            // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
-                                            // nose available):
-                                            FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
-                                            if (leftEar != null) {
-                                                PointF leftEarPos = leftEar.getPosition();
-                                                Log.d("leftEarPos", leftEarPos.toString());
-                                                Constant.eyecoordinateText+="Left Ear Position: "+ leftEarPos.toString()+"\n";
+                                                // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
+                                                // nose available):
+                                                FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
+                                                if (leftEar != null) {
+                                                    PointF leftEarPos = leftEar.getPosition();
+                                                    Constant.LeftEarPosition.add(leftEarPos);
+                                                    Constant.eyecoordinateText += "Left Ear Position: " + leftEarPos.toString() + "\n";
+                                                }
+
+                                                // If classification was enabled:
+                                                if (face.getSmilingProbability() != null) {
+                                                    float smileProb = face.getSmilingProbability();
+                                                    Constant.eyecoordinateText += "User Smiling: " + String.valueOf(smileProb) + "\n";
+                                                    Constant.UserSmiling.add(smileProb);
+                                                }
+                                                if (face.getRightEyeOpenProbability() != null) {
+                                                    float rightEyeOpenProb = face.getRightEyeOpenProbability();
+                                                    Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
+                                                    Constant.eyecoordinateText += "Right Eye Open: " + String.valueOf(rightEyeOpenProb) + "\n";
+                                                    Constant.RightEyeOpen.add(rightEyeOpenProb);
+                                                }
+
+                                                // If face tracking was enabled:
+                                                if (face.getTrackingId() != null) {
+                                                    int id = face.getTrackingId();
+                                                    Log.d("id", String.valueOf(id));
+                                                }
                                             }
-
-                                            // If classification was enabled:
-                                            if (face.getSmilingProbability() != null) {
-                                                float smileProb = face.getSmilingProbability();
-                                                Constant.eyecoordinateText+="User Smiling: "+ String.valueOf(smileProb)+"\n";
+                                            if (extras.getString("data").equals("LOOK INTO THE CAMERA.")) {
+                                                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                                                String imageFileName = "photo" + timeStamp + "_";
+                                                Constant.faceimagename = imageFileName;
+                                                String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext(), imageFileName);
+                                                Constant.faceimage = path;
+                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                                                in.putExtra("data", "SMILE TO THE CAMERA.");
+                                                startActivity(in);
+                                            } else if (extras.getString("data").equals("SMILE TO THE CAMERA.")) {
+                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+                                                in.putExtra("data", "CLOSE YOUR EYES.");
+                                                startActivity(in);
+                                            } else {
+                                                releaseCamera();
+                                                Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+//                        in.putExtra("data", "CLOSE YOUR EYES.");
+                                                startActivity(in);
+                                                finish();
                                             }
-                                            if (face.getRightEyeOpenProbability() != null) {
-                                                float rightEyeOpenProb = face.getRightEyeOpenProbability();
-                                                Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
-                                                Constant.eyecoordinateText+="Right Eye Open: "+ String.valueOf(rightEyeOpenProb)+"\n";
-                                            }
-
-                                            // If face tracking was enabled:
-                                            if (face.getTrackingId() != null) {
-                                                int id = face.getTrackingId();
-                                                Log.d("id", String.valueOf(id));
-                                            }
-                                        }
 //                                        eyecoordinate.setText(Constant.eyecoordinateText);
-                                        // [END get_face_info]
-                                        // [END_EXCLUDE]
-                                    }
-                                })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
-                                        Log.e("face error",e.toString());
-                                    }
-                                });
-        // [END run_detector]
+                                            // [END get_face_info]
+                                            // [END_EXCLUDE]
+                                        }
+                                    })
+                            .addOnFailureListener(
+                                    new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Task failed with an exception
+                                            // ...
+                                            Log.e("face error", e.toString());
+                                        }
+                                    });
+            // [END run_detector]
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onFaceDetection(Camera.Face[] faces, Camera camera) {
+        if (faces.length > 0){
+            Log.d("FaceDetection", "face detected: "+ faces.length +
+                    " Face 1 Location X: " + faces[0].rect.centerX() +
+                    "Y: " + faces[0].rect.centerY() );
+        }
+    }
+
+    public void startFaceDetection(){
+        // Try starting Face Detection
+        Camera.Parameters params = camera.getParameters();
+
+        // start face detection only *after* preview has started
+        if (params.getMaxNumDetectedFaces() > 0){
+            // camera supports face detection, so can start it:
+            camera.startFaceDetection();
+        }
     }
 }

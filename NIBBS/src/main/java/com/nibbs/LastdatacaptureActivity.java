@@ -129,7 +129,7 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         }else if (surname.getText().toString().isEmpty()){
             Constant.toast(this,"NIN");
         }else if (surname.getText().toString().length() != 11){
-            Constant.toast(this,"NIN not completed");
+            Constant.toastincomplete(this,"NIN");
         }else if (firstname.getText().toString().isEmpty()){
             Constant.toast(this,"Select Bank");
         }else if (middle.getText().toString().isEmpty()){

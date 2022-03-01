@@ -20,6 +20,7 @@ public class BegincaptureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(getApplicationContext(), DataformActivity.class);
+//                Intent in = new Intent(getApplicationContext(), BeginfaceActivity.class);
                 startActivity(in);
 //                finish();
             }
