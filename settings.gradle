@@ -10,7 +10,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://dl.bintray.com/shodgson/uareu4500reader' }
     }
 }
 rootProject.name = "NIBSS SDK"
