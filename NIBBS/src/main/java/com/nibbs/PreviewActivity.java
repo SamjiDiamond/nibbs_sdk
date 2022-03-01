@@ -22,7 +22,7 @@ public class PreviewActivity extends AppCompatActivity {
             dateico, gender, marital,soo,lga;
     EditText title1, firstname1, surname1, middle1, dateico1, gender1, marital1;
     EditText title2, firstname2, surname2, middle2, dateico2;
-    ImageView backbutton,signature;
+    ImageView backbutton,signature, imageView;
 
     Datamodel datamodel;
     @Override
@@ -37,6 +37,9 @@ public class PreviewActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        imageView = findViewById(R.id.imagepreview);
+        Bitmap b1 = Constant.loadImageFromStorage(Constant.signatureimage,Constant.faceimagename);
+        imageView.setImageBitmap(b1);
         dateico = findViewById(R.id.dateofbirthEditText);
         dateico.setText(Constant.dob);
         title = findViewById(R.id.titleEditText);
@@ -80,7 +83,7 @@ public class PreviewActivity extends AppCompatActivity {
         middle2 = findViewById(R.id.middleEditText2);
         middle2.setText(Constant.lgaofcapture);
         signature = findViewById(R.id.signaturepreview);
-        Bitmap b = Constant.loadImageFromStorage(Constant.signatureimage);
+        Bitmap b = Constant.loadImageFromStorage(Constant.signatureimage,Constant.signatureimagename);
         signature.setImageBitmap(b);
         Button signpage = findViewById(R.id.submit);
         signpage.setOnClickListener(new View.OnClickListener() {

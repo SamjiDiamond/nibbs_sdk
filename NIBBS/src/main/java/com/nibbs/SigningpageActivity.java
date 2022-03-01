@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SigningpageActivity extends AppCompatActivity {
 
@@ -63,8 +65,11 @@ public class SigningpageActivity extends AppCompatActivity {
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "fingerprint" + timeStamp + "_";
+                Constant.signatureimagename = imageFileName;
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext());
+                String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext(),imageFileName);
                 if (path !=null) {
                     Intent in = new Intent(getApplicationContext(), SignatureActivity.class);
                     Constant.signatureimage = path;

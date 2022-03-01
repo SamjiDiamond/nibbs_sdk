@@ -13,23 +13,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Constant {
-    public static String cameradescription;
-    public static List<Rect> HeadBounds;
-    public static List<PointF> LeftEarPosition;
-    public static List<Float> HeadRotationy, HeadRotationz,
-            UserSmiling, RightEyeOpen ;
+    public static List<Rect> HeadBounds= new ArrayList<>();
+    public static List<PointF> LeftEarPosition= new ArrayList<>();
+    public static List<Float> HeadRotationy = new ArrayList<>(), HeadRotationz = new ArrayList<>(),
+            UserSmiling = new ArrayList<>(), RightEyeOpen = new ArrayList<>();
 
     public static String eyecoordinateText="";
 
-    public static String saveToInternalStorage(Bitmap bitmapImage, Context context){
+    public static String saveToInternalStorage(Bitmap bitmapImage, Context context,String name){
         ContextWrapper cw = new ContextWrapper(context);
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+        File mypath=new File(directory,name+".jpg");
 
         FileOutputStream fos = null;
         try {
@@ -48,11 +48,11 @@ public class Constant {
         return directory.getAbsolutePath();
     }
 
-    public static Bitmap loadImageFromStorage(String path)
+    public static Bitmap loadImageFromStorage(String path, String name)
     {
         Bitmap b = null;
         try {
-            File f=new File(path, "profile.jpg");
+            File f=new File(path, name+".jpg");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
 //            signature.setImageBitmap(b);
         }
@@ -65,6 +65,9 @@ public class Constant {
 
     public static void toast(Context context,String word){
         Toast.makeText(context, word+" cannot be empty", Toast.LENGTH_LONG).show();
+    }
+    public static void toastincomplete(Context context,String word){
+        Toast.makeText(context, "Incorrect "+word, Toast.LENGTH_LONG).show();
     }
     public static String title;
     public static String surname;
@@ -88,4 +91,7 @@ public class Constant {
     public static String stateofcapture;
     public static String lgaofcapture;
     public static String signatureimage;
+    public static String signatureimagename;
+    public static String faceimage;
+    public static String faceimagename;
 }

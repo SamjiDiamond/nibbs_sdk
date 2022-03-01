@@ -25,7 +25,7 @@ Bundle extras;
         extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("data");
-            Bitmap b = Constant.loadImageFromStorage(value);
+            Bitmap b = Constant.loadImageFromStorage(value,Constant.signatureimagename);
             signature.setImageBitmap(b);
             //The key argument here must match that used in the other activity
         }

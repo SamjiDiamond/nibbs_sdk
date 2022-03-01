@@ -65,8 +65,12 @@ public class DatacaptureActivity extends AppCompatActivity {
             Constant.toast(this,"Email");
         }else if (gender.getText().toString().isEmpty()){
             Constant.toast(this,"Phone Number");
+        }else if (gender.getText().toString().length() != 11){
+            Constant.toastincomplete(this,"Phone Number");
         }else if (marital.getText().toString().isEmpty()){
             Constant.toast(this,"Phone Number 2");
+        }else if (gender.getText().toString().length() != 11){
+            Constant.toastincomplete(this,"Phone Number 2");
 //        }else if (soo.getText().toString().isEmpty()){
 //            Constant.toast(this,"State Of Origin");
 //            Constant.maritalstatus = marital.getText().toString();

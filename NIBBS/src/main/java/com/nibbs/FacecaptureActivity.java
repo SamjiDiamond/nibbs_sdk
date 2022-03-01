@@ -46,6 +46,7 @@ public class FacecaptureActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 1450;
     public String mCurrentPhotoPath;
     ImageView image;
+    boolean correctimage = false;
 
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -61,6 +62,8 @@ public class FacecaptureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facecapture);
         image = findViewById(R.id.imageview);
+        Bitmap b = Constant.loadImageFromStorage(Constant.faceimage, Constant.faceimagename);
+        image.setImageBitmap(b);
         LinearLayout backlayout = findViewById(R.id.backlayout);
         backlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +75,13 @@ public class FacecaptureActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
-                startActivity(in);
+                if (correctimage) {
+                    Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
+                    startActivity(in);
 //                finish();
+                }else {
+                    Toast.makeText(FacecaptureActivity.this, "No face detected, Recapture face", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -82,6 +89,12 @@ public class FacecaptureActivity extends AppCompatActivity {
         captureimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constant.HeadBounds.clear();
+                Constant.LeftEarPosition.clear();
+                Constant.HeadRotationy.clear();
+                Constant.HeadRotationz.clear();
+                Constant.RightEyeOpen.clear();
+                Constant.UserSmiling.clear();
                 Intent in = new Intent(getApplicationContext(), CameraActivity.class);
                 in.putExtra("data", "LOOK INTO THE CAMERA.");
                 startActivity(in);
@@ -91,167 +104,56 @@ public class FacecaptureActivity extends AppCompatActivity {
 //                takepicture();
             }
         });
-    }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        if (!Constant.HeadBounds.isEmpty()){
+//        Log.d("TAG", "width1: "+Constant.HeadBounds.get(0).width());
+//        Log.d("TAG", "width2 "+Constant.HeadBounds.get(1).width());
+//        Log.d("TAG", "width3: "+Constant.HeadBounds.get(2).width());
+//        Log.d("TAG", "height1: "+Constant.HeadBounds.get(0).height());
+//        Log.d("TAG", "height2: "+Constant.HeadBounds.get(1).height());
+//        Log.d("TAG", "height3: "+Constant.HeadBounds.get(2).height());
+//        Log.d("TAG", "HeadBounds: "+Constant.HeadBounds);
+//        Log.d("TAG", "LeftEarPosition: "+Constant.LeftEarPosition);
+//        Log.d("TAG", "LeftEarPositionx: "+Constant.LeftEarPosition.get(0).x);
+//        Log.d("TAG", "LeftEarPositiony: "+Constant.LeftEarPosition.get(0).y);
+//        Log.d("TAG", "LeftEarPositionx: "+Constant.LeftEarPosition.get(1).x);
+//        Log.d("TAG", "LeftEarPositiony: "+Constant.LeftEarPosition.get(1).y);
+//        Log.d("TAG", "LeftEarPositionx: "+Constant.LeftEarPosition.get(2).x);
+//        Log.d("TAG", "LeftEarPositiony: "+Constant.LeftEarPosition.get(2).y);
+//        Log.d("TAG", "HeadRotationy: "+Constant.HeadRotationy);
+//        Log.d("TAG", "HeadRotationy: "+Constant.HeadRotationy.get(0));
+//        Log.d("TAG", "HeadRotationy: "+Constant.HeadRotationy.get(1));
+//        Log.d("TAG", "HeadRotationy: "+Constant.HeadRotationy.get(2));
+//        Log.d("TAG", "HeadRotationz: "+Constant.HeadRotationz);
+//        Log.d("TAG", "HeadRotationz: "+Constant.HeadRotationz.get(0));
+//        Log.d("TAG", "HeadRotationz: "+Constant.HeadRotationz.get(1));
+//        Log.d("TAG", "HeadRotationz: "+Constant.HeadRotationz.get(2));
+//        Log.d("TAG", "RightEyeOpen: "+Constant.RightEyeOpen);
+//        Log.d("TAG", "UserSmiling: "+Constant.UserSmiling);
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    }
-
-    private void takepicture(){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
+            if (Constant.UserSmiling.get(1) > 0.5){
+                if (Constant.UserSmiling.get(0) < 0.1){
+                    Log.d("TAG", "user smile to response to liveness");
+                    if (Constant.RightEyeOpen.get(0) > 0.5){
+                        if (Constant.RightEyeOpen.get(2) < 0.1){
+                            Log.d("TAG", "user close eyes to response to liveness");
+                            correctimage = true;
+                        }
+                    }
+                }
             }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+            if (Constant.HeadBounds.get(0).width() != Constant.HeadBounds.get(1).width()){
+                if (Constant.HeadBounds.get(0).width() != Constant.HeadBounds.get(2).width()) {
+                    if (Constant.HeadBounds.get(1).width() != Constant.HeadBounds.get(2).width()) {
+
+                    }
+                }
             }
+        }else  {
+            Toast.makeText(FacecaptureActivity.this, "No face detected", Toast.LENGTH_LONG).show();
+//            Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+//            in.putExtra("data", "LOOK INTO THE CAMERA.");
+//            startActivity(in);
         }
     }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                Log.d("TAG", "onActivityResult: "+data.getStringExtra("sign"));
-                Bitmap b = Constant.loadImageFromStorage(data.getStringExtra("picture"));
-                image.setImageBitmap(b);
-//                eyecoordinate.setText(Constant.eyecoordinateText);
-            }
-            return;
-        }
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inSampleSize = 4;
-            if (mCurrentPhotoPath.contains("jpg")) {
-//                Bitmap thumbmail = (Bitmap) data.getExtras().get("data");
-                Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-                image.setImageBitmap(bitmap);
-//                processCameraPicture(mCurrentPhotoPath);
-
-                InputImage image = InputImage.fromBitmap(bitmap, 0);
-                detectFaces(image);
-            }else {
-                Toast.makeText(getApplicationContext(),"Path is empty",
-                        LENGTH_LONG).show();
-
-            }
-        }else {
-            Toast.makeText(getApplicationContext(),"request code issue",
-                    LENGTH_LONG).show();
-
-        }
-    }
-
-    private void detectFaces(InputImage image) {
-        // [START set_detector_options]
-        FaceDetectorOptions options =
-                new FaceDetectorOptions.Builder()
-                        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-                        .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-                        .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-                        .setMinFaceSize(0.15f)
-                        .enableTracking()
-                        .build();
-        // [END set_detector_options]
-
-        // [START get_detector]
-        FaceDetector detector = FaceDetection.getClient(options);
-        // Or use the default options:
-        // FaceDetector detector = FaceDetection.getClient();
-        // [END get_detector]
-
-        // [START run_detector]
-        Task<List<Face>> result =
-                detector.process(image)
-                        .addOnSuccessListener(
-                                new OnSuccessListener<List<Face>>() {
-                                    @Override
-                                    public void onSuccess(List<Face> faces) {
-                                        // Task completed successfully
-                                        // [START_EXCLUDE]
-                                        // [START get_face_info]
-
-                                        Log.d("face success", "onSuccess: ");
-                                        for (Face face : faces) {
-                                            Rect bounds = face.getBoundingBox();
-                                            float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
-                                            float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
-                                            Constant.eyecoordinateText+="Head Bounds: "+ bounds+"\n";
-                                            Constant.eyecoordinateText+="Head Rotation(Y-Axis): "+ rotY+"\n";
-                                            Constant.eyecoordinateText+="Head Rotation(Z-Axis): "+ rotZ+"\n";
-
-                                            // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
-                                            // nose available):
-                                            FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
-                                            if (leftEar != null) {
-                                                PointF leftEarPos = leftEar.getPosition();
-                                                Log.d("leftEarPos", leftEarPos.toString());
-                                                Constant.eyecoordinateText+="Left Ear Position: "+ leftEarPos.toString()+"\n";
-                                            }
-
-                                            // If classification was enabled:
-                                            if (face.getSmilingProbability() != null) {
-                                                float smileProb = face.getSmilingProbability();
-                                                Constant.eyecoordinateText+="User Smiling: "+ String.valueOf(smileProb)+"\n";
-                                            }
-                                            if (face.getRightEyeOpenProbability() != null) {
-                                                float rightEyeOpenProb = face.getRightEyeOpenProbability();
-                                                Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
-                                                Constant.eyecoordinateText+="Right Eye Open: "+ String.valueOf(rightEyeOpenProb)+"\n";
-                                            }
-
-                                            // If face tracking was enabled:
-                                            if (face.getTrackingId() != null) {
-                                                int id = face.getTrackingId();
-                                                Log.d("id", String.valueOf(id));
-                                            }
-                                        }
-//                                        eyecoordinate.setText(Constant.eyecoordinateText);
-                                        // [END get_face_info]
-                                        // [END_EXCLUDE]
-                                    }
-                                })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
-                                        Log.e("face error",e.toString());
-                                    }
-                                });
-        // [END run_detector]
-    }
-
 }
