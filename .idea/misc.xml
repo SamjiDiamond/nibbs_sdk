@@ -4,12 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.107" />
         <entry key="NIBBS/src/main/res/drawable/backarrow_background.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/capture_button.xml" value="0.1115" />
         <entry key="NIBBS/src/main/res/drawable/curvelayout.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/greenbuttonlayout.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/greencurvelayout.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/horizontal_line.xml" value="0.1" />
+        <entry key="NIBBS/src/main/res/drawable/ic_launcher_background.xml" value="0.107" />
         <entry key="NIBBS/src/main/res/drawable/lightgreencurvelayout.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/redbuttonlayout.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable/text_view_circle.xml" value="0.1" />
