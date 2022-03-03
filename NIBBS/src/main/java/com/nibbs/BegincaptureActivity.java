@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.nibbs.services.Util;
+
 public class BegincaptureActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
+        Util.scheduleJob(getApplicationContext());
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
