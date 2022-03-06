@@ -174,13 +174,31 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nationalityInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:hint="Nationality"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/maritalstatusInputLayout">
+
+                <EditText
+                    android:id="@+id/nationalityEditText"
+                    android:layout_width="match_parent"
+                    android:text="Nigerian"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/stateoforiginInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:hint="State Of Origin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/maritalstatusInputLayout">
+                app:layout_constraintTop_toBottomOf="@+id/nationalityInputLayout">
 
                 <EditText
                     android:id="@+id/stateoforiginEditText"

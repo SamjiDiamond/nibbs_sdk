@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,29 +99,32 @@ public class PreviewActivity extends AppCompatActivity {
                         Constant.gender, Constant.maritalstatus,
                         Constant.institutioncode,Constant.institutionname, Constant.agentcode,
                         "ticketid",  timeStamp, Constant.stateofcapture,
-                        Constant.soo,Constant.lga, Constant.residentialaddress,
+                        Constant.soo,Constant.nationality,Constant.lga, Constant.residentialaddress,
                         Constant.stateofresidence, Constant.lgaofresidence, Constant.landmarks,
                         Constant.email,Constant.phonenumber, Constant.phonenumber2,
                         Constant.accountlevel, Constant.nin, Constant.selectbank,
                         Constant.lgaofcapture, Constant.signatureimage, Constant.signatureimagename,
                         Constant.faceimage,Constant.faceimagename);
 
-                databasehelper.addone(datamodel);
-
-
-                    final AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(PreviewActivity.this);
-                                alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                                alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
-                                alertDialogBuilder.setPositiveButton("OK",
-                                        new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-
-
-                        }
-                    });
+                boolean addone = databasehelper.addone(datamodel);
+                if (addone) {
+                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
+                    alertDialogBuilder.setTitle("BVN Enrolment Ticket");
+                    alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
+                    alertDialogBuilder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+                                    startActivity(in);
+                                    finish();
+                                }
+                            });
                     AlertDialog alertDialog = alertDialogBuilder.create();
-                                                alertDialog.show();
+                    alertDialog.show();
+                }else{
+                    Log.d("TAG", "onClick: data not submitted");
+                }
             }
         });
 

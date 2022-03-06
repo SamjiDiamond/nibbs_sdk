@@ -20,6 +20,7 @@ public class Datamodel {
     private String validationdate;
     private String stateofcapture;
     private String stateofsync;
+    private String nationality;
     private String soo;
     private String lga;
     private String residentialaddress;
@@ -43,7 +44,7 @@ public class Datamodel {
                      String gender, String maritalstatus,
                      String institutioncode, String institutionname, String agentcode,
                      String ticketid, String capturedate,
-                     String stateofcapture, String soo, String lga,
+                     String stateofcapture, String soo, String nationality, String lga,
                      String residentialaddress, String stateofresidence, String lgaofresidence,
                      String landmarks, String email, String phonenumber, String phonenumber2,
                      String accountlevel, String nin, String selectbank, String lgaofcapture,
@@ -68,6 +69,7 @@ public class Datamodel {
         this.validationdate = validationdate;
         this.stateofcapture = stateofcapture;
         this.stateofsync = stateofsync;
+        this.nationality = nationality;
         this.soo = soo;
         this.lga = lga;
         this.residentialaddress = residentialaddress;
@@ -252,6 +254,14 @@ public class Datamodel {
 
     public void setStateofsync(String stateofsync) {
         this.stateofsync =stateofsync;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public String getSoo() {

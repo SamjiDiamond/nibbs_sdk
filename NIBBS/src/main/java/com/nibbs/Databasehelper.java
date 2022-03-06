@@ -33,6 +33,7 @@ public class Databasehelper extends SQLiteOpenHelper {
     public static final String COLUMN_VALIDATION_DATE = "VALIDATION_DATE";
     public static final String COLUMN_STATE_OF_CAPTURE = "STATE_OF_CAPTURE";
     public static final String COLUMN_STATE_OF_SYNC = "STATE_OF_SYNC";
+    public static final String COLUMN_NATIONALITY = "NATIONALITY";
     public static final String COLUMN_STATE_OF_ORIGIN = "STATE_OF_ORIGIN";
     public static final String COLUMN_LGA= "LGA";
     public static final String COLUMN_RESIDENTIAL_ADDRESS= "RESIDENTIAL_ADDRESS";
@@ -70,7 +71,7 @@ public class Databasehelper extends SQLiteOpenHelper {
                 + COLUMN_PHONENUMBER + " TEXT," + COLUMN_PHONENUMBER2 + " TEXT," + COLUMN_ACCOUNTLEVEL + " TEXT,"
                 + COLUMN_NIN + " TEXT," + COLUMN_SELECTBANK + " TEXT," + COLUMN_LGA_OF_CAPTURE + " TEXT,"
                 + COLUMN_SIGNATUREIMAGE + " TEXT," + COLUMN_SIGNATUREIMAGENAME + " TEXT," +
-                COLUMN_FACEIMAGE + " TEXT," + COLUMN_FACEIMAGENAME + " TEXT)";
+                COLUMN_FACEIMAGE + " TEXT," + COLUMN_FACEIMAGENAME + " TEXT," + COLUMN_NATIONALITY + " TEXT )";
         sqLiteDatabase.execSQL(createtablestatement);
     }
 
@@ -100,6 +101,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_VALIDATION_DATE, datamodel.getUploadstatus());
         cv.put(COLUMN_STATE_OF_CAPTURE, datamodel.getUploadstatus());
         cv.put(COLUMN_STATE_OF_SYNC, datamodel.getUploadstatus());
+        cv.put(COLUMN_NATIONALITY, datamodel.getNationality());
         cv.put(COLUMN_STATE_OF_ORIGIN, datamodel.getSoo());
         cv.put(COLUMN_LGA, datamodel.getLga());
         cv.put(COLUMN_RESIDENTIAL_ADDRESS, datamodel.getResidentialaddress());
@@ -126,6 +128,18 @@ public class Databasehelper extends SQLiteOpenHelper {
         }
     }
 
+    public List<Datamodel> getall(){
+        List<Datamodel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + DATA_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        returnList = cursor(cursor);
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
     public List<Datamodel> getnotupload(){
         List<Datamodel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_UPLOADSTATUS +"= 0";
@@ -230,12 +244,13 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datasignatureimagename = cursor.getString(33);
                 String datafaceimage = cursor.getString(34);
                 String datafaceimagename = cursor.getString(35);
+                String datanationality = cursor.getString(36);
                 Datamodel newdata = new Datamodel(dataid,datatitle,
                         datasurname,datafirstname,datamiddlename,
                         datadob,datagender,datamaritalstatus,
                         datainstitutioncode,datainstitutionname,dataagentcode,
                         dataticketid,datacapturedate,datastateofcapture,
-                        datasoo,datalga,dataresidentialaddress,datastateofresidence,
+                        datasoo,datanationality,datalga,dataresidentialaddress,datastateofresidence,
                         datalgaofresisdence,datalandmarks,dataemail,
                         dataphonenumber,dataphonenumber2,dataaccountlevel,datanin,
                         dataselectbank,datalgaofcapture,datasignatureimage,
