@@ -3,28 +3,15 @@ package com.nibbs.services;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-import androidx.camera.core.impl.Config;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.nibbs.Constant;
-import com.nibbs.Databasehelper;
-import com.nibbs.Datamodel;
-import com.nibbs.PreviewActivity;
-import com.nibbs.request.GetRequest;
+import com.nibbs.database.Databasehelper;
+import com.nibbs.database.Datamodel;
 import com.nibbs.request.PostRequest;
 import com.nibbs.volley.InitiateVolley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
