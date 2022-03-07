@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Constant {
+    public static String baseurl = "http://127.0.0.1:3030/";
     public static List<Rect> HeadBounds= new ArrayList<>();
     public static List<PointF> LeftEarPosition= new ArrayList<>();
     public static List<Float> HeadRotationy = new ArrayList<>(), HeadRotationz = new ArrayList<>(),
@@ -76,6 +77,7 @@ public class Constant {
     public static String dob;
     public static String maritalstatus;
     public static String gender;
+    public static String nationality;
     public static String soo;
     public static String lga;
     public static String residentialaddress;
@@ -94,4 +96,7 @@ public class Constant {
     public static String signatureimagename;
     public static String faceimage;
     public static String faceimagename;
+    public static String institutioncode;
+    public static String institutionname;
+    public static String agentcode;
 }

@@ -20,14 +20,36 @@ public class Datamodel {
     private String validationdate;
     private String stateofcapture;
     private String stateofsync;
+    private String nationality;
+    private String soo;
+    private String lga;
+    private String residentialaddress;
+    private String stateofresidence;
+    private String lgaofresidence;
+    private String landmarks;
+    private String email;
+    private String phonenumber;
+    private String phonenumber2;
+    private String accountlevel;
+    private String nin;
+    private String selectbank;
+    private String lgaofcapture;
+    private String signatureimage;
+    private String signatureimagename;
+    private String faceimage;
+    private String faceimagename;
 
     public Datamodel(int id, String title, String surname,
                      String firstname, String middlename, String dateofbirth,
-                     String gender, String maritalstatus, String uploadstatus,
+                     String gender, String maritalstatus,
                      String institutioncode, String institutionname, String agentcode,
-                     String ticketid, String validationstatus, String capturedate,
-                     String syncdate, String validationdate, String stateofcapture,
-                     String stateofsync) {
+                     String ticketid, String capturedate,
+                     String stateofcapture, String soo, String nationality, String lga,
+                     String residentialaddress, String stateofresidence, String lgaofresidence,
+                     String landmarks, String email, String phonenumber, String phonenumber2,
+                     String accountlevel, String nin, String selectbank, String lgaofcapture,
+                     String signatureimage, String signatureimagename, String faceimage,
+                     String faceimagename) {
         this.id = id;
         this.title = title;
         this.surname = surname;
@@ -47,6 +69,24 @@ public class Datamodel {
         this.validationdate = validationdate;
         this.stateofcapture = stateofcapture;
         this.stateofsync = stateofsync;
+        this.nationality = nationality;
+        this.soo = soo;
+        this.lga = lga;
+        this.residentialaddress = residentialaddress;
+        this.stateofresidence = stateofresidence;
+        this.lgaofresidence = lgaofresidence;
+        this.landmarks = landmarks;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.phonenumber2 = phonenumber2;
+        this.accountlevel = accountlevel;
+        this.nin = nin;
+        this.selectbank = selectbank;
+        this.lgaofcapture = lgaofcapture;
+        this.signatureimage = signatureimage;
+        this.signatureimagename = signatureimagename;
+        this.faceimage = faceimage;
+        this.faceimagename = faceimagename;
     }
 
     @Override
@@ -214,6 +254,150 @@ public class Datamodel {
 
     public void setStateofsync(String stateofsync) {
         this.stateofsync =stateofsync;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getSoo() {
+        return soo;
+    }
+
+    public void setSoo(String soo) {
+        this.soo = soo;
+    }
+
+    public String getLga() {
+        return lga;
+    }
+
+    public void setLga(String lga) {
+        this.lga = lga;
+    }
+
+    public String getResidentialaddress() {
+        return residentialaddress;
+    }
+
+    public void setResidentialaddress(String residentialaddress) {
+        this.residentialaddress = residentialaddress;
+    }
+
+    public String getStateofresidence() {
+        return stateofresidence;
+    }
+
+    public void setStateofresidence(String stateofresidence) {
+        this.stateofresidence = stateofresidence;
+    }
+
+    public String getLgaofresidence() {
+        return lgaofresidence;
+    }
+
+    public void setLgaofresidence(String lgaofresidence) {
+        this.lgaofresidence = lgaofresidence;
+    }
+
+    public String getLandmarks() {
+        return landmarks;
+    }
+
+    public void setLandmarks(String landmarks) {
+        this.landmarks = landmarks;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber =phonenumber;
+    }
+
+    public String getPhonenumber2() {
+        return phonenumber2;
+    }
+
+    public void setPhonenumber2(String phonenumber2) {
+        this.phonenumber2 =phonenumber2;
+    }
+
+    public String getAccountlevel() {
+        return accountlevel;
+    }
+
+    public void setAccountlevel(String accountlevel) {
+        this.accountlevel = accountlevel;
+    }
+
+    public String getNin() {
+        return nin;
+    }
+
+    public void setNin(String nin) {
+        this.nin = nin;
+    }
+
+    public String getSelectbanke() {
+        return selectbank;
+    }
+
+    public void setSelectbank(String selectbank) {
+        this.selectbank = selectbank;
+    }
+
+    public String getLgaofcapture() {
+        return lgaofcapture;
+    }
+
+    public void setLgaofcapture(String lgaofcapture) {
+        this.lgaofcapture= lgaofcapture;
+    }
+
+    public String getSignatureimage() {
+        return signatureimage;
+    }
+
+    public void setSignatureimage(String signatureimage) {
+        this.signatureimage = signatureimage;
+    }
+
+    public String getSignatureimagename() {
+        return signatureimagename;
+    }
+
+    public void setSignatureimagename(String signatureimagename) {
+        this.signatureimagename =signatureimagename;
+    }
+
+    public String getFaceimage() {
+        return faceimage;
+    }
+
+    public void setFaceimage(String faceimage) {
+        this.faceimage =faceimage;
+    }
+
+    public String getFaceimagename() {
+        return faceimagename;
+    }
+
+    public void setFaceimagename(String faceimagename) {
+        this.faceimagename =faceimagename;
     }
 
 

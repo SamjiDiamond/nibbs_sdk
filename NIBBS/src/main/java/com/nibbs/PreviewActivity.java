@@ -7,12 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
@@ -23,12 +26,13 @@ public class PreviewActivity extends AppCompatActivity {
     EditText title1, firstname1, surname1, middle1, dateico1, gender1, marital1;
     EditText title2, firstname2, surname2, middle2, dateico2;
     ImageView backbutton,signature, imageView;
-
+    String timeStamp, ticketid;
     Datamodel datamodel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+        timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         databasehelper = new Databasehelper(PreviewActivity.this);
         backbutton = findViewById(R.id.backbutton);
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -89,35 +93,46 @@ public class PreviewActivity extends AppCompatActivity {
         signpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    final AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(PreviewActivity.this);
-                                alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                                alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
-                                alertDialogBuilder.setPositiveButton("OK",
-                                        new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface arg0, int arg1) {
 
+                datamodel = new Datamodel(1,Constant.title,Constant.surname,
+                        Constant.firstname,Constant.middlename, Constant.dob,
+                        Constant.gender, Constant.maritalstatus,
+                        Constant.institutioncode,Constant.institutionname, Constant.agentcode,
+                        "ticketid",  timeStamp, Constant.stateofcapture,
+                        Constant.soo,Constant.nationality,Constant.lga, Constant.residentialaddress,
+                        Constant.stateofresidence, Constant.lgaofresidence, Constant.landmarks,
+                        Constant.email,Constant.phonenumber, Constant.phonenumber2,
+                        Constant.accountlevel, Constant.nin, Constant.selectbank,
+                        Constant.lgaofcapture, Constant.signatureimage, Constant.signatureimagename,
+                        Constant.faceimage,Constant.faceimagename);
 
-        }
-    });
-    AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+                boolean addone = databasehelper.addone(datamodel);
+                if (addone) {
+                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
+                    alertDialogBuilder.setTitle("BVN Enrolment Ticket");
+                    alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
+                    alertDialogBuilder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+                                    startActivity(in);
+                                    finish();
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }else{
+                    Log.d("TAG", "onClick: data not submitted");
+                }
             }
         });
-//        datamodel = new Datamodel(1,title.getText().toString(),surname.getText().toString(),
-//                firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-//                gender.getText().toString(), marital.getText().toString(), "0",
-//                firstname.getText().toString(),middle.getText().toString(), dateico.getText().toString(),
-//                gender.getText().toString(), marital.getText().toString(), "0",
-//                dateico.getText().toString(), gender.getText().toString(), marital.getText().toString(),
-//                "0");
-//
-//        databasehelper.addone(datamodel);
+
     }
 
     public void viewlist(){
-        List<Datamodel> everyone = databasehelper.getEveryone();
-        toast(everyone.toString());
+//        List<Datamodel> everyone = databasehelper.getEveryone();
+//        toast(everyone.toString());
     }
 
     public void deleteone(){

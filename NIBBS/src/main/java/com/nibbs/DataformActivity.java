@@ -33,7 +33,7 @@ public class DataformActivity extends AppCompatActivity {
 
     DatePickerDialog picker;
     EditText title, firstname, surname, middle,
-            dateico, gender, marital,soo,lga;
+            dateico, gender, marital,soo,lga, nationality;
     ImageView backbutton;
     private String alldate = "";
     TextView textView;
@@ -78,6 +78,7 @@ public class DataformActivity extends AppCompatActivity {
         });
         soo = findViewById(R.id.stateoforiginEditText);
         lga = findViewById(R.id.lgaEditText);
+        nationality = findViewById(R.id.nationalityEditText);
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +298,7 @@ public class DataformActivity extends AppCompatActivity {
         Constant.dob = dateico.getText().toString();
         Constant.gender = gender.getText().toString();
         Constant.maritalstatus = marital.getText().toString();
+        Constant.nationality = nationality.getText().toString();
         Constant.soo = soo.getText().toString();
         Constant.lga = lga.getText().toString();
     }
