@@ -75,13 +75,13 @@ public class FacecaptureActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (correctimage) {
+//                if (correctimage) {
                     Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
                     startActivity(in);
 //                finish();
-                }else {
-                    Toast.makeText(FacecaptureActivity.this, "No face detected, Recapture face", Toast.LENGTH_LONG).show();
-                }
+//                }else {
+//                    Toast.makeText(FacecaptureActivity.this, "No face detected, Recapture face", Toast.LENGTH_LONG).show();
+//                }
             }
         });
 

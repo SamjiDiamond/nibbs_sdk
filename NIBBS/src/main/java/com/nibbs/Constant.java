@@ -22,6 +22,7 @@ public class Constant {
     public static List<PointF> LeftEarPosition= new ArrayList<>();
     public static List<Float> HeadRotationy = new ArrayList<>(), HeadRotationz = new ArrayList<>(),
             UserSmiling = new ArrayList<>(), RightEyeOpen = new ArrayList<>();
+    public static String samjiProbEyeOpen="0", samjiProbSmile="0";
 
     public static String eyecoordinateText="";
 

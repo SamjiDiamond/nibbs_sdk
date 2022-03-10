@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.1160081053698075" />
+        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_beginface.xml" value="0.1" />
+        <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_dataform.xml" value="0.25" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.107" />
         <entry key="NIBBS/src/main/res/drawable/backarrow_background.xml" value="0.1" />
