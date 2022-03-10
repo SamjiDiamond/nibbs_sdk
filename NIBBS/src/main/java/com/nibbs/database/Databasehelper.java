@@ -94,16 +94,16 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_GENDER, datamodel.getGender());
         cv.put(COLUMN_MARITALSTATUS, datamodel.getMaritalstatus());
         cv.put(COLUMN_UPLOADSTATUS, datamodel.getUploadstatus());
-        cv.put(COLUMN_INSTITUTION_CODE, datamodel.getUploadstatus());
-        cv.put(COLUMN_INSTITUTION_NAME, datamodel.getUploadstatus());
-        cv.put(COLUMN_AGENT_CODE, datamodel.getUploadstatus());
-        cv.put(COLUMN_TICKET_ID, datamodel.getUploadstatus());
-        cv.put(COLUMN_VALIDATION_STATUS, datamodel.getUploadstatus());
-        cv.put(COLUMN_CAPTURE_DATE, datamodel.getUploadstatus());
-        cv.put(COLUMN_SYNC_DATE, datamodel.getUploadstatus());
-        cv.put(COLUMN_VALIDATION_DATE, datamodel.getUploadstatus());
-        cv.put(COLUMN_STATE_OF_CAPTURE, datamodel.getUploadstatus());
-        cv.put(COLUMN_STATE_OF_SYNC, datamodel.getUploadstatus());
+        cv.put(COLUMN_INSTITUTION_CODE, datamodel.getInstitutioncode());
+        cv.put(COLUMN_INSTITUTION_NAME, datamodel.getInstitutionname());
+        cv.put(COLUMN_AGENT_CODE, datamodel.getAgentcode());
+        cv.put(COLUMN_TICKET_ID, datamodel.getTicketid());
+        cv.put(COLUMN_VALIDATION_STATUS, datamodel.getValidationstatus());
+        cv.put(COLUMN_CAPTURE_DATE, datamodel.getCapturedate());
+        cv.put(COLUMN_SYNC_DATE, datamodel.getSyncdate());
+        cv.put(COLUMN_VALIDATION_DATE, datamodel.getValidationdate());
+        cv.put(COLUMN_STATE_OF_CAPTURE, datamodel.getStateofcapture());
+        cv.put(COLUMN_STATE_OF_SYNC, datamodel.getStateofsync());
         cv.put(COLUMN_NATIONALITY, datamodel.getNationality());
         cv.put(COLUMN_STATE_OF_ORIGIN, datamodel.getSoo());
         cv.put(COLUMN_LGA, datamodel.getLga());
@@ -226,7 +226,7 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datainstitutionname = cursor.getString(10);
                 String dataagentcode = cursor.getString(11);
                 String dataticketid = cursor.getString(12);
-                String datavidationstatus = cursor.getString(13);
+                String datavalidationstatus = cursor.getString(13);
                 String datacapturedate = cursor.getString(14);
                 String datasyncdate = cursor.getString(15);
                 String datavalidationdate = cursor.getString(16);
@@ -250,8 +250,8 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datafaceimage = cursor.getString(34);
                 String datafaceimagename = cursor.getString(35);
                 String datanationality = cursor.getString(36);
-                String datafingerimage = cursor.getString(38);
-                String datafingerimagename = cursor.getString(39);
+                String datafingerimage = cursor.getString(37);
+                String datafingerimagename = cursor.getString(38);
                 Datamodel newdata = new Datamodel(dataid,datatitle,
                         datasurname,datafirstname,datamiddlename,
                         datadob,datagender,datamaritalstatus,
@@ -261,7 +261,8 @@ public class Databasehelper extends SQLiteOpenHelper {
                         datalgaofresisdence,datalandmarks,dataemail,
                         dataphonenumber,dataphonenumber2,dataaccountlevel,datanin,
                         dataselectbank,datalgaofcapture,datasignatureimage,
-                        datasignatureimagename,datafaceimage,datafaceimagename,datafingerimage,datafingerimagename);
+                        datasignatureimagename,datafaceimage,datafaceimagename,datafingerimage,datafingerimagename,
+                        datauploadstatus,datavalidationstatus,datastateofsyn);
                 returnList.add(newdata);
 
             }while(cursor.moveToNext());

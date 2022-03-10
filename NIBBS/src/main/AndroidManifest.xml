@@ -9,55 +9,55 @@
             android:name=".PreviewActivity"
             android:exported="false"/>
         <activity
-            android:name=".BeginsignatureActivity"
+            android:name=".signature.BeginsignatureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".CapturefingerprintActivity"
+            android:name=".fingerprint.CapturefingerprintActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".BeginfingerprintActivity"
+            android:name=".fingerprint.BeginfingerprintActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".BeginfaceActivity"
+            android:name=".face.BeginfaceActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".LastdatacaptureActivity"
+            android:name=".form.LastdatacaptureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".DatacaptureActivity"
+            android:name=".form.DatacaptureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".CameraActivity"
+            android:name=".face.CameraActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SigningpageActivity"
+            android:name=".signature.SigningpageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SignatureActivity"
+            android:name=".signature.SignatureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".FingerprintActivity"
+            android:name=".fingerprint.FingerprintActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".FacecaptureActivity"
+            android:name=".face.FacecaptureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".BegincaptureActivity"
+            android:name=".form.BegincaptureActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".DataformActivity"
+            android:name=".form.DataformActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -73,6 +73,12 @@
 
         <service
             android:name=".services.Uploadservice"
+            android:label="Word service"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+
+        </service>
+         <service
+            android:name=".services.Confirmuploadservice"
             android:label="Word service"
             android:permission="android.permission.BIND_JOB_SERVICE" >
 

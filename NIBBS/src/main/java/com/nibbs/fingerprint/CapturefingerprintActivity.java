@@ -1,22 +1,14 @@
-package com.nibbs;
+package com.nibbs.fingerprint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.hardware.usb.UsbDevice;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -29,12 +21,10 @@ import com.dermalog.afis.imagecontainer.DICException;
 import com.dermalog.afis.imagecontainer.Decoder;
 import com.dermalog.afis.imagecontainer.EncoderPng;
 import com.dermalog.afis.imagecontainer.EncoderWsq;
-import com.dermalog.afis.imagecontainer.RawImage;
 import com.dermalog.biometricpassportsdk.BiometricPassportException;
 import com.dermalog.biometricpassportsdk.BiometricPassportSdkAndroid;
 import com.dermalog.biometricpassportsdk.Device;
 import com.dermalog.biometricpassportsdk.DeviceCallback;
-import com.dermalog.biometricpassportsdk.IUsbDeviceChangeListener;
 import com.dermalog.biometricpassportsdk.enums.CallbackEventId;
 import com.dermalog.biometricpassportsdk.enums.CaptureMode;
 import com.dermalog.biometricpassportsdk.enums.DeviceId;
@@ -52,10 +42,9 @@ import com.dermalog.biometricpassportsdk.wrapped.arguments.FingerprintSegment;
 import com.dermalog.biometricpassportsdk.wrapped.arguments.FingerprintSegmentationArgument;
 import com.dermalog.biometricpassportsdk.wrapped.arguments.ImageArgument;
 import com.google.android.material.snackbar.Snackbar;
+import com.nibbs.Constant;
+import com.nibbs.R;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +57,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 
     private final static String TAG = "Capturefingerprint";
     private ProgressBar progressBar;
-    private ImageView captureImage;
+    private ImageView captureImage,backbutton;
     private ImageView fingerprintpreview;
 
     private BiometricPassportSdkAndroid sdk;
@@ -344,26 +333,43 @@ public class CapturefingerprintActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capturefingerprint);
+        backbutton =  findViewById(R.id.backbutton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         TextView fingertext =  findViewById(R.id.fingername);
         extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("key");
-            fingertext.setText(extras.getString("data")+"Finger.");
+            fingertext.setText(extras.getString("data")+" Finger.");
             //The key argument here must match that used in the other activity
         }else{
             fingertext.setText("Right Thumb Finger.");
         }
         fingerprintpreview = findViewById(R.id.fingerprintpreview);
         captureImage = findViewById(R.id.captureImage);
-        captureImage.setEnabled(false);
+//        captureImage.setEnabled(false);
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "fingerprint" + timeStamp + "_";
-                Constant.fingerprintname.add(imageFileName);
+                if (Constant.fingerprintname.isEmpty()){
+                    Constant.fingerprintname= imageFileName;
+                }else{
+                    Constant.fingerprintname += ";"+imageFileName;
+                }
                 String path = Constant.saveToInternalStorage(bitmap, getApplicationContext(), imageFileName);
-                Constant.fingerprintimage.add(path);
+                if (Constant.fingerprintimage.isEmpty()){
+                    Constant.fingerprintimage= path;
+                }else{
+                    Constant.fingerprintimage += ";"+path;
+                }
+                Log.d("TAG", "onClick: "+Constant.fingerprintimage);
+                Log.d("TAG", "onClick: "+Constant.fingerprintname);
                 if (extras != null) {
                     Intent in = new Intent(getApplicationContext(), CapturefingerprintActivity.class);
                     if (extras.getString("data").equals("Left Index")) {

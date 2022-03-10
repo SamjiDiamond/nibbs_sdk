@@ -23,8 +23,8 @@ public class Uploadservice extends JobService {
         // Write your code here
         databasehelper = new Databasehelper(InitiateVolley.getInstance());
         List<Datamodel> notuploaded = databasehelper.getnotupload();
-
-        Log.d("tolubobo", "onStartJob: this is where we are");
+        Util.scheduleJob(getApplicationContext());
+        Log.d("tag", "onStartJob: this is where we are");
         try{
             for(int i = 0; i<notuploaded.size(); i++){
                 String ticketID = notuploaded.get(i).getTicketid();
@@ -53,7 +53,20 @@ public class Uploadservice extends JobService {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
                 String face_image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                String finger_image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                String[] fingerprintimage = notuploaded.get(i).getFingerimage().split(";");
+                String[] fingerprintname = notuploaded.get(i).getFingerimagename().split(";");
+                String finger_image = "";
+                for (int a = 0; a <fingerprintname.length; a++ ){
+                    Bitmap bitmap1 = Constant.loadImageFromStorage(notuploaded.get(i).getFaceimage(), notuploaded.get(i).getFaceimagename());
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream1);
+                    if (finger_image.isEmpty()){
+                        finger_image = Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
+                    }else{
+                        finger_image = ";"+Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
+                    }
+                }
+
 //                Log.d(TAG, "onReceive: "+msg_from + " "+ msgBody);
                 int finalI = i;
                 new PostRequest() {
@@ -61,6 +74,7 @@ public class Uploadservice extends JobService {
 
                     @Override // com.ugswitch.simhost.request.PostRequest
                     public void onError(String str) {
+                        Log.d("TAG", "onError: " + str);
                     }
 
                     @Override // com.ugswitch.simhost.request.PostRequest

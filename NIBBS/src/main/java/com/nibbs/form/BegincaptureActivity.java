@@ -1,6 +1,5 @@
-package com.nibbs;
+package com.nibbs.form;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,9 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.nibbs.Nibss;
+import com.nibbs.R;
 import com.nibbs.services.Util;
 
 public class BegincaptureActivity extends AppCompatActivity {
@@ -20,6 +20,7 @@ public class BegincaptureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
         Util.scheduleJob(getApplicationContext());
+        Util.scheduleuploadedJob(getApplicationContext());
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +32,7 @@ public class BegincaptureActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(getApplicationContext(), "Submitted: "+Nibss.totalsubmitted()
+        Toast.makeText(getApplicationContext(), "Submitted: "+ Nibss.totalsubmitted()
                 +" Uploaded: "+Nibss.totaluploded()+" Sync: "+Nibss.totalsync()+" Validate: "+Nibss.totalvalidate(), Toast.LENGTH_LONG).show();
         Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmitted()
                 +" Uploaded: "+Nibss.totaluploded()+" Sync: "+Nibss.totalsync()+" Validate: "+Nibss.totalvalidate());

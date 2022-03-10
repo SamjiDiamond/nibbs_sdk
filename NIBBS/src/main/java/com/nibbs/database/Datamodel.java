@@ -51,7 +51,8 @@ public class Datamodel {
                      String landmarks, String email, String phonenumber, String phonenumber2,
                      String accountlevel, String nin, String selectbank, String lgaofcapture,
                      String signatureimage, String signatureimagename, String faceimage,
-                     String faceimagename, String fingerimage, String fingerimagename) {
+                     String faceimagename, String fingerimage, String fingerimagename,
+                     String uploadstatus, String validationstatus, String stateofsync) {
         this.id = id;
         this.title = title;
         this.surname = surname;

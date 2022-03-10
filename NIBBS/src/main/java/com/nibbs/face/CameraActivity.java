@@ -1,10 +1,7 @@
-package com.nibbs;
-
-import static android.widget.Toast.LENGTH_LONG;
+package com.nibbs.face;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.ImageCapture;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,30 +16,20 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.Policy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import javax.security.auth.callback.Callback;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.sql.Timestamp;
 import android.app.AlertDialog.Builder;
-import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
@@ -50,16 +37,13 @@ import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.ErrorCallback;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Surface;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -69,6 +53,8 @@ import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 import com.google.mlkit.vision.face.FaceLandmark;
+import com.nibbs.Constant;
+import com.nibbs.R;
 
 public class CameraActivity extends AppCompatActivity implements Callback,
         OnClickListener, SurfaceHolder.Callback,Camera.FaceDetectionListener {
