@@ -14,9 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nibbs.database.Databasehelper;
+import com.nibbs.database.Datamodel;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
 
