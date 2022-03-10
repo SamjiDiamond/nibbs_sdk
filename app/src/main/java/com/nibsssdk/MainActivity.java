@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nibbs.BegincaptureActivity;
+import com.nibbs.BeginfaceActivity;
+import com.nibbs.BeginfingerprintActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                dispatchTakePictureIntent();
-            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+            Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
+//            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
                 startActivity(in);
 //                finish();
             }

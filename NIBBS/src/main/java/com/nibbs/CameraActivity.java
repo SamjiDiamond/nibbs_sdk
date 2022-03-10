@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ImageCapture;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import android.widget.Button;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Policy;
 import java.text.SimpleDateFormat;
@@ -81,6 +83,10 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     private boolean flashmode = false;
     private int rotation;
     Bundle extras;
+    ProgressDialog progressDialog;
+    private BitmapFactory.Options options,o,o2;
+    TextView cameratext;
+    int loading=0;
 
     Bitmap loadedImage = null;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -106,7 +112,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                 onBackPressed();
             }
         });
-        TextView cameratext = findViewById(R.id.cameratext);
+        cameratext = findViewById(R.id.cameratext);
         flashCameraButton = findViewById(R.id.flash);
         captureImage = findViewById(R.id.captureImage);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
@@ -276,6 +282,11 @@ public class CameraActivity extends AppCompatActivity implements Callback,
 
 
     public void surfaceDestroyed(SurfaceHolder holder) {
+        // Surface will be destroyed when we return, so stop the preview.
+        if (camera != null) {
+            // Call stopPreview() to stop updating the preview surface.
+            camera.stopPreview();
+        }
 
     }
 
@@ -301,17 +312,28 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                 try {
                     // convert byte array into bitmap
 
+                    loading=1;
+
+                    // Setting Message
+                    progressDialog = new ProgressDialog(CameraActivity.this);
+                    progressDialog.setMessage("Verifying face...");
+                    // Progress Dialog Style Spinner
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.show(); // Display Progress Dialog
+                    progressDialog.setCancelable(false);
+
                     Bitmap rotatedBitmap = null;
                     loadedImage = BitmapFactory.decodeByteArray(data, 0,
                             data.length);
 
                     // rotate Image
                     Matrix rotateMatrix = new Matrix();
-                    rotateMatrix.postRotate(rotation);
+                    rotateMatrix.postRotate(270);
                     rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
                             loadedImage.getWidth(), loadedImage.getHeight(),
                             rotateMatrix, false);
-                    InputImage image = InputImage.fromBitmap(loadedImage, 0);
+
+                    InputImage image = InputImage.fromBitmap(rotatedBitmap, 0);
                     detectFaces(image);
 //                    if (extras.getString("data").equals("LOOK INTO THE CAMERA.")){
 //                        String path = Constant.saveToInternalStorage(loadedImage,getApplicationContext(),"photo");
@@ -390,6 +412,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    progressDialog.dismiss();
                 }
 
             }
@@ -458,7 +481,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
             // [START set_detector_options]
             FaceDetectorOptions options =
                     new FaceDetectorOptions.Builder()
-                            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
                             .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                             .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
                             .setMinFaceSize(0.15f)
@@ -472,6 +495,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
             // FaceDetector detector = FaceDetection.getClient();
             // [END get_detector]
 
+        Log.d("track", "start result");
             // [START run_detector]
             Task<List<Face>> result =
                     detector.process(image)
@@ -483,10 +507,33 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                                             // [START_EXCLUDE]
                                             // [START get_face_info]
 
+                                            Log.d("track", "success listerner");
+                                            Log.d("track faces", faces.toString());
+
+                                            if(faces.toString() == "[]"){
+                                                Builder builder = new Builder(CameraActivity.this);
+
+// 2. Chain together various setter methods to set the dialog characteristics
+                                                builder.setMessage("Face not Detected. Try again ")
+                                                        .setTitle("Face Capture Error")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                stage1();
+                                                            }
+                                                        });
+
+// 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+                                                AlertDialog dialog = builder.create();
+                                                dialog.show();
+                                            }
+
                                             for (Face face : faces) {
                                                 Rect bounds = face.getBoundingBox();
                                                 float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
                                                 float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
+                                                Log.d("samji bounds", String.valueOf(rotY));
+                                                Log.d("samji bounds", String.valueOf(rotZ));
                                                 Constant.eyecoordinateText += "Head Bounds: " + bounds + "\n";
                                                 Constant.HeadBounds.add(bounds);
                                                 Constant.eyecoordinateText += "Head Rotation(Y-Axis): " + rotY + "\n";
@@ -496,22 +543,29 @@ public class CameraActivity extends AppCompatActivity implements Callback,
 
                                                 // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
                                                 // nose available):
+                                                Log.e("samji landmaek", "starting landmark check");
                                                 FaceLandmark leftEar = face.getLandmark(FaceLandmark.LEFT_EAR);
+                                                Log.i("samji ear", leftEar.toString());
                                                 if (leftEar != null) {
                                                     PointF leftEarPos = leftEar.getPosition();
+                                                    Log.d("leftear",  "Left Ear Position: " + leftEarPos.toString() + "\n");
                                                     Constant.LeftEarPosition.add(leftEarPos);
                                                     Constant.eyecoordinateText += "Left Ear Position: " + leftEarPos.toString() + "\n";
                                                 }
 
                                                 // If classification was enabled:
+                                                Log.i("samji simle prob", face.getSmilingProbability().toString());
                                                 if (face.getSmilingProbability() != null) {
                                                     float smileProb = face.getSmilingProbability();
+                                                    Log.i("samji simle prob float", String.valueOf(smileProb));
+                                                    Constant.samjiProbSmile=String.valueOf(smileProb);
                                                     Constant.eyecoordinateText += "User Smiling: " + String.valueOf(smileProb) + "\n";
                                                     Constant.UserSmiling.add(smileProb);
                                                 }
                                                 if (face.getRightEyeOpenProbability() != null) {
                                                     float rightEyeOpenProb = face.getRightEyeOpenProbability();
                                                     Log.d("rightEyeOpenProb", String.valueOf(rightEyeOpenProb));
+                                                    Constant.samjiProbEyeOpen=String.valueOf(rightEyeOpenProb);
                                                     Constant.eyecoordinateText += "Right Eye Open: " + String.valueOf(rightEyeOpenProb) + "\n";
                                                     Constant.RightEyeOpen.add(rightEyeOpenProb);
                                                 }
@@ -522,29 +576,83 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                                                     Log.d("id", String.valueOf(id));
                                                 }
                                             }
-                                            if (extras.getString("data").equals("LOOK INTO THE CAMERA.")) {
-                                                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                                                String imageFileName = "photo" + timeStamp + "_";
-                                                Constant.faceimagename = imageFileName;
-                                                String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext(), imageFileName);
-                                                Constant.faceimage = path;
-                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-                                                in.putExtra("data", "SMILE TO THE CAMERA.");
-                                                startActivity(in);
-                                            } else if (extras.getString("data").equals("SMILE TO THE CAMERA.")) {
-                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-                                                in.putExtra("data", "CLOSE YOUR EYES.");
-                                                startActivity(in);
+                                            if (cameratext.getText().toString().equals("LOOK INTO THE CAMERA.")) {
+                                                if(Double.valueOf(Constant.samjiProbEyeOpen) < 0.8) {
+                                                    Builder builder = new Builder(CameraActivity.this);
+                                                    builder.setMessage("Kindly open your eyes properly")
+                                                            .setTitle("Face Capture Error")
+                                                            .setCancelable(false)
+                                                            .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                    stage1();
+                                                                }
+                                                            });
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+                                                }else {
+                                                    stage2();
+
+                                                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                                                    String imageFileName = "photo" + timeStamp + "_";
+                                                    Constant.faceimagename = imageFileName;
+                                                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext(), imageFileName);
+                                                    Constant.faceimage = path;
+//                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+//                                                in.putExtra("data", "SMILE TO THE CAMERA.");
+//                                                startActivity(in);
+                                                }
+
+                                            } else if (cameratext.getText().toString().equals("SMILE TO THE CAMERA.")) {
+                                                if(Double.valueOf(Constant.samjiProbSmile) < 0.7) {
+                                                    Builder builder = new Builder(CameraActivity.this);
+                                                    builder.setMessage("Kindly smile to the Camera")
+                                                            .setTitle("Face Capture Error")
+                                                            .setCancelable(false)
+                                                            .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                    stage2();
+                                                                }
+                                                            });
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+                                                }else{
+                                                    stage3();
+//                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
+//                                                in.putExtra("data", "CLOSE YOUR EYES.");
+//                                                startActivity(in);
+                                                }
                                             } else {
-                                                releaseCamera();
-                                                Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
-//                        in.putExtra("data", "CLOSE YOUR EYES.");
-                                                startActivity(in);
-                                                finish();
+                                                if(Double.valueOf(Constant.samjiProbEyeOpen) > 0.3) {
+                                                    Builder builder = new Builder(CameraActivity.this);
+                                                    builder.setMessage("Kindly close your eyes")
+                                                            .setTitle("Face Capture Error")
+                                                            .setCancelable(false)
+                                                            .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                    stage3();
+                                                                }
+                                                            });
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+                                                }else{
+                                                    releaseCamera();
+                                                    Intent in = new Intent(getApplicationContext(), FacecaptureActivity.class);
+//                                              in.putExtra("data", "CLOSE YOUR EYES.");
+                                                    startActivity(in);
+                                                    finish();
+                                                }
                                             }
 //                                        eyecoordinate.setText(Constant.eyecoordinateText);
                                             // [END get_face_info]
                                             // [END_EXCLUDE]
+
+
+                                            try {
+                                                loading=0;
+                                                progressDialog.dismiss();
+                                            }catch (Exception ignored){
+
+                                            }
                                         }
                                     })
                             .addOnFailureListener(
@@ -561,6 +669,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        releaseCamera();
     }
 
     @Override
@@ -569,6 +678,10 @@ public class CameraActivity extends AppCompatActivity implements Callback,
             Log.d("FaceDetection", "face detected: "+ faces.length +
                     " Face 1 Location X: " + faces[0].rect.centerX() +
                     "Y: " + faces[0].rect.centerY() );
+
+//            if(loading ==0) {
+//                takeImage();
+//            }
         }
     }
 
@@ -581,5 +694,19 @@ public class CameraActivity extends AppCompatActivity implements Callback,
             // camera supports face detection, so can start it:
             camera.startFaceDetection();
         }
+    }
+
+    public void stage1(){
+        cameratext.setText("LOOK INTO THE CAMERA.");
+        camera.startPreview();
+    }
+
+    public void stage2(){
+        cameratext.setText("SMILE TO THE CAMERA.");
+        camera.startPreview();
+    }
+    public void stage3(){
+        cameratext.setText("CLOSE YOUR EYES.");
+        camera.startPreview();
     }
 }
