@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                dispatchTakePictureIntent();
-            Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
-//            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+//            Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
+            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
                 startActivity(in);
 //                finish();
             }
