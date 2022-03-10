@@ -2,6 +2,8 @@ package com.nibbs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.hardware.usb.UsbDevice;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import com.dermalog.biometricpassportsdk.BiometricPassportException;
 import com.dermalog.biometricpassportsdk.BiometricPassportSdkAndroid;
 import com.dermalog.biometricpassportsdk.Device;
 import com.dermalog.biometricpassportsdk.DeviceCallback;
+import com.dermalog.biometricpassportsdk.IUsbDeviceChangeListener;
 import com.dermalog.biometricpassportsdk.enums.CallbackEventId;
 import com.dermalog.biometricpassportsdk.enums.CaptureMode;
 import com.dermalog.biometricpassportsdk.enums.DeviceId;
@@ -412,7 +416,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.GONE);
+//                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
