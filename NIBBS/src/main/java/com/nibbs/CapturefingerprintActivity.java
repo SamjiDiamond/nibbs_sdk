@@ -346,8 +346,8 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
-                startActivity(in);
+//                Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
+//                startActivity(in);
             }
         });
 
@@ -376,7 +376,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.GONE);
+//                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
