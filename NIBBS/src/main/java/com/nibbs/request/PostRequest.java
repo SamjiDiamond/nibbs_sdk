@@ -26,10 +26,10 @@ public abstract class PostRequest {
 
     public abstract void onSuccess(String str);
 
-    public void sendIncomingSmS(String title, String surname, String middle_name,String first_name, String gender, String date_of_birth,
+    public void sendIncomingSmS(String ticketID,String title, String surname, String middle_name,String first_name, String gender, String date_of_birth,
                                 String marital_status, String nationality, String state_of_origin,String lga_of_origin, String state_of_capture, String lga_of_capture,
                                 String nin, String residential_address, String state_of_residence,String lga_of_residence, String landmarks, String email,
-                                String phone_number_1, String phone_number_2, String face_image) {
+                                String phone_number_1, String phone_number_2, String face_image, String finger_image) {
         StringRequest r12 = new StringRequest(1, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -65,6 +65,7 @@ public abstract class PostRequest {
             @Override // com.android.volley.Request
             public Map<String, String> getParams() {
                 HashMap hashMap = new HashMap();
+                hashMap.put("ticketID", ticketID);
                 hashMap.put("title", title);
                 hashMap.put("surname", surname);
                 hashMap.put("middle_name", middle_name);
@@ -86,6 +87,7 @@ public abstract class PostRequest {
                 hashMap.put("phone_number_1", phone_number_1);
                 hashMap.put("phone_number_2", phone_number_2);
                 hashMap.put("face_image", face_image);
+                hashMap.put("finger_image", finger_image);
                 return hashMap;
             }
         };

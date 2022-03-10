@@ -91,6 +91,36 @@ public class PreviewActivity extends AppCompatActivity {
         signature = findViewById(R.id.signaturepreview);
         Bitmap b = Constant.loadImageFromStorage(Constant.signatureimage,Constant.signatureimagename);
         signature.setImageBitmap(b);
+        ImageView leftindex = findViewById(R.id.leftindex);
+        Bitmap b0 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(0), Constant.fingerprintname.get(0));
+        leftindex.setImageBitmap(b0);
+        ImageView leftmiddle = findViewById(R.id.leftmiddle);
+        Bitmap b11 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(1), Constant.fingerprintname.get(1));
+        leftmiddle.setImageBitmap(b11);
+        ImageView leftring = findViewById(R.id.leftring);
+        Bitmap b2 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(2), Constant.fingerprintname.get(2));
+        leftring.setImageBitmap(b2);
+        ImageView leftlittle = findViewById(R.id.leftlittle);
+        Bitmap b3 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(3), Constant.fingerprintname.get(3));
+        leftlittle.setImageBitmap(b3);
+        ImageView rightindex = findViewById(R.id.rightindex);
+        Bitmap b4 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(4), Constant.fingerprintname.get(4));
+        rightindex.setImageBitmap(b4);
+        ImageView rightmiddle = findViewById(R.id.rightmiddle);
+        Bitmap b5 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(5), Constant.fingerprintname.get(5));
+        rightmiddle.setImageBitmap(b5);
+        ImageView rightring = findViewById(R.id.rightring);
+        Bitmap b6 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(6), Constant.fingerprintname.get(6));
+        rightring.setImageBitmap(b6);
+        ImageView rightlittle = findViewById(R.id.rightlittle);
+        Bitmap b7 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(7), Constant.fingerprintname.get(7));
+        rightlittle.setImageBitmap(b7);
+        ImageView leftthumb = findViewById(R.id.leftthumb);
+        Bitmap b8 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(8), Constant.fingerprintname.get(8));
+        leftthumb.setImageBitmap(b8);
+        ImageView rightthumb = findViewById(R.id.rightthumb);
+        Bitmap b9 = Constant.loadImageFromStorage(Constant.fingerprintimage.get(9), Constant.fingerprintname.get(9));
+        rightthumb.setImageBitmap(b9);
         Button signpage = findViewById(R.id.submit);
         signpage.setOnClickListener(new View.OnClickListener() {
             @Override

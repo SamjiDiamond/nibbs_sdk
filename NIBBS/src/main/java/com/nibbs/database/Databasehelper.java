@@ -51,6 +51,8 @@ public class Databasehelper extends SQLiteOpenHelper {
     public static final String COLUMN_SIGNATUREIMAGENAME= "SIGNATUREIMAGENAME";
     public static final String COLUMN_FACEIMAGE= "FACEIMAGE";
     public static final String COLUMN_FACEIMAGENAME= "FACEIMAGENAME";
+    public static final String COLUMN_FINGERIMAGE= "FINGERIMAGE";
+    public static final String COLUMN_FINGERIMAGENAME= "FINGERIMAGENAME";
 
     public Databasehelper(@Nullable Context context) {
         super(context, "dataform.db", null, 1);
@@ -71,7 +73,8 @@ public class Databasehelper extends SQLiteOpenHelper {
                 + COLUMN_PHONENUMBER + " TEXT," + COLUMN_PHONENUMBER2 + " TEXT," + COLUMN_ACCOUNTLEVEL + " TEXT,"
                 + COLUMN_NIN + " TEXT," + COLUMN_SELECTBANK + " TEXT," + COLUMN_LGA_OF_CAPTURE + " TEXT,"
                 + COLUMN_SIGNATUREIMAGE + " TEXT," + COLUMN_SIGNATUREIMAGENAME + " TEXT," +
-                COLUMN_FACEIMAGE + " TEXT," + COLUMN_FACEIMAGENAME + " TEXT," + COLUMN_NATIONALITY + " TEXT )";
+                COLUMN_FACEIMAGE + " TEXT," + COLUMN_FACEIMAGENAME + " TEXT," + COLUMN_NATIONALITY + " TEXT," +
+                COLUMN_FINGERIMAGE + " TEXT," + COLUMN_FINGERIMAGENAME + " TEXT )";
         sqLiteDatabase.execSQL(createtablestatement);
     }
 
@@ -119,6 +122,8 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SIGNATUREIMAGENAME, datamodel.getSignatureimagename());
         cv.put(COLUMN_FACEIMAGE, datamodel.getFaceimage());
         cv.put(COLUMN_FACEIMAGENAME, datamodel.getFaceimagename());
+        cv.put(COLUMN_FINGERIMAGE, datamodel.getFingerimage());
+        cv.put(COLUMN_FINGERIMAGENAME, datamodel.getFingerimagename());
 
         long insert = db.insert(DATA_TABLE, null, cv);
         if (insert == -1){
@@ -245,6 +250,8 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datafaceimage = cursor.getString(34);
                 String datafaceimagename = cursor.getString(35);
                 String datanationality = cursor.getString(36);
+                String datafingerimage = cursor.getString(38);
+                String datafingerimagename = cursor.getString(39);
                 Datamodel newdata = new Datamodel(dataid,datatitle,
                         datasurname,datafirstname,datamiddlename,
                         datadob,datagender,datamaritalstatus,
@@ -254,7 +261,7 @@ public class Databasehelper extends SQLiteOpenHelper {
                         datalgaofresisdence,datalandmarks,dataemail,
                         dataphonenumber,dataphonenumber2,dataaccountlevel,datanin,
                         dataselectbank,datalgaofcapture,datasignatureimage,
-                        datasignatureimagename,datafaceimage,datafaceimagename);
+                        datasignatureimagename,datafaceimage,datafaceimagename,datafingerimage,datafingerimagename);
                 returnList.add(newdata);
 
             }while(cursor.moveToNext());

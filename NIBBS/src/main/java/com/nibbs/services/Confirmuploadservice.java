@@ -10,53 +10,31 @@ import android.util.Log;
 import com.nibbs.Constant;
 import com.nibbs.database.Databasehelper;
 import com.nibbs.database.Datamodel;
+import com.nibbs.request.GetRequest;
 import com.nibbs.request.PostRequest;
 import com.nibbs.volley.InitiateVolley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-public class Uploadservice extends JobService {
+public class Confirmuploadservice extends JobService {
     Databasehelper databasehelper;
     @Override
     public boolean onStartJob(JobParameters params) {
         // Write your code here
         databasehelper = new Databasehelper(InitiateVolley.getInstance());
-        List<Datamodel> notuploaded = databasehelper.getnotupload();
+        List<Datamodel> notuploaded = databasehelper.getsync();
 
         Log.d("tolubobo", "onStartJob: this is where we are");
         try{
             for(int i = 0; i<notuploaded.size(); i++){
                 String ticketID = notuploaded.get(i).getTicketid();
-                String title = notuploaded.get(i).getTitle();
-                String surname = notuploaded.get(i).getSurname();
-                String middle_name = notuploaded.get(i).getMiddlename();
-                String first_name = notuploaded.get(i).getFirstname();
-                String gender = notuploaded.get(i).getGender();
-                String date_of_birth = notuploaded.get(i).getDateofbirth();
-                String marital_status = notuploaded.get(i).getMaritalstatus();
-                String nationality = notuploaded.get(i).getNationality();
-                String state_of_origin = notuploaded.get(i).getSoo();
-                String lga_of_origin = notuploaded.get(i).getLga();
-                String state_of_capture = notuploaded.get(i).getStateofcapture();
-                String lga_of_capture = notuploaded.get(i).getLgaofcapture();
-                String nin = notuploaded.get(i).getNin();
-                String residential_address = notuploaded.get(i).getResidentialaddress();
-                String state_of_residence = notuploaded.get(i).getStateofresidence();
-                String lga_of_residence = notuploaded.get(i).getLgaofresidence();
-                String landmarks = notuploaded.get(i).getLandmarks();
-                String email = notuploaded.get(i).getEmail();
-                String phone_number_1 = notuploaded.get(i).getPhonenumber();
-                String phone_number_2 = notuploaded.get(i).getPhonenumber2();
-                //Notifying the user
-                Bitmap bitmap = Constant.loadImageFromStorage(notuploaded.get(i).getFaceimage(), notuploaded.get(i).getFaceimagename());
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-                String face_image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                String finger_image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 //                Log.d(TAG, "onReceive: "+msg_from + " "+ msgBody);
                 int finalI = i;
-                new PostRequest() {
+                new GetRequest() {
                     /* class com.ugswitch.simhost.service.MyNotificationService.AnonymousClass1 */
 
                     @Override // com.ugswitch.simhost.request.PostRequest
@@ -76,10 +54,17 @@ public class Uploadservice extends JobService {
 //                            LocalBroadcastManager.getInstance(InitiateVolley.getInstance()).sendBroadcast(intent);
 //                        }
                     }
-                }.sendIncomingSmS(ticketID,title, surname,middle_name,first_name,gender,
-                        date_of_birth,marital_status,nationality,state_of_origin,lga_of_origin,state_of_capture,
-                        lga_of_capture,nin,residential_address,state_of_residence,lga_of_residence,landmarks,email,
-                        phone_number_1,phone_number_2,face_image,finger_image);
+                    // com.simhost.request.GetRequest
+                    @Override
+                    public void onSuccess(JSONObject jSONObject) throws JSONException {
+                        Log.i("TAG", jSONObject.get("status").toString());
+
+
+                        if (jSONObject.get("status").equals(1)){
+
+                        }
+                    }
+                }.requestDisplay(ticketID);
             }
         }catch(Exception e){
 //                            Log.d("Exception caught",e.getMessage());

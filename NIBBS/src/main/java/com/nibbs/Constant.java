@@ -99,4 +99,6 @@ public class Constant {
     public static String institutioncode;
     public static String institutionname;
     public static String agentcode;
+    public static List<String> fingerprintname= new ArrayList<>();
+    public static List<String> fingerprintimage= new ArrayList<>();
 }

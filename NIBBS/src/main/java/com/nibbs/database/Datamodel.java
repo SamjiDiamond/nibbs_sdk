@@ -38,6 +38,8 @@ public class Datamodel {
     private String signatureimagename;
     private String faceimage;
     private String faceimagename;
+    private String fingerimage;
+    private String fingerimagename;
 
     public Datamodel(int id, String title, String surname,
                      String firstname, String middlename, String dateofbirth,
@@ -49,7 +51,7 @@ public class Datamodel {
                      String landmarks, String email, String phonenumber, String phonenumber2,
                      String accountlevel, String nin, String selectbank, String lgaofcapture,
                      String signatureimage, String signatureimagename, String faceimage,
-                     String faceimagename) {
+                     String faceimagename, String fingerimage, String fingerimagename) {
         this.id = id;
         this.title = title;
         this.surname = surname;
@@ -87,6 +89,8 @@ public class Datamodel {
         this.signatureimagename = signatureimagename;
         this.faceimage = faceimage;
         this.faceimagename = faceimagename;
+        this.fingerimage = fingerimage;
+        this.fingerimagename = fingerimagename;
     }
 
     @Override
@@ -398,6 +402,22 @@ public class Datamodel {
 
     public void setFaceimagename(String faceimagename) {
         this.faceimagename =faceimagename;
+    }
+
+    public String getFingerimage() {
+        return fingerimage;
+    }
+
+    public void setFingerimage(String fingerimage) {
+        this.fingerimage =fingerimage;
+    }
+
+    public String getFingerimagename() {
+        return fingerimagename;
+    }
+
+    public void setFingerimagename(String fingerimagename) {
+        this.fingerimagename =fingerimagename;
     }
 
 

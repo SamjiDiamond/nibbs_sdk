@@ -19,8 +19,8 @@ public abstract class GetRequest {
 
     public abstract void onSuccess(JSONObject jSONObject) throws JSONException;
 
-    public void requestDisplay(Context context, String str) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(0, Constant.baseurl + str, null, new Response.Listener<JSONObject>() {
+    public void requestDisplay(String str) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(0, Constant.baseurl +"enrollment/"+ str, null, new Response.Listener<JSONObject>() {
             /* class com.ugswitch.simhost.request.GetRequest.AnonymousClass1 */
 
             public void onResponse(JSONObject jSONObject) {
