@@ -136,7 +136,7 @@ public class PreviewActivity extends AppCompatActivity {
                         Constant.email,Constant.phonenumber, Constant.phonenumber2,
                         Constant.accountlevel, Constant.nin, Constant.selectbank,
                         Constant.lgaofcapture, Constant.signatureimage, Constant.signatureimagename,
-                        Constant.faceimage,Constant.faceimagename);
+                        Constant.faceimage,Constant.faceimagename, Constant.fingerprintimage.toString(),Constant.fingerprintname.toString());
 
                 boolean addone = databasehelper.addone(datamodel);
                 if (addone) {
