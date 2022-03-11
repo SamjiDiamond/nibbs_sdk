@@ -28,7 +28,7 @@ public class Confirmuploadservice extends JobService {
         databasehelper = new Databasehelper(InitiateVolley.getInstance());
         List<Datamodel> notuploaded = databasehelper.getsync();
 
-        Util.scheduleuploadedJob(getApplicationContext());
+        Util.scheduleuploadedJob(getApplicationContext(), Long.parseLong("1000"));
         Log.d("tolubobo", "onStartJob: this is where we are");
         try{
             for(int i = 0; i<notuploaded.size(); i++){

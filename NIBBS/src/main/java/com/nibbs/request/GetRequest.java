@@ -7,10 +7,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.nibbs.Constant;
+import com.nibbs.Nibss;
 import com.nibbs.volley.InitiateVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class GetRequest {
     public abstract void onError(String str);
@@ -39,8 +43,17 @@ public abstract class GetRequest {
             public void onErrorResponse(VolleyError volleyError) {
                 GetRequest.this.onError("network error");
                 Log.d("VOLLEY", volleyError.toString());
+
             }
-        });
+        }){
+            @Override // com.android.volley.Request
+            public Map<String, String> getHeaders() {
+                HashMap hashMap = new HashMap();
+                hashMap.put("Connection", "Keep-Alive");
+                hashMap.put("agent_id", Nibss.agent_code);
+                return hashMap;
+            }
+        };
         jsonObjectRequest.setShouldCache(false);
         InitiateVolley.getInstance().addToRequestQueue(jsonObjectRequest);
     }

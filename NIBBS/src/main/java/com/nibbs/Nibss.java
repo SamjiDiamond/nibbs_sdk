@@ -20,5 +20,5 @@ public class Nibss {
  public static int totalvalidate(){
         return databasehelper.getvalidated().size();
     }
-
+    public static String agent_code = "12345678";
 }

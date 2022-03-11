@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Constant {
-    public static String baseurl = "http://192.168.8.135:3030/";
+    public static String baseurl = "https://app-api.nibbs.budpay.ng/";
     public static List<Rect> HeadBounds= new ArrayList<>();
     public static List<PointF> LeftEarPosition= new ArrayList<>();
     public static List<Float> HeadRotationy = new ArrayList<>(), HeadRotationz = new ArrayList<>(),
@@ -99,7 +99,7 @@ public class Constant {
     public static String faceimagename = "";
     public static String institutioncode = "";
     public static String institutionname = "";
-    public static String agentcode = "";
+//    public static String agentcode = "";
     public static String fingerprintname = "";
     public static String fingerprintimage = "";
 }

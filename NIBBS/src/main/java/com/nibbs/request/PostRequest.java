@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.nibbs.Constant;
+import com.nibbs.Nibss;
 import com.nibbs.volley.InitiateVolley;
 
 import org.json.JSONArray;
@@ -58,6 +59,7 @@ public abstract class PostRequest {
             public Map<String, String> getHeaders() {
                 HashMap hashMap = new HashMap();
                 hashMap.put("Connection", "Keep-Alive");
+                hashMap.put("agent_id", Nibss.agent_code);
                 return hashMap;
             }
 

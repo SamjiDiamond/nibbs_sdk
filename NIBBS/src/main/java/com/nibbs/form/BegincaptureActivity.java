@@ -19,8 +19,7 @@ public class BegincaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
-        Util.scheduleJob(getApplicationContext());
-        Util.scheduleuploadedJob(getApplicationContext());
+        Util.scheduleJob(getApplicationContext(),Long.parseLong("1"));
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

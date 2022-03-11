@@ -128,12 +128,16 @@ public class PreviewActivity extends AppCompatActivity {
         signpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ticketid = Nibss.agent_code;
+                ticketid += new SimpleDateFormat("yyMMDD").format(new Date());
+                ticketid += new SimpleDateFormat("HHMMSS").format(new Date());
+                String date = new SimpleDateFormat("E, MMMM dd, yyyy").format(new Date());
 
                 datamodel = new Datamodel(1,Constant.title,Constant.surname,
                         Constant.firstname,Constant.middlename, Constant.dob,
                         Constant.gender, Constant.maritalstatus,
-                        Constant.institutioncode,Constant.institutionname, Constant.agentcode,
-                        "ticketid",  timeStamp, Constant.stateofcapture,
+                        Constant.institutioncode,Constant.institutionname, Nibss.agent_code,
+                        ticketid,  timeStamp, Constant.stateofcapture,
                         Constant.soo,Constant.nationality,Constant.lga, Constant.residentialaddress,
                         Constant.stateofresidence, Constant.lgaofresidence, Constant.landmarks,
                         Constant.email,Constant.phonenumber, Constant.phonenumber2,
@@ -141,12 +145,12 @@ public class PreviewActivity extends AppCompatActivity {
                         Constant.lgaofcapture, Constant.signatureimage, Constant.signatureimagename,
                         Constant.faceimage,Constant.faceimagename, Constant.fingerprintimage,Constant.fingerprintname,
                         "0","0","0");
-
+//Friday, January 3, 2020
                 boolean addone = databasehelper.addone(datamodel);
                 if (addone) {
                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
                     alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                    alertDialogBuilder.setMessage("Ticket ID: 55932019112584436 \n Date Captured: Friday, January 3, 2020 \n Agen: Eyowo Sample Agen");
+                    alertDialogBuilder.setMessage("Ticket ID: "+ticketid+" \n Date Captured: "+ date+" \n Agent: Eyowo Sample Agen");
                     alertDialogBuilder.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 @Override
