@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nibbs.form.BegincaptureActivity;
+import com.nibbssdk.form.BegincaptureActivity;
 
 import java.io.File;
 import java.io.IOException;
