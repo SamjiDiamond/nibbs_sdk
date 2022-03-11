@@ -91,13 +91,11 @@ public class Uploadservice extends JobService {
 //                            databasehelper.updatesync(databasehelper.COLUMN_SYNC_DATE, "1", String.valueOf(notuploaded.get(finalI).getId()));
 //                            uploading = true;
                             Log.d("TAG", "onSuccess: " + str);
-//                        if (myJson.logstatus(str).equals("1")) {
-//                            Config.savedProcess(InitiateVolley.getInstance(), "INBOX", "Sender: " + msg_from, "Message: " + msgBody, " ", "not-seen",timestamp);
-//                            Intent intent = new Intent(Config.PUSH_NOTIFICATION);
-//                            intent.putExtra("message", "");
-//                            intent.putExtra("id", "");
-//                            LocalBroadcastManager.getInstance(InitiateVolley.getInstance()).sendBroadcast(intent);
-//                        }
+                            if (Constant.logstatus(str).equals("true")) {
+                                Log.d("TAG", "onSuccess: " + String.valueOf(notuploaded.get(finalI).getId()));
+                                databasehelper.updatesync(databasehelper.COLUMN_UPLOADSTATUS, "1", String.valueOf(notuploaded.get(finalI).getId()));
+    //
+                            }
                         }
                     }.sendIncomingSmS(ticketID, title, surname, middle_name, first_name, gender,
                             date_of_birth, marital_status, nationality, state_of_origin, lga_of_origin, state_of_capture,
@@ -108,7 +106,7 @@ public class Uploadservice extends JobService {
 //                            Log.d("Exception caught",e.getMessage());
             }
 //        }else{
-            getrequest();
+//            getrequest();
 //        }
 
         Util.scheduleJob(getApplicationContext(), Long.parseLong("2000"));

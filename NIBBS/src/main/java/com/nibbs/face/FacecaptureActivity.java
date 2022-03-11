@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -40,7 +41,11 @@ public class FacecaptureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_facecapture);
         image = findViewById(R.id.imageview);
         Bitmap b = Constant.loadImageFromStorage(Constant.faceimage, Constant.faceimagename);
-        image.setImageBitmap(b);
+        Matrix matrix = new Matrix();
+        image.setScaleType(ImageView.ScaleType.MATRIX);   //required
+        matrix.postRotate((float) -45, 0, 0);
+        image.setImageMatrix(matrix);
+//        image.setImageBitmap(b);
         LinearLayout backlayout = findViewById(R.id.backlayout);
         backlayout.setOnClickListener(new View.OnClickListener() {
             @Override

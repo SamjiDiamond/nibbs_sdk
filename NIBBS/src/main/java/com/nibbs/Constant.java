@@ -8,6 +8,9 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,8 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.jvm.JvmStatic;
+
 public class Constant {
-    public static String baseurl = "https://app-api.nibbs.budpay.ng/";
+    public static String baseurl = "https://app-api.nibbstest.budpay.ng/";
     public static List<Rect> HeadBounds= new ArrayList<>();
     public static List<PointF> LeftEarPosition= new ArrayList<>();
     public static List<Float> HeadRotationy = new ArrayList<>(), HeadRotationz = new ArrayList<>(),
@@ -25,6 +30,20 @@ public class Constant {
     public static String samjiProbEyeOpen="0", samjiProbSmile="0";
 
     public static String eyecoordinateText="";
+
+    @JvmStatic
+    public static String logstatus(String str){
+        JSONObject obj;
+        String pageName = "";
+        try {
+            obj = new JSONObject(str);
+            pageName = obj.getString("success");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            pageName = e.toString();
+        }
+        return pageName;
+    }
 
     public static String saveToInternalStorage(Bitmap bitmapImage, Context context,String name){
         ContextWrapper cw = new ContextWrapper(context);

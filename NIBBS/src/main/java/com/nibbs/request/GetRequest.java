@@ -50,6 +50,13 @@ public abstract class GetRequest {
             public Map<String, String> getHeaders() {
                 HashMap hashMap = new HashMap();
                 hashMap.put("Connection", "Keep-Alive");
+                return hashMap;
+            }
+
+            /* access modifiers changed from: protected */
+            @Override // com.android.volley.Request
+            public Map<String, String> getParams() {
+                HashMap hashMap = new HashMap();
                 hashMap.put("agent_id", Nibss.agent_code);
                 return hashMap;
             }

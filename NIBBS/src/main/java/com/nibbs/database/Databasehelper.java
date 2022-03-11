@@ -194,21 +194,6 @@ public class Databasehelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public void updatesync(String columname, String updatevalue, String position){
-
-        String queryString = "UPDATE " + DATA_TABLE +" SET "+ columname+" = "+updatevalue +" WHERE "+ COLUMN_ID +" = "+position;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-        Log.d("TAG", "updatesync: "+cursor);
-//        returnList = cursor(cursor);
-//
-//        cursor.close();
-//        db.close();
-//        return returnList;
-    }
-
-
-
     private  List<Datamodel> cursor(Cursor cursor){
         List<Datamodel> returnList = new ArrayList<>();
         if (cursor.moveToFirst()){
@@ -270,6 +255,19 @@ public class Databasehelper extends SQLiteOpenHelper {
 
         }
         return returnList;
+    }
+
+    public void updatesync(String columname, String updatevalue, String position){
+
+        String queryString = "UPDATE " + DATA_TABLE +" SET "+ columname+" = "+ updatevalue +" WHERE "+ COLUMN_ID +" = "+position;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        Log.d("TAG", "updatesync: "+cursor);
+//        returnList = cursor(cursor);
+//
+//        cursor.close();
+//        db.close();
+//        return returnList;
     }
 
     public boolean deleteone(Datamodel datamodel){
