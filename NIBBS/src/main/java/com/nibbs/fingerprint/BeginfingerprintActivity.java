@@ -19,7 +19,7 @@ public class BeginfingerprintActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), CapturefingerprintActivity.class);
+                Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
                 in.putExtra("data", "Left Index");
                 startActivity(in);
 //                finish();
