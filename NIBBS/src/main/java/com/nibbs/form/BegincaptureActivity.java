@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.nibbs.Nibss;
 import com.nibbs.R;
 import com.nibbs.services.Util;
+import com.nibbs.volley.InitiateVolley;
 
 public class BegincaptureActivity extends AppCompatActivity {
 
@@ -19,7 +20,7 @@ public class BegincaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
-        Util.scheduleJob(getApplicationContext(),Long.parseLong("1"));
+//        Util.scheduleJob(InitiateVolley.getInstance(),Long.parseLong("1"));
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
