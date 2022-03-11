@@ -59,7 +59,6 @@ public abstract class PostRequest {
             public Map<String, String> getHeaders() {
                 HashMap hashMap = new HashMap();
                 hashMap.put("Connection", "Keep-Alive");
-                hashMap.put("agent_id", Nibss.agent_code);
                 return hashMap;
             }
 
@@ -67,6 +66,7 @@ public abstract class PostRequest {
             @Override // com.android.volley.Request
             public Map<String, String> getParams() {
                 HashMap hashMap = new HashMap();
+                hashMap.put("agent_id", Nibss.agent_code);
                 hashMap.put("ticketID", ticketID);
                 hashMap.put("title", title);
                 hashMap.put("surname", surname);
