@@ -73,7 +73,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     private BitmapFactory.Options options,o,o2;
     TextView cameratext;
     int loading=0;
-
+    Bitmap rotatedBitmap = null;
     Bitmap loadedImage = null;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
@@ -308,7 +308,6 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                     progressDialog.show(); // Display Progress Dialog
                     progressDialog.setCancelable(false);
 
-                    Bitmap rotatedBitmap = null;
                     loadedImage = BitmapFactory.decodeByteArray(data, 0,
                             data.length);
 
@@ -577,11 +576,10 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                                                     dialog.show();
                                                 }else {
                                                     stage2();
-
                                                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                                                     String imageFileName = "photo" + timeStamp + "_";
                                                     Constant.faceimagename = imageFileName;
-                                                    String path = Constant.saveToInternalStorage(loadedImage, getApplicationContext(), imageFileName);
+                                                    String path = Constant.saveToInternalStorage(rotatedBitmap, getApplicationContext(), imageFileName);
                                                     Constant.faceimage = path;
 //                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
 //                                                in.putExtra("data", "SMILE TO THE CAMERA.");

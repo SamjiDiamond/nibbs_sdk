@@ -2,6 +2,7 @@ package com.nibbssdk.fingerprint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -57,7 +58,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 
     private final static String TAG = "Capturefingerprint";
     private ProgressBar progressBar;
-    private ImageView captureImage,backbutton;
+    private ImageView captureImage;
     private ImageView fingerprintpreview;
 
     private BiometricPassportSdkAndroid sdk;
@@ -69,8 +70,6 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 
     Bundle extras;
 
-    private Map<String, ImageHolder> imagesToSave = new HashMap<>();
-
     //region definitions
     private enum ImageType {
         Detection,
@@ -78,13 +77,13 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         Segments
     }
 
-    private class SegmentInfo {
+    private static class SegmentInfo {
         NistFingerPosition nistFingerPosition;
         Bitmap bitmap;
         byte[] bihBytes;
     }
 
-    private class ImageHolder {
+    private static class ImageHolder {
         final byte[] bihBytes;
 
         ImageHolder(byte[] bihBytes) {
@@ -145,6 +144,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                     }
 
                     try {
+                        assert imageArgument != null;
                         bitmap = BitmapUtil.fromImageArgument(imageArgument);
                         boolean isDetection = CallbackEventId.FINGER_DETECT.equals(
                                 deviceCallbackEventArgument.getEventId());
@@ -184,8 +184,6 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                                captureImage.setEnabled(enableButton);
                             }
                         });
-
-                        imagesToSave = images;
 
                     } catch (IOException e1) {
                         Log.e(TAG, null, e1);
@@ -329,11 +327,12 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         encoderPng = new EncoderPng();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capturefingerprint);
-        backbutton =  findViewById(R.id.backbutton);
+        ImageView backbutton = findViewById(R.id.backbutton);
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -355,7 +354,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "fingerprint" + timeStamp + "_";
                 if (Constant.fingerprintname.isEmpty()){
                     Constant.fingerprintname= imageFileName;
@@ -370,30 +369,39 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 }
                 Log.d("TAG", "onClick: "+Constant.fingerprintimage);
                 Log.d("TAG", "onClick: "+Constant.fingerprintname);
+                Intent in;
                 if (extras != null) {
-                    Intent in = new Intent(getApplicationContext(), CapturefingerprintActivity.class);
-                    if (extras.getString("data").equals("Left Index")) {
-                        in.putExtra("data", "Left Middle");
-                    }else if (extras.getString("data").equals("Left Middle")) {
-                        in.putExtra("data", "Left Ring");
-                    }else if (extras.getString("data").equals("Left Ring")) {
-                        in.putExtra("data", "Left Little");
-                    }else if (extras.getString("data").equals("Left Little")) {
-                        in.putExtra("data", "Right Index");
-                    }else if (extras.getString("data").equals("Right Index")) {
-                        in.putExtra("data", "Right Middle");
-                    }else if (extras.getString("data").equals("Right Middle")) {
-                        in.putExtra("data", "Right Ring");
-                    }else if (extras.getString("data").equals("Right Ring")) {
-                        in.putExtra("data", "Right Little");
-                    }else if (extras.getString("data").equals("Right Little")) {
-                        in.putExtra("data", "Left Thumb");
+                    in = new Intent(getApplicationContext(), CapturefingerprintActivity.class);
+                    switch (extras.getString("data")) {
+                        case "Left Index":
+                            in.putExtra("data", "Left Middle");
+                            break;
+                        case "Left Middle":
+                            in.putExtra("data", "Left Ring");
+                            break;
+                        case "Left Ring":
+                            in.putExtra("data", "Left Little");
+                            break;
+                        case "Left Little":
+                            in.putExtra("data", "Right Index");
+                            break;
+                        case "Right Index":
+                            in.putExtra("data", "Right Middle");
+                            break;
+                        case "Right Middle":
+                            in.putExtra("data", "Right Ring");
+                            break;
+                        case "Right Ring":
+                            in.putExtra("data", "Right Little");
+                            break;
+                        case "Right Little":
+                            in.putExtra("data", "Left Thumb");
+                            break;
                     }
-                    startActivity(in);
                 }else {
-                    Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
-                    startActivity(in);
+                    in = new Intent(getApplicationContext(), FingerprintActivity.class);
                 }
+                startActivity(in);
             }
         });
 
