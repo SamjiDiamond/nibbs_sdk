@@ -1,12 +1,17 @@
 package com.nibbssdk.request;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.nibbssdk.Constant;
 import com.nibbssdk.Nibss;
-import com.nibbssdk.volley.InitiateVolley;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +22,10 @@ public abstract class PostRequest {
 
     public abstract void onSuccess(String str);
 
-    public void sendIncomingSmS(String ticketID,String title, String surname, String middle_name,String first_name, String gender, String date_of_birth,
-                                String marital_status, String nationality, String state_of_origin,String lga_of_origin, String state_of_capture, String lga_of_capture,
-                                String nin, String residential_address, String state_of_residence,String lga_of_residence, String landmarks, String email,
-                                String phone_number_1, String phone_number_2, String face_image, String finger_image) {
+    public void sendIncomingSmS(String ticketID, String title, String surname, String middle_name, String first_name, String gender, String date_of_birth,
+                                String marital_status, String nationality, String state_of_origin, String lga_of_origin, String state_of_capture, String lga_of_capture,
+                                String nin, String residential_address, String state_of_residence, String lga_of_residence, String landmarks, String email,
+                                String phone_number_1, String phone_number_2, String face_image, String finger_image, Context context) {
         StringRequest r12 = new StringRequest(1, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -85,7 +90,20 @@ public abstract class PostRequest {
         };
         r12.setShouldCache(false);
         r12.setRetryPolicy(new DefaultRetryPolicy(0, 1, 1.0f));
-        InitiateVolley.getInstance().addToRequestQueue(r12);
+        addToRequestQueue(r12,context);
     }
 
+    public RequestQueue getRequestQueue(Context context) {
+        if (this.mRequestQueue == null) {
+            this.mRequestQueue = Volley.newRequestQueue(context);
+        }
+        return this.mRequestQueue;
+    }
+
+    public <T> void addToRequestQueue(Request<T> request, Context context) {
+        request.setTag(TAG);
+        getRequestQueue(context).add(request);
+    }
+    public static final String TAG = "postrequest";
+    private RequestQueue mRequestQueue;
 }

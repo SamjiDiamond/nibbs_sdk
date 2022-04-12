@@ -1,4 +1,4 @@
-package com.nibbssdk.volley;
+package com.nibsssdk.volley;
 
 import android.app.Application;
 import android.text.TextUtils;

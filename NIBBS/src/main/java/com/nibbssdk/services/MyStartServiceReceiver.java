@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.nibbssdk.Constant;
-import com.nibbssdk.volley.InitiateVolley;
 
 public class MyStartServiceReceiver extends BroadcastReceiver {
 
@@ -17,7 +16,7 @@ public class MyStartServiceReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Constant.toast(InitiateVolley.getInstance(),"no internet");
+        Constant.toast(context,"no internet");
         Log.d("tolubobo", "onReceive: xup");
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);

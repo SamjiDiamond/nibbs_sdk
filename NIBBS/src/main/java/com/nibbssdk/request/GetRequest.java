@@ -3,12 +3,15 @@ package com.nibbssdk.request;
 import android.content.Context;
 import android.util.Log;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.nibbssdk.Constant;
 import com.nibbssdk.Nibss;
-import com.nibbssdk.volley.InitiateVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +26,7 @@ public abstract class GetRequest {
 
     public abstract void onSuccess(JSONObject jSONObject) throws JSONException;
 
-    public void requestDisplay(String str) {
+    public void requestDisplay(String str, Context context) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(0, Constant.baseurl +"enrollment/"+ str, null, new Response.Listener<JSONObject>() {
             /* class com.ugswitch.simhost.request.GetRequest.AnonymousClass1 */
 
@@ -62,7 +65,7 @@ public abstract class GetRequest {
             }
         };
         jsonObjectRequest.setShouldCache(false);
-        InitiateVolley.getInstance().addToRequestQueue(jsonObjectRequest);
+        addToRequestQueue(jsonObjectRequest,context);
     }
 
     public void requestData(Context context, String str, String str2) {
@@ -88,6 +91,20 @@ public abstract class GetRequest {
         });
         jsonObjectRequest.setShouldCache(false);
         System.out.println("=====> SMS Text ppp => "+jsonObjectRequest.getBody());
-        InitiateVolley.getInstance().addToRequestQueue(jsonObjectRequest);
+        addToRequestQueue(jsonObjectRequest,context);
     }
+
+    public RequestQueue getRequestQueue(Context context) {
+        if (this.mRequestQueue == null) {
+            this.mRequestQueue = Volley.newRequestQueue(context);
+        }
+        return this.mRequestQueue;
+    }
+
+    public <T> void addToRequestQueue(Request<T> request, Context context) {
+        request.setTag(TAG);
+        getRequestQueue(context).add(request);
+    }
+    public static final String TAG = "postrequest";
+    private RequestQueue mRequestQueue;
 }

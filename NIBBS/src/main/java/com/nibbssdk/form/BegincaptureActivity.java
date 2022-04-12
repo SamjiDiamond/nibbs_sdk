@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.nibbssdk.Nibss;
 import com.nibbssdk.R;
 import com.nibbssdk.services.Util;
-import com.nibbssdk.volley.InitiateVolley;
 
 public class BegincaptureActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class BegincaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
-        Util.scheduleJob(InitiateVolley.getInstance(),Long.parseLong("1"));
+        Util.scheduleJob(getApplicationContext(),Long.parseLong("1"));
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,12 +31,13 @@ public class BegincaptureActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(getApplicationContext(), "Submitted: "+ Nibss.totalsubmitted()
-                +" Uploaded: "+Nibss.totaluploded()+" Sync: "+Nibss.totalsync()+" Validate: "+Nibss.totalvalidate(), Toast.LENGTH_LONG).show();
-        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmitted()
-                +" Uploaded: "+Nibss.totaluploded()+" Sync: "+Nibss.totalsync()+" Validate: "+Nibss.totalvalidate());
- Toast.makeText(getApplicationContext(), "Submitted: "+Nibss.totalsubmittedlist(), Toast.LENGTH_LONG).show();
-        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmittedlist());
+        Toast.makeText(getApplicationContext(), "Submitted: "+ Nibss.totalsubmitted(getApplicationContext())
+                +" Uploaded: "+Nibss.totaluploded(getApplicationContext())+" Sync: "+Nibss.totalsync(getApplicationContext())+" Validate: "+Nibss.totalvalidate(getApplicationContext()), Toast.LENGTH_LONG).show();
+        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmitted(getApplicationContext())
+                +" Uploaded: "+Nibss.totaluploded(getApplicationContext())+" Sync: "+Nibss.totalsync(getApplicationContext())+" Validate: "+Nibss.totalvalidate(getApplicationContext()));
+// Toast.makeText(getApplicationContext(), "Submitted: "+Nibss.totalsubmittedlist(), Toast.LENGTH_LONG).show();
+//        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmittedlist());
+
 
 //        LinearLayout nextlayout = findViewById(R.id.nextlayout);
 //        nextlayout.setOnClickListener(new View.OnClickListener() {

@@ -8,7 +8,6 @@ import android.util.Log;
 import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.database.Datamodel;
 import com.nibbssdk.request.GetRequest;
-import com.nibbssdk.volley.InitiateVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +19,7 @@ public class Confirmuploadservice extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         // Write your code here
-        databasehelper = new Databasehelper(InitiateVolley.getInstance());
+        databasehelper = new Databasehelper(getApplicationContext());
         List<Datamodel> notuploaded = databasehelper.getsync();
 
         Util.scheduleuploadedJob(getApplicationContext(), Long.parseLong("1000"));
@@ -60,7 +59,7 @@ public class Confirmuploadservice extends JobService {
 
                         }
                     }
-                }.requestDisplay(ticketID);
+                }.requestDisplay(ticketID,getApplicationContext());
             }
         }catch(Exception e){
 //                            Log.d("Exception caught",e.getMessage());

@@ -1,4 +1,4 @@
-package com.nibbssdk.volley;
+package com.nibsssdk.volley;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

@@ -3,8 +3,7 @@
     package="com.nibbssdk">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <application
-        android:name=".volley.InitiateVolley">
+    <application>
         <activity
             android:name=".PreviewActivity"
             android:exported="false"/>
@@ -60,16 +59,6 @@
             android:name=".form.DataformActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
 
         <service
             android:name=".services.Uploadservice"

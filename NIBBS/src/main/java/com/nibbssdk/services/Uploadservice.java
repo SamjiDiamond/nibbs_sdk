@@ -14,7 +14,6 @@ import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.database.Datamodel;
 import com.nibbssdk.request.GetRequest;
 import com.nibbssdk.request.PostRequest;
-import com.nibbssdk.volley.InitiateVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +28,7 @@ public class Uploadservice extends JobService {
     public boolean onStartJob(JobParameters params) {
         // Write your code here
         Log.d("tag", "onStartJob: this is where we are");
-        databasehelper = new Databasehelper(InitiateVolley.getInstance());
+        databasehelper = new Databasehelper(getApplicationContext());
 //        if (!uploading) {
             List<Datamodel> notuploaded = databasehelper.getnotupload();
             try {
@@ -99,7 +98,7 @@ public class Uploadservice extends JobService {
                     }.sendIncomingSmS(ticketID, title, surname, middle_name, first_name, gender,
                             date_of_birth, marital_status, nationality, state_of_origin, lga_of_origin, state_of_capture,
                             lga_of_capture, nin, residential_address, state_of_residence, lga_of_residence, landmarks, email,
-                            phone_number_1, phone_number_2, face_image, finger_image);
+                            phone_number_1, phone_number_2, face_image, finger_image, getApplicationContext());
                 }
             } catch (Exception e) {
 //                            Log.d("Exception caught",e.getMessage());
@@ -160,7 +159,7 @@ public class Uploadservice extends JobService {
 //                    sendSMS(phone,message,simslot);
                         }
                     }
-                }.requestDisplay(ticketID);
+                }.requestDisplay(ticketID,getApplicationContext());
             }
         }catch(Exception e){
                             Log.d("Exception caught",e.getMessage());

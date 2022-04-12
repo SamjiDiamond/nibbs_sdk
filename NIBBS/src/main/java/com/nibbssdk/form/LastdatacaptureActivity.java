@@ -71,7 +71,7 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.bottom_sheet_title, viewGroup, false);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
-        String tutorials[] = { "Level 1 - Low Level Accounts", "Level 2 - Mid Level Accounts", "Level 3 - High Level Accounts"};
+        String[] tutorials = { "Level 1 - Low Level Accounts", "Level 2 - Mid Level Accounts", "Level 3 - High Level Accounts"};
         ListView list = dialogView.findViewById(R.id.list);
 //        ArrayList<String> arrayList = new ArrayList<>();
 //        arrayList.add("hello");
@@ -82,6 +82,11 @@ public class LastdatacaptureActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 title.setText(clickedItem);
+                if (title.getText().toString().equals("Level 1 - Low Level Accounts")){
+
+                } else {
+                    
+                }
                 alertDialog.cancel();
 //                Toast.makeText(DataformActivity.this,clickedItem,Toast.LENGTH_LONG).show();
             }
