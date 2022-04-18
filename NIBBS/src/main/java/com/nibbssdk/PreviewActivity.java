@@ -2,6 +2,7 @@ package com.nibbssdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,7 @@ public class PreviewActivity extends AppCompatActivity {
     ImageView backbutton,signature, imageView;
     String timeStamp, ticketid;
     Datamodel datamodel;
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

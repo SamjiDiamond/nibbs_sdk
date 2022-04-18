@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/auto_complete_list.xml" value="0.128125" />
         <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.1160081053698075" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_beginface.xml" value="0.1" />
         <entry key="..\:/Users/odeji/AndroidStudioProjects/nibbs_sdk/NIBBS/src/main/res/layout/activity_dataform.xml" value="0.25" />
@@ -30,6 +31,7 @@
         <entry key="NIBBS/src/main/res/layout/activity_dataform.xml" value="0.191958495460441" />
         <entry key="NIBBS/src/main/res/layout/activity_facecapture.xml" value="0.17391304347826086" />
         <entry key="NIBBS/src/main/res/layout/activity_fingerprint.xml" value="0.28016359918200406" />
+        <entry key="NIBBS/src/main/res/layout/activity_fingerprintdefault.xml" value="0.175" />
         <entry key="NIBBS/src/main/res/layout/activity_lastdatacapture.xml" value="0.1160081053698075" />
         <entry key="NIBBS/src/main/res/layout/activity_main.xml" value="0.13632246376811594" />
         <entry key="NIBBS/src/main/res/layout/activity_month_year_picker_dialog.xml" value="0.11822916666666666" />
@@ -41,7 +43,11 @@
         <entry key="NIBBS/src/main/res/layout/bottom_sheet_gender.xml" value="0.1160081053698075" />
         <entry key="NIBBS/src/main/res/layout/bottom_sheet_marital.xml" value="0.25" />
         <entry key="NIBBS/src/main/res/layout/bottom_sheet_title.xml" value="0.13236846923828133" />
+        <entry key="NIBBS/src/main/res/layout/enlarged.xml" value="0.11197916666666667" />
+        <entry key="NIBBS/src/main/res/layout/ib_scan_land.xml" value="0.6746666666666666" />
+        <entry key="NIBBS/src/main/res/layout/ib_scan_port.xml" value="0.24479166666666666" />
         <entry key="NIBBS/src/main/res/layout/my_custom_layout.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/menu/scanimage_menu.xml" value="0.11197916666666667" />
         <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/backarrow.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/backarrow_round.xml" value="0.1" />
         <entry key="NIBBS/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />

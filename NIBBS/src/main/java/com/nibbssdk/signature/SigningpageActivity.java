@@ -2,6 +2,7 @@ package com.nibbssdk.signature;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ public class SigningpageActivity extends AppCompatActivity {
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "fingerprint" + timeStamp + "_";
                 Constant.signatureimagename = imageFileName;
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();

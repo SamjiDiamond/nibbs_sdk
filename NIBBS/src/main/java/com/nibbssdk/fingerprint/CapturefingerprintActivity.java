@@ -5,11 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.hardware.usb.UsbDevice;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,10 +29,12 @@ import com.dermalog.afis.imagecontainer.DICException;
 import com.dermalog.afis.imagecontainer.Decoder;
 import com.dermalog.afis.imagecontainer.EncoderPng;
 import com.dermalog.afis.imagecontainer.EncoderWsq;
+import com.dermalog.afis.imagecontainer.RawImage;
 import com.dermalog.biometricpassportsdk.BiometricPassportException;
 import com.dermalog.biometricpassportsdk.BiometricPassportSdkAndroid;
 import com.dermalog.biometricpassportsdk.Device;
 import com.dermalog.biometricpassportsdk.DeviceCallback;
+import com.dermalog.biometricpassportsdk.IUsbDeviceChangeListener;
 import com.dermalog.biometricpassportsdk.enums.CallbackEventId;
 import com.dermalog.biometricpassportsdk.enums.CaptureMode;
 import com.dermalog.biometricpassportsdk.enums.DeviceId;
@@ -46,6 +55,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.nibbssdk.Constant;
 import com.nibbssdk.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,13 +72,14 @@ public class CapturefingerprintActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ImageView captureImage;
     private ImageView fingerprintpreview;
+    private ImageView fingerprintsegment;
 
     private BiometricPassportSdkAndroid sdk;
     private Device device;
     private Decoder imageDecoder;
     private EncoderWsq encoderWsq;
     private EncoderPng encoderPng;
-    Bitmap bitmap;
+    Bitmap segmentsBitmap;
 
     Bundle extras;
 
@@ -113,7 +126,6 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                             Bitmap bitmap;
                             try {
                                 bitmap = BitmapUtil.fromImageArgument(img);
-                                drawDescription(bitmap, ImageType.Preview);
                                 showImage(bitmap, ImageType.Preview);
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -145,7 +157,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 
                     try {
                         assert imageArgument != null;
-                        bitmap = BitmapUtil.fromImageArgument(imageArgument);
+                        Bitmap bitmap = BitmapUtil.fromImageArgument(imageArgument);
                         boolean isDetection = CallbackEventId.FINGER_DETECT.equals(
                                 deviceCallbackEventArgument.getEventId());
                         if (isDetection) {
@@ -158,19 +170,33 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                                 String filename = device.getDeviceId() + "_" + i + " " + si.nistFingerPosition;
                                 images.put(filename, ih);
                             }
-//                            // Create an image showing all segments
-//                            Bitmap segmentsBitmap = createFingerprintSegmentsBitmap(segmentInfos,
-//                                    segmentsImageView.getWidth(), segmentsImageView.getHeight());
-//                            if (segmentsBitmap != null) {
-//                                drawDescription(segmentsBitmap, ImageType.Segments);
-//                                showImage(segmentsBitmap, ImageType.Segments);
-//                            }
+                            // Create an image showing all segments
+                           segmentsBitmap = createFingerprintSegmentsBitmap(segmentInfos,
+                                    fingerprintsegment.getWidth(), fingerprintsegment.getHeight());
+                            if (segmentsBitmap != null) {
+                                showImage(segmentsBitmap, ImageType.Segments);
+                            }
 
-                            drawDetectedSegment(bitmap, fingerprintSegmentationArgument);
                         }
-                        // Create and show main image, even for previews
-                        drawDescription(bitmap, ImageType.Detection);
-                        showImage(bitmap, ImageType.Detection);
+//                        // Create and show main image, even for previews
+//                        showImage(bitmap, ImageType.Detection);
+
+                        //Save image;
+                        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                        String imageFileName = "fingerprint" + timeStamp + "_";
+                        if (Constant.fingerprintname.isEmpty()){
+                            Constant.fingerprintname= imageFileName;
+                        }else{
+                            Constant.fingerprintname += ";"+imageFileName;
+                        }
+                        String path = Constant.saveToInternalStorage(bitmap, getApplicationContext(), imageFileName);
+                        if (Constant.fingerprintimage.isEmpty()){
+                            Constant.fingerprintimage= path;
+                        }else{
+                            Constant.fingerprintimage += ";"+path;
+                        }
+                        Log.d("TAG", "onClick: "+Constant.fingerprintimage);
+                        Log.d("TAG", "onClick: "+Constant.fingerprintname);
 
                         ImageHolder ih = new ImageHolder(imageArgument.bitmapInfoHeaderData().getRawData());
                         images.put(device.getDeviceId() + "_Detect", ih);
@@ -195,76 +221,41 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 
     //endregion definitions
 
-    private void drawDetectedSegment(Bitmap bmp, FingerprintSegmentationArgument arg) {
-        if (arg == null)
-            return;
+    private Bitmap createFingerprintSegmentsBitmap(
+            List<SegmentInfo> segmentInfos, int targetWidth, int targetHeight) {
+        // If multiple fingers were detected create a bitmap containing all segments stacked
+        // vertically with a red box around each and the NIST finger position in it.
+        Bitmap result = null;
+        if (segmentInfos.size() > 0) {
+            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+            result = Bitmap.createBitmap(targetWidth, targetHeight, conf);
+            Canvas canvas = new Canvas(result);
+            // Rects
+            Rect textBounds = new Rect();
+            Rect targetRect = new Rect();
+            Rect sourceRect = new Rect();
+            int targetSegmentHeight = targetHeight / segmentInfos.size();
+            for (int i = 0; i < segmentInfos.size(); i++) {
+                // Draw fingerprint segment bitmap
+                SegmentInfo si = segmentInfos.get(i);
+                targetRect.left = 0;
+                sourceRect.left = 0;
+                sourceRect.top = 0;
+                sourceRect.bottom = si.bitmap.getHeight();
+                sourceRect.right = si.bitmap.getWidth();
+                float sourceAspectRatio = (float) sourceRect.width() / (float) sourceRect.height();
+                targetRect.right = Math.round(targetSegmentHeight * sourceAspectRatio);
+                targetRect.top = i * targetSegmentHeight;
+                targetRect.bottom = targetRect.top + targetSegmentHeight;
+                canvas.drawBitmap(si.bitmap, sourceRect, targetRect, null);
 
-        Canvas canvas = new Canvas(bmp);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(6);
-        paint.setStyle(Paint.Style.STROKE);
-
-        for (FingerprintSegment seg : arg.getFingerprintSegments()) {
-            canvas.drawRect(seg.getPositionTopLeft().x, seg.getPositionTopLeft().y, seg.getPositionBottomRight().x, seg.getPositionBottomRight().y, paint);
+            }
         }
+        return result;
     }
 
-//    private Bitmap createFingerprintSegmentsBitmap(
-//            List<SegmentInfo> segmentInfos, int targetWidth, int targetHeight) {
-//        // If multiple fingers were detected create a bitmap containing all segments stacked
-//        // vertically with a red box around each and the NIST finger position in it.
-//        Bitmap result = null;
-//        if (segmentInfos.size() > 0) {
-//            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-//            result = Bitmap.createBitmap(targetWidth, targetHeight, conf);
-//            Canvas canvas = new Canvas(result);
-//            // textPaint
-//            Paint textPaint = new Paint();
-//            textPaint.setColor(Color.BLUE);
-//            textPaint.setTextSize(targetWidth / 20);
-//            textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-//            // Rects
-//            Rect textBounds = new Rect();
-//            Rect targetRect = new Rect();
-//            Rect sourceRect = new Rect();
-//            int targetSegmentHeight = targetHeight / segmentInfos.size();
-//            for (int i = 0; i < segmentInfos.size(); i++) {
-//                // Draw fingerprint segment bitmap
-//                SegmentInfo si = segmentInfos.get(i);
-//                targetRect.left = 0;
-//                sourceRect.left = 0;
-//                sourceRect.top = 0;
-//                sourceRect.bottom = si.bitmap.getHeight();
-//                sourceRect.right = si.bitmap.getWidth();
-//                float sourceAspectRatio = (float) sourceRect.width() / (float) sourceRect.height();
-//                targetRect.right = Math.round(targetSegmentHeight * sourceAspectRatio);
-//                targetRect.top = i * targetSegmentHeight;
-//                targetRect.bottom = targetRect.top + targetSegmentHeight;
-//                canvas.drawBitmap(si.bitmap, sourceRect, targetRect, null);
-//
-//                // Print finger position like RIGHT_THUMB
-//                String fingerPosition = si.nistFingerPosition.toString();
-//                textPaint.getTextBounds(fingerPosition, 0, fingerPosition.length(), textBounds);
-//                canvas.drawText(fingerPosition,
-//                        targetRect.width() / 2 - textBounds.width() / 2,
-//                        targetRect.bottom - textBounds.height(),
-//                        textPaint);
-//            }
-//        }
-//        return result;
-//    }
 
-    private void drawDescription(Bitmap bmp, ImageType imageType) {
-        // Draw name of imageType in top left corner
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(bmp.getWidth() / 10);
-        Rect textBounds = new Rect();
-        paint.getTextBounds(imageType.toString(), 0, imageType.toString().length(), textBounds);
-        Canvas canvas = new Canvas(bmp);
-        canvas.drawText(imageType.toString(), 5, textBounds.height() + 5, paint);
-    }
+
 
     private List<SegmentInfo> extractSegmentInfos(
             Bitmap sourceBitmap,
@@ -307,15 +298,15 @@ public class CapturefingerprintActivity extends AppCompatActivity {
 //        }
 //    }
 //
-//    private byte[] getPngBytes(byte[] rawData) throws DICException {
-//        RawImage rawImage = imageDecoder.Decode(rawData);
-//        try {
-//
-//            return encoderPng.Encode(rawImage);
-//        } finally {
-//            rawImage.close();
-//        }
-//    }
+    private byte[] getPngBytes(byte[] rawData) throws DICException {
+        RawImage rawImage = imageDecoder.Decode(rawData);
+        try {
+
+            return encoderPng.Encode(rawImage);
+        } finally {
+            rawImage.close();
+        }
+    }
 
     private void initializeImageContainer() throws DICException {
         // com.dermalog.afis.imagecontainer.Decoder is used to create well defined raw images used
@@ -349,11 +340,15 @@ public class CapturefingerprintActivity extends AppCompatActivity {
             fingertext.setText("Right Thumb Finger.");
         }
         fingerprintpreview = findViewById(R.id.fingerprintpreview);
+        fingerprintsegment = findViewById(R.id.fingerprintsegment);
         captureImage = findViewById(R.id.captureImage);
 //        captureImage.setEnabled(false);
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stopScanning();
+                uninitializeSdk();
+                uninitializeImageContainer();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "fingerprint" + timeStamp + "_";
                 if (Constant.fingerprintname.isEmpty()){
@@ -361,7 +356,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 }else{
                     Constant.fingerprintname += ";"+imageFileName;
                 }
-                String path = Constant.saveToInternalStorage(bitmap, getApplicationContext(), imageFileName);
+                String path = Constant.saveToInternalStorage(segmentsBitmap, getApplicationContext(), imageFileName);
                 if (Constant.fingerprintimage.isEmpty()){
                     Constant.fingerprintimage= path;
                 }else{
@@ -369,6 +364,7 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 }
                 Log.d("TAG", "onClick: "+Constant.fingerprintimage);
                 Log.d("TAG", "onClick: "+Constant.fingerprintname);
+                uninitializeImageContainer();
                 Intent in;
                 if (extras != null) {
                     in = new Intent(getApplicationContext(), CapturefingerprintActivity.class);
@@ -413,14 +409,14 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                     System.setProperty("DERMALOG_SDK_LOG", "1");
                     initializeImageContainer();
                     sdk = new BiometricPassportSdkAndroid(getApplicationContext());
-//                    sdk.registerUsbDeviceChangeListener(new IUsbDeviceChangeListener() {
-//                        @Override
-//                        public void onUsbDeviceChange(DeviceState deviceState, UsbDevice usbDevice) {
-//                            if(deviceState == DeviceState.Connected) {
-//                                requestUsbPermissionsAndStart(sdk);
-//                            }
-//                        }
-//                    });
+                    sdk.registerUsbDeviceChangeListener(new IUsbDeviceChangeListener() {
+                        @Override
+                        public void onUsbDeviceChange(DeviceState deviceState, UsbDevice usbDevice) {
+                            if(deviceState == IUsbDeviceChangeListener.DeviceState.Connected) {
+                                requestUsbPermissionsAndStart(sdk);
+                            }
+                        }
+                    });
                     requestUsbPermissionsAndStart(sdk);
                 } catch (BiometricPassportException | DICException e) {
                     Log.e(TAG, null, e);
@@ -477,46 +473,24 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         });
     }
 
-//    private void saveImages() {
-//        try {
-//            for (String name : imagesToSave.keySet()) {
-//                ImageHolder ih = imagesToSave.get(name);
-//
-//                // Save as wsq
-//                File filename = new File(this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), name + ".wsq");
-//                saveFile(getWsqBytes(ih.bihBytes), filename);
-//
-//                // Save as png
-//                filename = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), name + ".png");
-//                saveFile(getPngBytes(ih.bihBytes), filename);
-//                notifyMediaStoreScanner(filename);
-//            }
-//
-//            showMessage("Capture images saved: " + imagesToSave.size());
-//        } catch (IOException | DICException e) {
-//            e.printStackTrace();
-//            showError("Error saving file: " + e.getMessage());
-//        }
-//    }
-//
-//    private void notifyMediaStoreScanner(final File file) throws FileNotFoundException {
-//        MediaStore.Images.Media.insertImage(getContentResolver(),
-//                file.getAbsolutePath(), file.getName(), null);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            MediaStore.setIncludePending(Uri.fromFile(file));
-//        }
-//        sendBroadcast(new Intent(
-//                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-//    }
-//
-//    private void saveFile(byte[] bytes, File file) throws IOException {
-//        if (bytes != null) {
-//            try (FileOutputStream fos = new FileOutputStream(file)) {
-//                fos.write(bytes);
-//                fos.flush();
-//            }
-//        }
-//    }
+    private void notifyMediaStoreScanner(final File file) throws FileNotFoundException {
+        MediaStore.Images.Media.insertImage(getContentResolver(),
+                file.getAbsolutePath(), file.getName(), null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.setIncludePending(Uri.fromFile(file));
+        }
+        sendBroadcast(new Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+    }
+
+    private void saveFile(byte[] bytes, File file) throws IOException {
+        if (bytes != null) {
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(bytes);
+                fos.flush();
+            }
+        }
+    }
 
     /**
      * Shows a snackbar with errorMessage. Can be called from non-UI threads.
@@ -563,16 +537,16 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                drawDescription(bmp, imageType);
                 switch (imageType) {
                     case Detection:
-//                        detectionImageView.setImageBitmap(bmp);
+                        fingerprintpreview.setImageBitmap(bmp);
                         break;
                     case Preview:
                         fingerprintpreview.setImageBitmap(bmp);
                         break;
                     case Segments:
-//                        segmentsImageView.setImageBitmap(bmp);
+                        fingerprintpreview.setVisibility(View.GONE);
+                        fingerprintsegment.setImageBitmap(bmp);
                         break;
                     default:
                         Log.e(TAG, "Unexpected imageType = " + imageType);

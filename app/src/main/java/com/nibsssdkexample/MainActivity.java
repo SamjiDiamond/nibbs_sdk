@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+//import com.nibbssdk.fingerprint.SimpleScanActivity;
 import com.nibbssdk.fingerprint.BeginfingerprintActivity;
-import com.nibbssdk.form.BegincaptureActivity;
-import com.nibbssdk.signature.BeginsignatureActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
         ade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//            Intent in = new Intent(getApplicationContext(), BeginsignatureActivity.class);
-            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+//            Intent in = new Intent(getApplicationContext(), SimpleScanActivity.class);
+            Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
+//            Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
                 startActivity(in);
 //                finish();
             }
