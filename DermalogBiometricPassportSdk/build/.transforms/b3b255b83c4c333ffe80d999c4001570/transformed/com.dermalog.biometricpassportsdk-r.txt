@@ -1,0 +1,2 @@
+com.dermalog.biometricpassportsdk
+string app_name

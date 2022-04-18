@@ -1,0 +1,2 @@
+com.dermalog.afis.nistqualitycheck
+string app_name

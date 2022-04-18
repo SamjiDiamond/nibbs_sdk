@@ -473,25 +473,6 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         });
     }
 
-    private void notifyMediaStoreScanner(final File file) throws FileNotFoundException {
-        MediaStore.Images.Media.insertImage(getContentResolver(),
-                file.getAbsolutePath(), file.getName(), null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.setIncludePending(Uri.fromFile(file));
-        }
-        sendBroadcast(new Intent(
-                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-    }
-
-    private void saveFile(byte[] bytes, File file) throws IOException {
-        if (bytes != null) {
-            try (FileOutputStream fos = new FileOutputStream(file)) {
-                fos.write(bytes);
-                fos.flush();
-            }
-        }
-    }
-
     /**
      * Shows a snackbar with errorMessage. Can be called from non-UI threads.
      */

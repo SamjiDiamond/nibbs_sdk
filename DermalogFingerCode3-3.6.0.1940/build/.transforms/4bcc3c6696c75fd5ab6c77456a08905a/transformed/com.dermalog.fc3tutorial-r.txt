@@ -1,0 +1,2 @@
+com.dermalog.fc3tutorial
+string app_name
