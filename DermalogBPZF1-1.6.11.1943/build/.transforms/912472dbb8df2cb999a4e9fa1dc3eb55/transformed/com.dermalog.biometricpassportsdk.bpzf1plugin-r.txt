@@ -1,2 +1,0 @@
-com.dermalog.biometricpassportsdk.bpzf1plugin
-string app_name

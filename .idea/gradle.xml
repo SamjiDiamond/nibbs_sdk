@@ -11,19 +11,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DermalogAndroidCommon-2.0.2" />
-            <option value="$PROJECT_DIR$/DermalogBPTF10-1.2.8.1943" />
-            <option value="$PROJECT_DIR$/DermalogBPTF1Plus-1.0.3.1944" />
-            <option value="$PROJECT_DIR$/DermalogBPZF1-1.6.11.1943" />
-            <option value="$PROJECT_DIR$/DermalogBPZF10-1.0.7.1943" />
-            <option value="$PROJECT_DIR$/DermalogBiometricPassportSdk" />
-            <option value="$PROJECT_DIR$/DermalogFingerCode3-3.6.0.1940" />
-            <option value="$PROJECT_DIR$/DermalogImageContainer" />
-            <option value="$PROJECT_DIR$/DermalogJNA-5.4.0.0" />
-            <option value="$PROJECT_DIR$/DermalogNistQualityCheck-1.8.0.1938-SNAPSHOT" />
-            <option value="$PROJECT_DIR$/FourprintSegmentation2-1.15.0.1925" />
-            <option value="$PROJECT_DIR$/IBScanCommon" />
-            <option value="$PROJECT_DIR$/IBScanUltimate" />
             <option value="$PROJECT_DIR$/NIBBS" />
             <option value="$PROJECT_DIR$/app" />
           </set>

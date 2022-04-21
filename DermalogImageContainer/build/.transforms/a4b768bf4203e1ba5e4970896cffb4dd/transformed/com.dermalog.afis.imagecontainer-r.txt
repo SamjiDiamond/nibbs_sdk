@@ -1,2 +1,0 @@
-com.dermalog.afis.imagecontainer
-string app_name

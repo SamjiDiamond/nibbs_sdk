@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('DermalogNistQualityCheck-1.8.0.1938-SNAPSHOT.aar'))

@@ -37,7 +37,6 @@
         android:text="Illustrate your signature on the screen"
         android:textColor="@color/red" />
 
-
         <com.github.gcacace.signaturepad.views.SignaturePad
             android:id="@+id/signature_pad"
             android:layout_width="300dp"

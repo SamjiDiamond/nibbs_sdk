@@ -1,2 +1,0 @@
-com.dermalog.android.mrtd.jna_aar
-string app_name

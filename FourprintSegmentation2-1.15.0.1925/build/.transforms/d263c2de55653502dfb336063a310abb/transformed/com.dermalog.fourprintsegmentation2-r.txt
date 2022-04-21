@@ -1,1 +1,0 @@
-com.dermalog.fourprintsegmentation2
