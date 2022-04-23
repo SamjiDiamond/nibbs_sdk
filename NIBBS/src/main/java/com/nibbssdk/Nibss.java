@@ -12,13 +12,13 @@ public class Nibss {
    public static Databasehelper databasehelper(Context context){
        return new Databasehelper(context);
    }
-//   public static Databasehelper databasehelper = new Databasehelper(InitiateVolley.getInstance());
+
     public static int totalsubmitted(Context context){
         return databasehelper(context).getall().size();
     }
-     public static String totalsubmittedlist(Context context){
-        return databasehelper(context).getall().toString();
-    }
+//     public static String totalsubmittedlist(Context context){
+//        return databasehelper(context).getall().toString();
+//    }
     public static int totaluploded(Context context){
         return databasehelper(context).getuploaded().size();
     }
@@ -27,6 +27,9 @@ public class Nibss {
     }
     public static int totalsync(Context context){
         return databasehelper(context).getsync().size();
+    }
+    public static int totalnotsync(Context context){
+        return databasehelper(context).getnotsync().size();
     }
  public static int totalvalidate(Context context){
         return databasehelper(context).getvalidated().size();

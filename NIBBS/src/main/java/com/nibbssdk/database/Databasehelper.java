@@ -313,11 +313,11 @@ public class Databasehelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
-    public List<Datamodel> getvalidated(){
+    public List<Datamodel> getsync(){
         List<Datamodel> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_VALIDATION_STATUS +" = 1";
+        String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_STATE_OF_SYNC +" =?";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString,null);
+        Cursor cursor = db.rawQuery(queryString,new String[]{"1"});
 
         returnList = cursor(cursor);
 
@@ -325,11 +325,24 @@ public class Databasehelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
-    public List<Datamodel> getsync(){
+     public List<Datamodel> getnotsync(){
         List<Datamodel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_UPLOADSTATUS +" =? AND "+ COLUMN_STATE_OF_SYNC +" =?";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString,new String[]{"1"});
+        Cursor cursor = db.rawQuery(queryString,new String[]{"1", "0"});
+
+        returnList = cursor(cursor);
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    public List<Datamodel> getvalidated(){
+        List<Datamodel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_VALIDATION_STATUS +" = 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
 
         returnList = cursor(cursor);
 
