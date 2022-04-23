@@ -17,17 +17,20 @@ import android.widget.ListView;
 
 import com.nibbssdk.Constant;
 import com.nibbssdk.R;
+import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.face.BeginfaceActivity;
 
 public class LastdatacaptureActivity extends AppCompatActivity {
 
     EditText title, firstname, surname, middle, dateico;
     ImageView backbutton;
+    Databasehelper databasehelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lastdatacapture);
+        databasehelper = new Databasehelper(getApplicationContext());
 
         dateico = findViewById(R.id.dateofbirthEditText);
         title = findViewById(R.id.titleEditText);
@@ -138,9 +141,20 @@ public class LastdatacaptureActivity extends AppCompatActivity {
         }else if (dateico.getText().toString().isEmpty()){
             Constant.toast(this,"LGA Of Capture");
         }else {
+            String accountlevel = title.getText().toString();
+            String nin = surname.getText().toString();
+            String selectbank = firstname.getText().toString();
+            String stateofcapture = middle.getText().toString();
+            String lgaofcapture = dateico.getText().toString();
             savedata();
-            Intent in = new Intent(getApplicationContext(), BeginfaceActivity.class);
-            startActivity(in);
+            boolean addone = databasehelper.insertlastdatacaptureactivity(accountlevel,nin,
+                    selectbank,stateofcapture,lgaofcapture);
+            if (addone) {
+                Intent in = new Intent(getApplicationContext(), BeginfaceActivity.class);
+                startActivity(in);
+            }else {
+                Constant.inserterrortoast(this);
+            }
         }
     }
 

@@ -87,9 +87,16 @@ public class Constant {
     public static void toast(Context context,String word){
         Toast.makeText(context, word+" cannot be empty", Toast.LENGTH_LONG).show();
     }
+    public static void errortoast(Context context,String word){
+        Toast.makeText(context, word, Toast.LENGTH_LONG).show();
+    }
+    public static void inserterrortoast(Context context){
+        Toast.makeText(context, "Data not store check and save it again", Toast.LENGTH_LONG).show();
+    }
     public static void toastincomplete(Context context,String word){
         Toast.makeText(context, "Incorrect "+word, Toast.LENGTH_LONG).show();
     }
+    public static String table_id = "";
     public static String title = "";
     public static String surname = "";
     public static String firstname = "";

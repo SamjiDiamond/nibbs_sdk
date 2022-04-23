@@ -1,5 +1,7 @@
 package com.nibbssdk;
 
+import static com.nibbssdk.Nibss.databasehelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -18,9 +20,11 @@ import android.widget.Toast;
 import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.database.Datamodel;
 import com.nibbssdk.form.BegincaptureActivity;
+import com.nibbssdk.services.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -135,20 +139,8 @@ public class PreviewActivity extends AppCompatActivity {
                 ticketid += new SimpleDateFormat("HHMMSS").format(new Date());
                 String date = new SimpleDateFormat("E, MMMM dd, yyyy").format(new Date());
 
-                datamodel = new Datamodel(1,Constant.title,Constant.surname,
-                        Constant.firstname,Constant.middlename, Constant.dob,
-                        Constant.gender, Constant.maritalstatus,
-                        Constant.institutioncode,Constant.institutionname, Nibss.agent_code,
-                        ticketid,  timeStamp, Constant.stateofcapture,
-                        Constant.soo,Constant.nationality,Constant.lga, Constant.residentialaddress,
-                        Constant.stateofresidence, Constant.lgaofresidence, Constant.landmarks,
-                        Constant.email,Constant.phonenumber, Constant.phonenumber2,
-                        Constant.accountlevel, Constant.nin, Constant.selectbank,
-                        Constant.lgaofcapture, Constant.signatureimage, Constant.signatureimagename,
-                        Constant.faceimage,Constant.faceimagename, Constant.fingerprintimage,Constant.fingerprintname,
-                        "0","0","0");
 //Friday, January 3, 2020
-                boolean addone = databasehelper.addone(datamodel);
+                boolean addone = databasehelper.insertcomplete(ticketid,Nibss.agent_code,timeStamp);
                 if (addone) {
                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
                     alertDialogBuilder.setTitle("BVN Enrolment Ticket");
@@ -157,6 +149,7 @@ public class PreviewActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
+                                    Util.scheduleJob(getApplicationContext(), Long.parseLong("1"));
                                     Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
                                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(in);

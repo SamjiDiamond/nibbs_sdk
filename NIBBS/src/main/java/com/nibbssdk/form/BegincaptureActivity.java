@@ -1,8 +1,12 @@
 package com.nibbssdk.form;
 
+import static com.nibbssdk.Nibss.databasehelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,15 +15,28 @@ import android.widget.Toast;
 
 import com.nibbssdk.Nibss;
 import com.nibbssdk.R;
+import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.services.Util;
 
 public class BegincaptureActivity extends AppCompatActivity {
 
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
-        Util.scheduleJob(getApplicationContext(),Long.parseLong("1"));
+        new Databasehelper(getApplicationContext());
+        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        databasehelper(getApplicationContext()).getcurrenttable("odejinmi", "tolulope","Abraham");
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        if (sharedpreferences.getBoolean("myfirsttime",true)){
+//        editor.clear();
+//        editor.apply();
+        editor.putBoolean("myfirsttime", false);
+        editor.commit();
+        }else {
+            Util.scheduleJob(getApplicationContext(), Long.parseLong("1"));
+        }
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,8 +50,6 @@ public class BegincaptureActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Submitted: "+ Nibss.totalsubmitted(getApplicationContext())
                 +" Uploaded: "+Nibss.totaluploded(getApplicationContext())+" Sync: "+Nibss.totalsync(getApplicationContext())+" Validate: "+Nibss.totalvalidate(getApplicationContext()), Toast.LENGTH_LONG).show();
-        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmitted(getApplicationContext())
-                +" Uploaded: "+Nibss.totaluploded(getApplicationContext())+" Sync: "+Nibss.totalsync(getApplicationContext())+" Validate: "+Nibss.totalvalidate(getApplicationContext()));
 // Toast.makeText(getApplicationContext(), "Submitted: "+Nibss.totalsubmittedlist(), Toast.LENGTH_LONG).show();
 //        Log.d("TAG", "onCreate: Submitted: "+Nibss.totalsubmittedlist());
 

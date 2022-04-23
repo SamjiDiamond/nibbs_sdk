@@ -14,6 +14,7 @@ import com.nibbssdk.Constant;
 import com.nibbssdk.Nibss;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class PostRequest {
@@ -25,8 +26,8 @@ public abstract class PostRequest {
     public void sendIncomingSmS(String ticketID, String title, String surname, String middle_name, String first_name, String gender, String date_of_birth,
                                 String marital_status, String nationality, String state_of_origin, String lga_of_origin, String state_of_capture, String lga_of_capture,
                                 String nin, String residential_address, String state_of_residence, String lga_of_residence, String landmarks, String email,
-                                String phone_number_1, String phone_number_2, String face_image, String finger_image, Context context) {
-        StringRequest r12 = new StringRequest(1, Constant.baseurl+"enrollment", new Response.Listener<String>() {
+                                String phone_number_1, String phone_number_2, String sign_image, String face_image, String finger_image, String bankname, Context context) {
+        StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
             public void onResponse(String str) {
@@ -84,7 +85,58 @@ public abstract class PostRequest {
                 hashMap.put("phone_number_1", phone_number_1);
                 hashMap.put("phone_number_2", phone_number_2);
                 hashMap.put("face_image", face_image);
+                hashMap.put("sign_image", sign_image);
                 hashMap.put("finger_image", finger_image);
+                hashMap.put("bankname", bankname);
+                return hashMap;
+            }
+        };
+        r12.setShouldCache(false);
+        r12.setRetryPolicy(new DefaultRetryPolicy(0, 1, 1.0f));
+        addToRequestQueue(r12,context);
+    }
+
+    public void sendfingerprint(String ticketID, List<String> finger_image, Context context) {
+        StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
+            /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
+
+            public void onResponse(String str) {
+//                Log.d("RTN", str);
+                PostRequest.this.onSuccess(str);
+            }
+        }, new Response.ErrorListener() {
+            /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass5 */
+
+            @Override // com.android.volley.Response.ErrorListener
+            public void onErrorResponse(VolleyError volleyError) {
+//                Log.d("ERR", volleyError.toString());
+                PostRequest.this.onError(volleyError.toString());
+            }
+        }) {
+            /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass6 */
+            static final /* synthetic */ boolean $assertionsDisabled = false;
+
+            @Override // com.android.volley.Request
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override // com.android.volley.Request
+            public Map<String, String> getHeaders() {
+                HashMap hashMap = new HashMap();
+                hashMap.put("Connection", "Keep-Alive");
+                return hashMap;
+            }
+
+            /* access modifiers changed from: protected */
+            @Override // com.android.volley.Request
+            public Map<String, String> getParams() {
+                HashMap hashMap = new HashMap();
+                hashMap.put("agent_id", Nibss.agent_code);
+                hashMap.put("ticketID", ticketID);
+                for(int i = 0; i<finger_image.size(); i++) {
+                    hashMap.put("finger_image"+i, finger_image.get(i));
+                }
                 return hashMap;
             }
         };

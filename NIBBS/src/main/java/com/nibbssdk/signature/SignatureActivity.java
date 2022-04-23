@@ -13,15 +13,18 @@ import android.widget.LinearLayout;
 import com.nibbssdk.Constant;
 import com.nibbssdk.PreviewActivity;
 import com.nibbssdk.R;
+import com.nibbssdk.database.Databasehelper;
 
 public class SignatureActivity extends AppCompatActivity {
 ImageView signature;
 Bundle extras;
+Databasehelper databasehelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
+        databasehelper = new Databasehelper(getApplicationContext());
         signature = findViewById(R.id.signaturepreview);
         extras = getIntent().getExtras();
         if (extras != null) {
@@ -41,8 +44,13 @@ Bundle extras;
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), PreviewActivity.class);
-                startActivity(in);
+                boolean addone = databasehelper.insertsignature(Constant.signatureimage,Constant.signatureimagename);
+                if (addone) {
+                    Intent in = new Intent(getApplicationContext(), PreviewActivity.class);
+                    startActivity(in);
+                }else {
+                    Constant.inserterrortoast(getApplicationContext());
+                }
 
             }
         });

@@ -1,7 +1,10 @@
 package com.nibbssdk.form;
 
+import static com.nibbssdk.Nibss.databasehelper;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,15 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nibbssdk.Constant;
 import com.nibbssdk.R;
+import com.nibbssdk.database.Databasehelper;
 
 public class DatacaptureActivity extends AppCompatActivity {
 
     EditText title, firstname, surname, middle, dateico, gender, marital;
     ImageView backbutton;
+    Databasehelper databasehelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databasehelper = new Databasehelper(getApplicationContext());
         setContentView(R.layout.activity_datacapture);
         dateico = findViewById(R.id.dateofbirthEditText);
         title = findViewById(R.id.titleEditText);
@@ -34,7 +40,7 @@ public class DatacaptureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validate();
-//                Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
+//                Intent in = new Intent(getApplicationContext(), LastdatacaptureActivity.class);
 //                startActivity(in);
             }
         });
@@ -76,15 +82,29 @@ public class DatacaptureActivity extends AppCompatActivity {
 //            Constant.soo = soo.getText().toString();
         }else {
             savedata();
-            Intent in = new Intent(getApplicationContext(), LastdatacaptureActivity.class);
-            startActivity(in);
+            String residentialaddress = title.getText().toString();
+            String stateofresidence = surname.getText().toString();
+            String lgaofresidence = firstname.getText().toString();
+            String landmarks = middle.getText().toString();
+            String email = dateico.getText().toString().replace(" ","");
+            String phonenumber = gender.getText().toString().replace(" ","");
+            String phonenumber2 = marital.getText().toString().replace(" ","");
+            boolean addone = databasehelper.insertdatacaptureactivity(residentialaddress,stateofresidence,
+                    lgaofresidence,landmarks,email,phonenumber,phonenumber2);
+            if (addone) {
+                Intent in = new Intent(getApplicationContext(), LastdatacaptureActivity.class);
+                startActivity(in);
+            }else {
+                Constant.inserterrortoast(this);
+            }
+
         }
     }
 
     void savedata(){
         Constant.residentialaddress = title.getText().toString();
         Constant.stateofresidence = surname.getText().toString();
-        Constant.lgaofresidence = middle.getText().toString();
+        Constant.lgaofresidence = firstname.getText().toString();
         Constant.landmarks = middle.getText().toString();
         Constant.email = dateico.getText().toString();
         Constant.phonenumber = gender.getText().toString();

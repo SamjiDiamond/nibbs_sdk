@@ -51,7 +51,7 @@ public class SigningpageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "fingerprint" + timeStamp + "_";
+                String imageFileName = "signature" + timeStamp + "_";
                 Constant.signatureimagename = imageFileName;
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext(),imageFileName);

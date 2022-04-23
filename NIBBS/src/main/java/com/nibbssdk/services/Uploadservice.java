@@ -2,6 +2,7 @@ package com.nibbssdk.services;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.Base64;
@@ -19,19 +20,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Uploadservice extends JobService {
     Databasehelper databasehelper;
-    Boolean uploading = false;
+    List<Datamodel> notuploaded;
     @Override
     public boolean onStartJob(JobParameters params) {
         // Write your code here
         Log.d("tag", "onStartJob: this is where we are");
         databasehelper = new Databasehelper(getApplicationContext());
-//        if (!uploading) {
-            List<Datamodel> notuploaded = databasehelper.getnotupload();
-            try {
+
+        notuploaded = databasehelper.getnotupload();
+        try{
                 for (int i = 0; i < notuploaded.size(); i++) {
                     String ticketID = notuploaded.get(i).getTicketid();
                     String title = notuploaded.get(i).getTitle();
@@ -46,6 +50,7 @@ public class Uploadservice extends JobService {
                     String lga_of_origin = notuploaded.get(i).getLga();
                     String state_of_capture = notuploaded.get(i).getStateofcapture();
                     String lga_of_capture = notuploaded.get(i).getLgaofcapture();
+                    String bankname = notuploaded.get(i).getSelectbanke();
                     String nin = notuploaded.get(i).getNin();
                     String residential_address = notuploaded.get(i).getResidentialaddress();
                     String state_of_residence = notuploaded.get(i).getStateofresidence();
@@ -59,19 +64,11 @@ public class Uploadservice extends JobService {
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
                     String face_image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                    String[] fingerprintimage = notuploaded.get(i).getFingerimage().split(";");
-                    String[] fingerprintname = notuploaded.get(i).getFingerimagename().split(";");
+                    Bitmap bitmap1 = Constant.loadImageFromStorage(notuploaded.get(i).getSignatureimage(), notuploaded.get(i).getSignatureimagename());
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream1);
+                    String sign_image = Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
                     String finger_image = "";
-                    for (int a = 0; a < fingerprintname.length; a++) {
-                        Bitmap bitmap1 = Constant.loadImageFromStorage(notuploaded.get(i).getFaceimage(), notuploaded.get(i).getFaceimagename());
-                        ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
-                        bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream1);
-                        if (finger_image.isEmpty()) {
-                            finger_image = Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
-                        } else {
-                            finger_image += ";" + Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
-                        }
-                    }
 
 //                Log.d(TAG, "onReceive: "+msg_from + " "+ msgBody);
                     int finalI = i;
@@ -81,7 +78,6 @@ public class Uploadservice extends JobService {
                         @Override // com.ugswitch.simhost.request.PostRequest
                         public void onError(String str) {
                             Log.d("TAG", "onError: " + str);
-//                            uploading = true;
                         }
 
                         @Override // com.ugswitch.simhost.request.PostRequest
@@ -90,24 +86,20 @@ public class Uploadservice extends JobService {
 //                            uploading = true;
                             Log.d("TAG", "onSuccess: " + str);
                             if (Constant.logstatus(str).equals("true")) {
-                                Log.d("TAG", "onSuccess: " + String.valueOf(notuploaded.get(finalI).getId()));
-                                databasehelper.updatesync(databasehelper.COLUMN_UPLOADSTATUS, "1", String.valueOf(notuploaded.get(finalI).getId()));
+                                uploadfingerprint(finalI);
     //
                             }
                         }
                     }.sendIncomingSmS(ticketID, title, surname, middle_name, first_name, gender,
                             date_of_birth, marital_status, nationality, state_of_origin, lga_of_origin, state_of_capture,
                             lga_of_capture, nin, residential_address, state_of_residence, lga_of_residence, landmarks, email,
-                            phone_number_1, phone_number_2, face_image, finger_image, getApplicationContext());
+                            phone_number_1, phone_number_2, sign_image, face_image, finger_image, bankname, getApplicationContext());
                 }
             } catch (Exception e) {
-//                            Log.d("Exception caught",e.getMessage());
+                Log.d("Exception caught",e.getMessage());
             }
-//        }else{
-//            getrequest();
-//        }
 
-        Util.scheduleJob(getApplicationContext(), Long.parseLong("2000"));
+        getrequest();
 
         return true;
     }
@@ -117,6 +109,38 @@ public class Uploadservice extends JobService {
         return true;
     }
 
+    void uploadfingerprint(int i){
+        Log.d("tag", "onStartJob: tolubobo fingerprint");
+        String ticketID = notuploaded.get(i).getTicketid();
+        String[] fingerprintimage = notuploaded.get(i).getFingerimage().split(";");
+        String[] fingerprintname = notuploaded.get(i).getFingerimagename().split(";");
+        List<String> finger_image = new ArrayList<>();
+            for (int a = 0; a < fingerprintname.length; a++) {
+                Bitmap bitmap1 = Constant.loadImageFromStorage(fingerprintimage[i], fingerprintname[i]);
+                ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream1);
+                finger_image.add(Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT));
+            }
+
+        new PostRequest() {
+
+            @Override
+            public void onError(String str) {
+                Log.d("TAG", "onError: " + str);
+            }
+
+            @Override
+            public void onSuccess(String str) {
+                Log.d("TAG", "onSuccess: " + str);
+                if (Constant.logstatus(str).equals("true")) {
+                    Constant.errortoast(getApplicationContext(), "NO of notuploaded "+notuploaded.size());
+                    Log.d("TAG", "onSuccess: " + String.valueOf(notuploaded.get(i).getId()));
+                    databasehelper.updatesync(databasehelper.COLUMN_UPLOADSTATUS, "1", String.valueOf(notuploaded.get(i).getTicketid()));
+
+                }
+            }
+        }.sendfingerprint(ticketID, finger_image, getApplicationContext());
+    }
     void getrequest(){
         List<Datamodel> notuploaded1 = databasehelper.getsync();
         Log.d("tag", "onStartJob: tolubobo");
@@ -126,37 +150,27 @@ public class Uploadservice extends JobService {
 //                Log.d(TAG, "onReceive: "+msg_from + " "+ msgBody);
                 int finalI = i;
                 new GetRequest() {
-                    /* class com.ugswitch.simhost.service.MyNotificationService.AnonymousClass1 */
 
-                    @Override // com.ugswitch.simhost.request.PostRequest
+                    @Override
                     public void onError(String str) {
-                        uploading = false;
+
                     }
 
-                    @Override // com.ugswitch.simhost.request.PostRequest
+                    @Override
                     public void onSuccess(String str) {
                         databasehelper.updatesync(databasehelper.COLUMN_SYNC_DATE, "1", String.valueOf(notuploaded1.get(finalI).getId()));
-                        uploading = false;
                         Log.d("TAG", "onSuccess: " + str);
-                        //                Intent i = new Intent(getActivity(), MapsActivityCurrentPlace.class);
-//                i.putExtra("lat", adapter.getSelected().getimage1());
-//                i.putExtra("lng", adapter.getSelected().getTitle());
-//                startActivity(i);
+
                     }
 
-                    // com.simhost.request.GetRequest
+
                     @RequiresApi(Build.VERSION_CODES.O)
                     public void onSuccess(JSONObject jSONObject) throws JSONException {
                         Log.i("TAG", jSONObject.get("status").toString());
-//                Util.schedulersendsmsJob(context,false);
-
                         if (jSONObject.get("status").equals(1)) {
-//                    myJson.data_id =jSONObject.get("data_id").toString();
-//                    String simslot =jSONObject.get("data_sim");
-//                    String phone =jSONObject.get("data_phone").toString();
-//                    String message =jSONObject.get("data_message").toString();
+                            databasehelper.updatesync(databasehelper.COLUMN_STATE_OF_SYNC, "1", String.valueOf(ticketID));
+                            databasehelper.updatesync(databasehelper.COLUMN_SYNC_DATE, new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date()), String.valueOf(ticketID));
 
-//                    sendSMS(phone,message,simslot);
                         }
                     }
                 }.requestDisplay(ticketID,getApplicationContext());
@@ -164,5 +178,7 @@ public class Uploadservice extends JobService {
         }catch(Exception e){
                             Log.d("Exception caught",e.getMessage());
         }
+
+        Util.scheduleJob(getApplicationContext(), Long.parseLong("200"));
     }
 }

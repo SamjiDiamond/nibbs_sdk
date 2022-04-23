@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.fingerprint.BeginfingerprintActivity;
 import com.nibbssdk.Constant;
 import com.nibbssdk.R;
@@ -24,6 +25,7 @@ public class FacecaptureActivity extends AppCompatActivity {
     public String mCurrentPhotoPath;
     ImageView image;
     boolean correctimage = false;
+    Databasehelper databasehelper;
 
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -38,6 +40,7 @@ public class FacecaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facecapture);
+        databasehelper = new Databasehelper(getApplicationContext());
         image = findViewById(R.id.imageview);
         Bitmap b = Constant.loadImageFromStorage(Constant.faceimage, Constant.faceimagename);
 //        Matrix matrix = new Matrix();
@@ -56,9 +59,15 @@ public class FacecaptureActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (correctimage) {
+
+                boolean addone = databasehelper.insertface(Constant.faceimage,Constant.faceimagename);
+                if (addone) {
                     Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
                     startActivity(in);
+                }else {
+                    Constant.inserterrortoast(getApplicationContext());
+                }
+
 //                finish();
 //                }else {
 //                    Toast.makeText(FacecaptureActivity.this, "No face detected, Recapture face", Toast.LENGTH_LONG).show();

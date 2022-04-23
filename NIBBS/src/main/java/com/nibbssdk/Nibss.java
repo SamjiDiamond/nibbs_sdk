@@ -22,13 +22,18 @@ public class Nibss {
     public static int totaluploded(Context context){
         return databasehelper(context).getuploaded().size();
     }
+    public static int totalnotuploded(Context context){
+        return databasehelper(context).getnotupload().size();
+    }
     public static int totalsync(Context context){
         return databasehelper(context).getsync().size();
     }
  public static int totalvalidate(Context context){
         return databasehelper(context).getvalidated().size();
     }
-    public static String agent_code = "12345678";
+
+    public static String agent_code = "66519437";
+
     public static RequestQueue getRequestQueue(Context context) {
         RequestQueue mRequestQueue = null;
         if (mRequestQueue == null) {
@@ -36,6 +41,7 @@ public class Nibss {
         }
         return mRequestQueue;
     }
+
     public <T> void addToRequestQueue(Request<T> request, String str, Context context) {
         if (TextUtils.isEmpty(str)) {
             str = "TAG";

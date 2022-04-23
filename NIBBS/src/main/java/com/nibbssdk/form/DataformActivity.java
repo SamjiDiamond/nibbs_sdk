@@ -1,5 +1,7 @@
 package com.nibbssdk.form;
 
+import static com.nibbssdk.Nibss.databasehelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -18,14 +20,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nibbssdk.Constant;
+import com.nibbssdk.Nibss;
+import com.nibbssdk.PreviewActivity;
 import com.nibbssdk.R;
+import com.nibbssdk.database.Databasehelper;
+import com.nibbssdk.database.Datamodel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class DataformActivity extends AppCompatActivity {
 
-    DatePickerDialog picker;
+
     EditText title, firstname, surname, middle,
             dateico, gender, marital,soo,lga, nationality;
     ImageView backbutton;
@@ -33,11 +40,12 @@ public class DataformActivity extends AppCompatActivity {
     TextView textView;
     ArrayList<String> day = new ArrayList<>();
     int number  = 32;
-
+    Databasehelper databasehelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dataform);
+        databasehelper = new Databasehelper(getApplicationContext());
         dateico = findViewById(R.id.dateofbirthEditText);
         dateico.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +85,10 @@ public class DataformActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate();
+//                databasehelper(getApplicationContext()).getcurrenttable("TOLULOPE", "ODEJINMI","Abraham");
 //                Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
 //                startActivity(in);
+                validate();
             }
         });
 
@@ -278,8 +287,26 @@ public class DataformActivity extends AppCompatActivity {
             Constant.toast(this, "Local Government Area");
         }else {
             savedata();
+//Friday, January 3, 2020
+            String stringtitle = title.getText().toString();
+            String stringsurname = surname.getText().toString().replace(" ","");
+            String stringfirstname = firstname.getText().toString().replace(" ","");
+            String stringmiddle = middle.getText().toString().replace(" ","");
+            String stringdateico = dateico.getText().toString().replace(" ","");
+            String stringgender= gender.getText().toString().replace(" ","");
+            String stringmarital= marital.getText().toString();
+            String stringnationality = nationality.getText().toString();;
+            String stringsoo= soo.getText().toString();
+            String stringlga= lga.getText().toString();
+            boolean addone = databasehelper.insertdataformactivity(stringtitle,stringsurname,stringfirstname,
+                    stringmiddle,stringdateico,stringgender,stringmarital,stringnationality,stringsoo, stringlga);
+            if (addone) {
+                databasehelper(this).getcurrenttable(stringsurname, stringfirstname,stringmiddle);
                 Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
                 startActivity(in);
+            }else {
+                Constant.inserterrortoast(this);
+            }
 
         }
     }

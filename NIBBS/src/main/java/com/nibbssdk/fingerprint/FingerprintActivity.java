@@ -9,16 +9,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.signature.BeginsignatureActivity;
 import com.nibbssdk.Constant;
 import com.nibbssdk.R;
 
 public class FingerprintActivity extends AppCompatActivity {
 
+    Databasehelper databasehelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fingerprint);
+        databasehelper = new Databasehelper(getApplicationContext());
         ImageView leftindex = findViewById(R.id.leftindex);
         String[] fingerprintimage = Constant.fingerprintimage.split(";");
         String[] fingerprintname = Constant.fingerprintname.split(";");
@@ -63,8 +66,13 @@ public class FingerprintActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(), BeginsignatureActivity.class);
-                startActivity(in);
+                boolean addone = databasehelper.insertfingerprint(Constant.fingerprintimage,Constant.fingerprintname);
+                if (addone) {
+                    Intent in = new Intent(getApplicationContext(), BeginsignatureActivity.class);
+                    startActivity(in);
+                }else {
+                    Constant.inserterrortoast(getApplicationContext());
+                }
 //                finish();
             }
         });
