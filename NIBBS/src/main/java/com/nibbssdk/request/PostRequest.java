@@ -97,7 +97,7 @@ public abstract class PostRequest {
     }
 
     public void sendfingerprint(String ticketID, List<String> finger_image, Context context) {
-        StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
+        StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment/fingerprint", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
             public void onResponse(String str) {
