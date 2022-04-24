@@ -32,10 +32,10 @@
         <entry key="NIBBS/src/main/res/layout/activity_facecapture.xml" value="0.17391304347826086" />
         <entry key="NIBBS/src/main/res/layout/activity_fingerprint.xml" value="0.28016359918200406" />
         <entry key="NIBBS/src/main/res/layout/activity_fingerprintdefault.xml" value="0.175" />
-        <entry key="NIBBS/src/main/res/layout/activity_lastdatacapture.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/layout/activity_lastdatacapture.xml" value="0.25" />
         <entry key="NIBBS/src/main/res/layout/activity_main.xml" value="0.13632246376811594" />
         <entry key="NIBBS/src/main/res/layout/activity_month_year_picker_dialog.xml" value="0.11822916666666666" />
-        <entry key="NIBBS/src/main/res/layout/activity_preview.xml" value="0.1160081053698075" />
+        <entry key="NIBBS/src/main/res/layout/activity_preview.xml" value="0.165" />
         <entry key="NIBBS/src/main/res/layout/activity_signature.xml" value="0.17391304347826086" />
         <entry key="NIBBS/src/main/res/layout/activity_signingpage.xml" value="0.17391304347826086" />
         <entry key="NIBBS/src/main/res/layout/begincaptureappbar.xml" value="0.11018518518518519" />
