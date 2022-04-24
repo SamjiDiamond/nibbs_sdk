@@ -10,6 +10,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.nibbssdk.Constant;
+import com.nibbssdk.Nibss;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,8 +238,8 @@ public class Databasehelper extends SQLiteOpenHelper {
    public boolean insertcomplete(String ticketid, String agentid, String capturedate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-//       contentValues.put(COLUMN_INSTITUTION_CODE, datamodel.getInstitutioncode());
-//       contentValues.put(COLUMN_INSTITUTION_NAME, datamodel.getInstitutionname());
+       contentValues.put(COLUMN_INSTITUTION_CODE, Nibss.intitution_code);
+       contentValues.put(COLUMN_INSTITUTION_NAME, Nibss.institution_name);
        contentValues.put(COLUMN_COMPLETED, "1");
        contentValues.put(COLUMN_AGENT_CODE, agentid);
        contentValues.put(COLUMN_TICKET_ID, ticketid);

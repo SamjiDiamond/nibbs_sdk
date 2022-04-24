@@ -144,7 +144,7 @@ public class PreviewActivity extends AppCompatActivity {
                 if (addone) {
                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
                     alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                    alertDialogBuilder.setMessage("Ticket ID: "+ticketid+" \n Date Captured: "+ date+" \n Agent: Eyowo Sample Agen");
+                    alertDialogBuilder.setMessage("Ticket ID: "+ticketid+" \n Date Captured: "+ date+" \n Agent: "+Nibss.agent_name);
                     alertDialogBuilder.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 @Override

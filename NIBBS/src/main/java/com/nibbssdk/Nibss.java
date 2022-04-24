@@ -36,6 +36,9 @@ public class Nibss {
     }
 
     public static String agent_code = "66519437";
+    public static String intitution_code = "66519437";
+    public static String agent_name = "Eyowo Sample Agen";
+    public static String institution_name = "Eyowo Sample Agen";
 
     public static RequestQueue getRequestQueue(Context context) {
         RequestQueue mRequestQueue = null;

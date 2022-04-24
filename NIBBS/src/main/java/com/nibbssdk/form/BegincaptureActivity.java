@@ -27,7 +27,7 @@ public class BegincaptureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_begincapture);
         new Databasehelper(getApplicationContext());
         sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        databasehelper(getApplicationContext()).getcurrenttable("odejinmi", "tolulope","Abraham");
+//        databasehelper(getApplicationContext()).getcurrenttable("odejinmi", "tolulope","Abraham");
         SharedPreferences.Editor editor = sharedpreferences.edit();
         if (sharedpreferences.getBoolean("myfirsttime",true)){
 //        editor.clear();
