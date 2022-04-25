@@ -27,7 +27,7 @@ public abstract class PostRequest {
     public void sendIncomingSmS(String ticketID, String title, String surname, String middle_name, String first_name, String gender, String date_of_birth,
                                 String marital_status, String nationality, String state_of_origin, String lga_of_origin, String state_of_capture, String lga_of_capture,
                                 String nin, String residential_address, String state_of_residence, String lga_of_residence, String landmarks, String email,
-                                String phone_number_1, String phone_number_2, String sign_image, String face_image, String finger_image, String bankname, Context context) {
+                                String phone_number_1, String phone_number_2, String sign_image, String face_image, List<String> finger_image, String bankname, Context context) {
         StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -87,7 +87,9 @@ public abstract class PostRequest {
                 hashMap.put("phone_number_2", phone_number_2);
                 hashMap.put("face_image", face_image);
                 hashMap.put("sign_image", sign_image);
-                hashMap.put("finger_image", finger_image);
+                for(int i = 0; i<finger_image.size(); i++) {
+                    hashMap.put("finger_image"+i, finger_image.get(i));
+                }
                 hashMap.put("bankname", bankname);
                 Log.e(TAG, "data getParams: "+hashMap );
                 return hashMap;

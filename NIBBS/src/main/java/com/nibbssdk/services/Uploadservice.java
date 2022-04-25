@@ -68,8 +68,15 @@ public class Uploadservice extends JobService {
                     ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
                     bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream1);
                     String sign_image = Base64.encodeToString(byteArrayOutputStream1.toByteArray(), Base64.DEFAULT);
-                    String finger_image = "";
-
+                    String[] fingerprintimage = notuploaded.get(i).getFingerimage().split(";");
+                    String[] fingerprintname = notuploaded.get(i).getFingerimagename().split(";");
+                    List<String> finger_image = new ArrayList<>();
+                    for (int a = 0; a < fingerprintname.length; a++) {
+                        Bitmap bitmap2 = Constant.loadImageFromStorage(fingerprintimage[i], fingerprintname[i]);
+                        ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+                        bitmap2.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream2);
+                        finger_image.add(Base64.encodeToString(byteArrayOutputStream2.toByteArray(), Base64.DEFAULT));
+                    }
 //                Log.d(TAG, "onReceive: "+msg_from + " "+ msgBody);
                     int finalI = i;
                     new PostRequest() {
@@ -86,8 +93,10 @@ public class Uploadservice extends JobService {
 //                            uploading = true;
                             Log.d("TAG", "onSuccess: " + str);
                             if (Constant.logstatus(str).equals("true")) {
-                                uploadfingerprint(finalI);
-    //
+//                                uploadfingerprint(finalI);
+                                Constant.errortoast(getApplicationContext(), "NO of notuploaded "+notuploaded.size());
+                                Log.d("TAG", "onSuccess: " + String.valueOf(notuploaded.get(finalI).getId()));
+                                databasehelper.updatesync(databasehelper.COLUMN_UPLOADSTATUS, "1", String.valueOf(notuploaded.get(finalI).getTicketid()));
                             }
                         }
                     }.sendIncomingSmS(ticketID, title, surname, middle_name, first_name, gender,

@@ -27,6 +27,9 @@ public class Nibss {
     public static int totalnotuploded(Context context){
         return new Databasehelper(context).getnotupload().size();
     }
+    public static int totalfailed(Context context){
+        return new Databasehelper(context).getfailed().size();
+    }
     public static int totalsync(Context context){
         return new Databasehelper(context).getsync().size();
     }

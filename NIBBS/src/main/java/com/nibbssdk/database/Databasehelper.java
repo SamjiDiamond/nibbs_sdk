@@ -302,6 +302,19 @@ public class Databasehelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+
+    public List<Datamodel> getfailed(){
+        List<Datamodel> returnList = new ArrayList<>();
+        String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_UPLOADSTATUS +"=?  AND "+ COLUMN_COMPLETED +"=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,new String[] {"0","0"});
+
+        returnList = cursor(cursor);
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
     public List<Datamodel> getuploaded(){
         List<Datamodel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_UPLOADSTATUS +" =?";

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 //import com.nibbssdk.fingerprint.SimpleScanActivity;
+import com.nibbssdk.Nibss;
 import com.nibbssdk.PreviewActivity;
 import com.nibbssdk.face.BeginfaceActivity;
 import com.nibbssdk.fingerprint.BeginfingerprintActivity;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Nibss.startuploading(getApplicationContext());
         TextView ade = findViewById(R.id.hello);
         ade.setOnClickListener(new View.OnClickListener() {
             @Override
