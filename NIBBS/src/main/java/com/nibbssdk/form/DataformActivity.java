@@ -1,6 +1,5 @@
 package com.nibbssdk.form;
 
-import static com.nibbssdk.Nibss.databasehelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,17 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.nibbssdk.Constant;
-import com.nibbssdk.Nibss;
-import com.nibbssdk.PreviewActivity;
 import com.nibbssdk.R;
 import com.nibbssdk.database.Databasehelper;
-import com.nibbssdk.database.Datamodel;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class DataformActivity extends AppCompatActivity {
 
@@ -301,7 +294,7 @@ public class DataformActivity extends AppCompatActivity {
             boolean addone = databasehelper.insertdataformactivity(stringtitle,stringsurname,stringfirstname,
                     stringmiddle,stringdateico,stringgender,stringmarital,stringnationality,stringsoo, stringlga);
             if (addone) {
-                databasehelper(this).getcurrenttable(stringsurname, stringfirstname,stringmiddle);
+                databasehelper.getcurrenttable(stringsurname, stringfirstname,stringmiddle);
                 Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
                 startActivity(in);
             }else {

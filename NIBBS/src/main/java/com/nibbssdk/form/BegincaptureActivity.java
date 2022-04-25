@@ -1,7 +1,5 @@
 package com.nibbssdk.form;
 
-import static com.nibbssdk.Nibss.databasehelper;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -25,18 +23,7 @@ public class BegincaptureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begincapture);
-        new Databasehelper(getApplicationContext());
-        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //        databasehelper(getApplicationContext()).getcurrenttable("odejinmi", "tolulope","Abraham");
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if (sharedpreferences.getBoolean("myfirsttime",true)){
-//        editor.clear();
-//        editor.apply();
-        editor.putBoolean("myfirsttime", false);
-        editor.commit();
-        }else {
-            Util.scheduleJob(getApplicationContext(), Long.parseLong("1"));
-        }
         Button button = findViewById(R.id.formdata);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

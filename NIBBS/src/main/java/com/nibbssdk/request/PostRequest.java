@@ -2,6 +2,7 @@ package com.nibbssdk.request;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -88,6 +89,7 @@ public abstract class PostRequest {
                 hashMap.put("sign_image", sign_image);
                 hashMap.put("finger_image", finger_image);
                 hashMap.put("bankname", bankname);
+                Log.e(TAG, "data getParams: "+hashMap );
                 return hashMap;
             }
         };
@@ -137,6 +139,7 @@ public abstract class PostRequest {
                 for(int i = 0; i<finger_image.size(); i++) {
                     hashMap.put("finger_image"+i, finger_image.get(i));
                 }
+                Log.d(TAG, "fingerprint getParams: "+hashMap);
                 return hashMap;
             }
         };

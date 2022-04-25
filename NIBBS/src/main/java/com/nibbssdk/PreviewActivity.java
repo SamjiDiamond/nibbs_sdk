@@ -1,7 +1,5 @@
 package com.nibbssdk;
 
-import static com.nibbssdk.Nibss.databasehelper;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;

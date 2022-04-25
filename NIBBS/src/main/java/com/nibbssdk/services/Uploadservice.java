@@ -36,6 +36,7 @@ public class Uploadservice extends JobService {
         Log.d("tag", "onStartJob: this is where we are "+notuploaded.size());
         try{
                 for (int i = 0; i < notuploaded.size(); i++) {
+                    Log.d("tag", "onStartJob: workin "+notuploaded.size());
                     String ticketID = notuploaded.get(i).getTicketid();
                     String title = notuploaded.get(i).getTitle();
                     String surname = notuploaded.get(i).getSurname();

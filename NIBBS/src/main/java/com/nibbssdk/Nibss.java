@@ -1,15 +1,20 @@
 package com.nibbssdk;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.nibbssdk.database.Databasehelper;
+import com.nibbssdk.services.Util;
 
 public class Nibss {
 
+    public static void startuploading(Context context){
+            Util.scheduleJob(context, Long.parseLong("1"));
+    }
     public static int totalsubmitted(Context context){
         return new Databasehelper(context).getall().size();
     }

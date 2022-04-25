@@ -1,6 +1,5 @@
 package com.nibbssdk.form;
 
-import static com.nibbssdk.Nibss.databasehelper;
 
 import android.content.Intent;
 import android.os.Bundle;
