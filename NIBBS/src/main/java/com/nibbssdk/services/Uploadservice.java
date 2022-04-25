@@ -31,10 +31,9 @@ public class Uploadservice extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         // Write your code here
-        Log.d("tag", "onStartJob: this is where we are");
         databasehelper = new Databasehelper(getApplicationContext());
-
         notuploaded = databasehelper.getnotupload();
+        Log.d("tag", "onStartJob: this is where we are "+notuploaded.size());
         try{
                 for (int i = 0; i < notuploaded.size(); i++) {
                     String ticketID = notuploaded.get(i).getTicketid();

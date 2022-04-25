@@ -9,30 +9,27 @@ import com.android.volley.toolbox.Volley;
 import com.nibbssdk.database.Databasehelper;
 
 public class Nibss {
-   public static Databasehelper databasehelper(Context context){
-       return new Databasehelper(context);
-   }
 
     public static int totalsubmitted(Context context){
-        return databasehelper(context).getall().size();
+        return new Databasehelper(context).getall().size();
     }
 //     public static String totalsubmittedlist(Context context){
 //        return databasehelper(context).getall().toString();
 //    }
     public static int totaluploded(Context context){
-        return databasehelper(context).getuploaded().size();
+        return new Databasehelper(context).getuploaded().size();
     }
     public static int totalnotuploded(Context context){
-        return databasehelper(context).getnotupload().size();
+        return new Databasehelper(context).getnotupload().size();
     }
     public static int totalsync(Context context){
-        return databasehelper(context).getsync().size();
+        return new Databasehelper(context).getsync().size();
     }
     public static int totalnotsync(Context context){
-        return databasehelper(context).getnotsync().size();
+        return new Databasehelper(context).getnotsync().size();
     }
  public static int totalvalidate(Context context){
-        return databasehelper(context).getvalidated().size();
+        return new Databasehelper(context).getvalidated().size();
     }
 
     public static String agent_code = "66519437";

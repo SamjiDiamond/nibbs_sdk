@@ -36,7 +36,6 @@ public class MyStartServiceReceiver extends BroadcastReceiver {
             Listener.onNetworkChange(isConnected);
         }
         Util.scheduleJob(context, Long.parseLong("1"));
-        Util.scheduleuploadedJob(context, Long.parseLong("1"));
     }
 
     public interface ReceiverListener {
