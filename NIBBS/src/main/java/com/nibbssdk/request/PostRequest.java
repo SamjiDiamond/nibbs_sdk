@@ -1,6 +1,7 @@
 package com.nibbssdk.request;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -28,6 +29,9 @@ public abstract class PostRequest {
                                 String marital_status, String nationality, String state_of_origin, String lga_of_origin, String state_of_capture, String lga_of_capture,
                                 String nin, String residential_address, String state_of_residence, String lga_of_residence, String landmarks, String email,
                                 String phone_number_1, String phone_number_2, String sign_image, String face_image, List<String> finger_image, String bankname, Context context) {
+
+        SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String agent_code = sharedpreferences.getString("agent_code","");
         StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -63,7 +67,7 @@ public abstract class PostRequest {
             @Override // com.android.volley.Request
             public Map<String, String> getParams() {
                 HashMap hashMap = new HashMap();
-                hashMap.put("agent_id", Nibss.agent_code);
+                hashMap.put("agent_id", agent_code);
                 hashMap.put("ticketID", ticketID);
                 hashMap.put("title", title);
                 hashMap.put("surname", surname);
@@ -87,9 +91,16 @@ public abstract class PostRequest {
                 hashMap.put("phone_number_2", phone_number_2);
                 hashMap.put("face_image", face_image);
                 hashMap.put("sign_image", sign_image);
-                for(int i = 0; i<finger_image.size(); i++) {
-                    hashMap.put("finger_image"+i, finger_image.get(i));
-                }
+                hashMap.put("finger_image0", finger_image.get(0));
+                hashMap.put("finger_image1", finger_image.get(1));
+                hashMap.put("finger_image2", finger_image.get(2));
+                hashMap.put("finger_image3", finger_image.get(3));
+                hashMap.put("finger_image4", finger_image.get(4));
+                hashMap.put("finger_image5", finger_image.get(5));
+                hashMap.put("finger_image6", finger_image.get(6));
+                hashMap.put("finger_image7", finger_image.get(7));
+                hashMap.put("finger_image8", finger_image.get(8));
+                hashMap.put("finger_image9", finger_image.get(9));
                 hashMap.put("bankname", bankname);
                 Log.e(TAG, "data getParams: "+hashMap );
                 return hashMap;
@@ -101,6 +112,8 @@ public abstract class PostRequest {
     }
 
     public void sendfingerprint(String ticketID, List<String> finger_image, Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String agent_code = sharedpreferences.getString("agent_code","");
         StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment/fingerprint", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -136,7 +149,7 @@ public abstract class PostRequest {
             @Override // com.android.volley.Request
             public Map<String, String> getParams() {
                 HashMap hashMap = new HashMap();
-                hashMap.put("agent_id", Nibss.agent_code);
+                hashMap.put("agent_id", agent_code);
                 hashMap.put("ticketID", ticketID);
                 for(int i = 0; i<finger_image.size(); i++) {
                     hashMap.put("finger_image"+i, finger_image.get(i));

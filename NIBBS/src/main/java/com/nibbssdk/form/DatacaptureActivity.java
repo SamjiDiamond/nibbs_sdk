@@ -1,7 +1,9 @@
 package com.nibbssdk.form;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +22,15 @@ public class DatacaptureActivity extends AppCompatActivity {
     EditText title, firstname, surname, middle, dateico, gender, marital;
     ImageView backbutton;
     Databasehelper databasehelper;
-
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databasehelper = new Databasehelper(getApplicationContext());
         setContentView(R.layout.activity_datacapture);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        Constant.table_id = sharedpreferences.getString("table_id", "");
+        Constant.errortoast(getApplicationContext(),"My result "+Constant.table_id);
         dateico = findViewById(R.id.dateofbirthEditText);
         title = findViewById(R.id.titleEditText);
         surname = findViewById(R.id.surnameEditText);
@@ -101,13 +106,15 @@ public class DatacaptureActivity extends AppCompatActivity {
     }
 
     void savedata(){
-        Constant.residentialaddress = title.getText().toString();
-        Constant.stateofresidence = surname.getText().toString();
-        Constant.lgaofresidence = firstname.getText().toString();
-        Constant.landmarks = middle.getText().toString();
-        Constant.email = dateico.getText().toString();
-        Constant.phonenumber = gender.getText().toString();
-        Constant.phonenumber2 = marital.getText().toString();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("residentialaddress",title.getText().toString());
+        editor.putString("stateofresidence",surname.getText().toString());
+        editor.putString("lgaofresidence",firstname.getText().toString());
+        editor.putString("landmarks",middle.getText().toString());
+        editor.putString("email",dateico.getText().toString());
+        editor.putString("phonenumber",gender.getText().toString());
+        editor.putString("phonenumber2",marital.getText().toString());
+        editor.apply();
     }
 
 }

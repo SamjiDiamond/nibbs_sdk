@@ -3,7 +3,9 @@ package com.nibbssdk.fingerprint;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -80,9 +82,10 @@ public class CapturefingerprintActivity extends AppCompatActivity {
     private EncoderWsq encoderWsq;
     private EncoderPng encoderPng;
     Bitmap segmentsBitmap;
-
+    SharedPreferences sharedpreferences;
     Bundle extras;
-
+    String fingerprintname = "";
+    String fingerprintimage = "";
     //region definitions
     private enum ImageType {
         Detection,
@@ -184,19 +187,20 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                         //Save image;
                         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                         String imageFileName = "fingerprint" + timeStamp + "_";
-                        if (Constant.fingerprintname.isEmpty()){
-                            Constant.fingerprintname= imageFileName;
+                        if (fingerprintname.isEmpty()){
+                            fingerprintname= imageFileName;
                         }else{
-                            Constant.fingerprintname += ";"+imageFileName;
+                            fingerprintname += ";"+imageFileName;
                         }
                         String path = Constant.saveToInternalStorage(bitmap, getApplicationContext(), imageFileName);
-                        if (Constant.fingerprintimage.isEmpty()){
-                            Constant.fingerprintimage= path;
+                        if (fingerprintimage.isEmpty()){
+                            fingerprintimage= path;
                         }else{
-                            Constant.fingerprintimage += ";"+path;
+                            fingerprintimage += ";"+path;
                         }
-                        Log.d("TAG", "onClick: "+Constant.fingerprintimage);
-                        Log.d("TAG", "onClick: "+Constant.fingerprintname);
+
+                        Log.d("TAG", "onClick: "+fingerprintimage);
+                        Log.d("TAG", "onClick: "+fingerprintname);
 
                         ImageHolder ih = new ImageHolder(imageArgument.bitmapInfoHeaderData().getRawData());
                         images.put(device.getDeviceId() + "_Detect", ih);
@@ -324,6 +328,8 @@ public class CapturefingerprintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capturefingerprint);
         ImageView backbutton = findViewById(R.id.backbutton);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        Constant.table_id = sharedpreferences.getString("table_id","");
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -351,19 +357,20 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                 uninitializeImageContainer();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "fingerprint" + timeStamp + "_";
-                if (Constant.fingerprintname.isEmpty()){
-                    Constant.fingerprintname= imageFileName;
+                if (fingerprintname.isEmpty()){
+                    fingerprintname= imageFileName;
                 }else{
-                    Constant.fingerprintname += ";"+imageFileName;
+                    fingerprintname += ";"+imageFileName;
                 }
                 String path = Constant.saveToInternalStorage(segmentsBitmap, getApplicationContext(), imageFileName);
-                if (Constant.fingerprintimage.isEmpty()){
-                    Constant.fingerprintimage= path;
+                if (fingerprintimage.isEmpty()){
+                    fingerprintimage= path;
                 }else{
-                    Constant.fingerprintimage += ";"+path;
+                    fingerprintimage += ";"+path;
                 }
-                Log.d("TAG", "onClick: "+Constant.fingerprintimage);
-                Log.d("TAG", "onClick: "+Constant.fingerprintname);
+
+                Log.d("TAG", "onClick: "+fingerprintimage);
+                Log.d("TAG", "onClick: "+fingerprintname);
                 uninitializeImageContainer();
                 Intent in;
                 if (extras != null) {
@@ -395,6 +402,10 @@ public class CapturefingerprintActivity extends AppCompatActivity {
                             break;
                     }
                 }else {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("fingerprintimage",fingerprintimage);
+                    editor.putString("fingerprintname",fingerprintname);
+                    editor.apply();
                     in = new Intent(getApplicationContext(), FingerprintActivity.class);
                 }
                 startActivity(in);

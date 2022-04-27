@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +24,6 @@ import com.nibbssdk.services.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+        SharedPreferences sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         databasehelper = new Databasehelper(PreviewActivity.this);
         backbutton = findViewById(R.id.backbutton);
@@ -49,56 +51,56 @@ public class PreviewActivity extends AppCompatActivity {
             }
         });
         imageView = findViewById(R.id.imagepreview);
-        Bitmap b1 = Constant.loadImageFromStorage(Constant.signatureimage,Constant.faceimagename);
+        Bitmap b1 = Constant.loadImageFromStorage(sharedpreferences.getString("signatureimage",""),sharedpreferences.getString("faceimagename",""));
         imageView.setImageBitmap(b1);
         dateico = findViewById(R.id.dateofbirthEditText);
-        dateico.setText(Constant.dob);
+        dateico.setText(sharedpreferences.getString("dob",""));
         title = findViewById(R.id.titleEditText);
-        title.setText(Constant.title);
+        title.setText(sharedpreferences.getString("title",""));
         surname = findViewById(R.id.surnameEditText);
-        surname.setText(Constant.surname);
+        surname.setText(sharedpreferences.getString("surname",""));
         firstname = findViewById(R.id.firstnameEditText);
-        firstname.setText(Constant.firstname);
+        firstname.setText(sharedpreferences.getString("firstname",""));
         middle = findViewById(R.id.middleEditText);
-        middle.setText(Constant.middlename);
+        middle.setText(sharedpreferences.getString("middlename",""));
         gender = findViewById(R.id.genderEditText);
-        gender.setText(Constant.gender);
+        gender.setText(sharedpreferences.getString("gender",""));
         marital = findViewById(R.id.maritalstatusEditText);
-        marital.setText(Constant.maritalstatus);
+        marital.setText(sharedpreferences.getString("maritalstatus",""));
         soo = findViewById(R.id.stateoforiginEditText);
-        soo.setText(Constant.soo);
+        soo.setText(sharedpreferences.getString("soo",""));
         lga = findViewById(R.id.lgaEditText);
-        lga.setText(Constant.lga);
+        lga.setText(sharedpreferences.getString("lga",""));
         dateico1 = findViewById(R.id.dateofbirthEditText1);
-        dateico1.setText(Constant.residentialaddress);
+        dateico1.setText(sharedpreferences.getString("email",""));
         title1 = findViewById(R.id.titleEditText1);
-        title1.setText(Constant.stateofresidence);
+        title1.setText(sharedpreferences.getString("residentialaddress",""));
         surname1 = findViewById(R.id.surnameEditText1);
-        surname1.setText(Constant.lgaofresidence);
+        surname1.setText(sharedpreferences.getString("stateofresidence",""));
         firstname1 = findViewById(R.id.firstnameEditText1);
-        firstname1.setText(Constant.landmarks);
+        firstname1.setText(sharedpreferences.getString("lgaofresidence",""));
         middle1 = findViewById(R.id.middleEditText1);
-        middle1.setText(Constant.email);
+        middle1.setText(sharedpreferences.getString("landmarks",""));
         gender1 = findViewById(R.id.genderEditText1);
-        gender1.setText(Constant.phonenumber);
+        gender1.setText(sharedpreferences.getString("phonenumber",""));
         marital1 = findViewById(R.id.maritalstatusEditText1);
-        marital1.setText(Constant.phonenumber2);
+        marital1.setText(sharedpreferences.getString("phonenumber2",""));
         dateico2 = findViewById(R.id.dateofbirthEditText2);
-        dateico2.setText(Constant.accountlevel);
+        dateico2.setText(sharedpreferences.getString("lgaofcapture",""));
         title2 = findViewById(R.id.titleEditText2);
-        title2.setText(Constant.nin);
+        title2.setText(sharedpreferences.getString("accountlevel",""));
         surname2 = findViewById(R.id.surnameEditText2);
-        surname2.setText(Constant.selectbank);
+        surname2.setText(sharedpreferences.getString("nin",""));
         firstname2 = findViewById(R.id.firstnameEditText2);
-        firstname2.setText(Constant.stateofcapture);
+        firstname2.setText(sharedpreferences.getString("selectbank",""));
         middle2 = findViewById(R.id.middleEditText2);
-        middle2.setText(Constant.lgaofcapture);
+        middle2.setText(sharedpreferences.getString("stateofcapture",""));
         signature = findViewById(R.id.signaturepreview);
-        Bitmap b = Constant.loadImageFromStorage(Constant.signatureimage,Constant.signatureimagename);
+        Bitmap b = Constant.loadImageFromStorage(sharedpreferences.getString("signatureimage",""),sharedpreferences.getString("signatureimagename",""));
         signature.setImageBitmap(b);
         ImageView leftindex = findViewById(R.id.leftindex);
-        String[] fingerprintimage = Constant.fingerprintimage.split(";");
-        String[] fingerprintname = Constant.fingerprintname.split(";");
+        String[] fingerprintimage = sharedpreferences.getString("fingerprintimage","").split(";");
+        String[] fingerprintname = sharedpreferences.getString("fingerprintname","").split(";");
         Bitmap b0 = Constant.loadImageFromStorage(fingerprintimage[0], fingerprintname[0]);
         leftindex.setImageBitmap(b0);
         ImageView leftmiddle = findViewById(R.id.leftmiddle);
@@ -132,23 +134,25 @@ public class PreviewActivity extends AppCompatActivity {
         signpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ticketid = Nibss.agent_code;
+                String agent_code = sharedpreferences.getString("agent_code","");
+                String agent_name = sharedpreferences.getString("agent_name","");
+                ticketid = agent_code;
                 ticketid += new SimpleDateFormat("yyMMDD").format(new Date());
                 ticketid += new SimpleDateFormat("HHMMSS").format(new Date());
                 String date = new SimpleDateFormat("E, MMMM dd, yyyy").format(new Date());
 
 //Friday, January 3, 2020
-                boolean addone = databasehelper.insertcomplete(ticketid,Nibss.agent_code,timeStamp);
+                boolean addone = databasehelper.insertcomplete(ticketid,agent_code,timeStamp, getApplicationContext());
                 if (addone) {
                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PreviewActivity.this);
                     alertDialogBuilder.setTitle("BVN Enrolment Ticket");
-                    alertDialogBuilder.setMessage("Ticket ID: "+ticketid+" \n Date Captured: "+ date+" \n Agent: "+Nibss.agent_name);
+                    alertDialogBuilder.setMessage("Ticket ID: "+ticketid+" \n Date Captured: "+ date+" \n Agent: "+agent_name);
                     alertDialogBuilder.setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     Util.scheduleJob(getApplicationContext(), Long.parseLong("1"));
-                                    Intent in = new Intent(getApplicationContext(), BegincaptureActivity.class);
+                                    Intent in = new Intent(getApplicationContext(), Nibss.destination);
                                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(in);
                                     finish();

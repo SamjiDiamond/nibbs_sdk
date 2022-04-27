@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -75,6 +76,7 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     int loading=0;
     Bitmap rotatedBitmap = null;
     Bitmap loadedImage = null;
+    SharedPreferences sharedpreferences;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -88,6 +90,8 @@ public class CameraActivity extends AppCompatActivity implements Callback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        Constant.table_id = sharedpreferences.getString("table_id","");
         // camera surface view created
         cameraId = CameraInfo.CAMERA_FACING_BACK;
         flipCamera =  findViewById(R.id.flipCamera);
@@ -578,12 +582,11 @@ public class CameraActivity extends AppCompatActivity implements Callback,
                                                     stage2();
                                                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                                                     String imageFileName = "photo" + timeStamp + "_";
-                                                    Constant.faceimagename = imageFileName;
                                                     String path = Constant.saveToInternalStorage(rotatedBitmap, getApplicationContext(), imageFileName);
-                                                    Constant.faceimage = path;
-//                                                Intent in = new Intent(getApplicationContext(), CameraActivity.class);
-//                                                in.putExtra("data", "SMILE TO THE CAMERA.");
-//                                                startActivity(in);
+                                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                                    editor.putString("faceimagename",imageFileName);
+                                                    editor.putString("faceimage",path);
+                                                    editor.apply();
                                                 }
 
                                             } else if (cameratext.getText().toString().equals("SMILE TO THE CAMERA.")) {

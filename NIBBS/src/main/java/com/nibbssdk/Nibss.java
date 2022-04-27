@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.nibbssdk.database.Databasehelper;
+import com.nibbssdk.form.BegincaptureActivity;
 import com.nibbssdk.services.Util;
 
 public class Nibss {
@@ -40,17 +41,59 @@ public class Nibss {
         return new Databasehelper(context).getvalidated().size();
     }
 
-    public static String agent_code = "66519437";
-    public static String intitution_code = "66519437";
-    public static String agent_name = "Eyowo Sample Agen";
-    public static String institution_name = "Eyowo Sample Agen";
+    public static String agent_code (String data,Context context){
+        String value = "";
+        if(data == null){
+            value ="66519437";
+        }else{
+            value = data;
+        }
+        storedata("agent_code", value,context );
+        return value;
+    }
+    public static String intitution_code (String data,Context context){
+        String value = "";
+        if(data == null){
+            value ="66519437";
+        }else{
+            value = data;
+        }
+        storedata("intitution_code", value,context );
+        return value;
+    }
+     public static String agent_name (String data,Context context){
+        String value = "";
+        if(data == null){
+            value ="Eyowo Sample Agent";
+        }else{
+            value = data;
+        }
+        storedata("agent_name", value,context );
+        return value;
+    }
+    public static String institution_name (String data,Context context){
+        String value = "";
+        if(data == null){
+            value ="Eyowo Sample Agent";
+        }else{
+            value = data;
+        }
+        storedata("institution_name", value,context );
+        return value;
+    }
+    public static Class destination = BegincaptureActivity.class;
+ private static void storedata(String s,String s1, Context context) {
+     SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+     SharedPreferences.Editor editor = sharedpreferences.edit();
+     editor.putString(s, s1);
+     editor.apply();
+ }
+    public static Databasehelper databasehelper(Context context){
+        return new Databasehelper(context);
+    }
 
     public static RequestQueue getRequestQueue(Context context) {
-        RequestQueue mRequestQueue = null;
-        if (mRequestQueue == null) {
-           mRequestQueue = Volley.newRequestQueue(context);
-        }
-        return mRequestQueue;
+        return Volley.newRequestQueue(context);
     }
 
     public <T> void addToRequestQueue(Request<T> request, String str, Context context) {

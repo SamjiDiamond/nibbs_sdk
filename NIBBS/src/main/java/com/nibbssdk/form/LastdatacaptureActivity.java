@@ -3,7 +3,9 @@ package com.nibbssdk.form;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +27,13 @@ public class LastdatacaptureActivity extends AppCompatActivity {
     EditText title, firstname, surname, middle, dateico;
     ImageView backbutton;
     Databasehelper databasehelper;
-
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lastdatacapture);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        Constant.table_id = sharedpreferences.getString("table_id","");
         databasehelper = new Databasehelper(getApplicationContext());
 
         dateico = findViewById(R.id.dateofbirthEditText);
@@ -159,10 +163,12 @@ public class LastdatacaptureActivity extends AppCompatActivity {
     }
 
     void savedata(){
-        Constant.accountlevel = title.getText().toString();
-        Constant.nin = surname.getText().toString();
-        Constant.selectbank = middle.getText().toString();
-        Constant.stateofcapture = middle.getText().toString();
-        Constant.lgaofcapture = dateico.getText().toString();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("accountlevel",title.getText().toString());
+        editor.putString("nin",surname.getText().toString());
+        editor.putString("selectbank",firstname.getText().toString());
+        editor.putString("stateofcapture",middle.getText().toString());
+        editor.putString("lgaofcapture",dateico.getText().toString());
+        editor.apply();
     }
 }

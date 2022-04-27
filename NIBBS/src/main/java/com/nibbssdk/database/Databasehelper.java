@@ -2,6 +2,7 @@ package com.nibbssdk.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -235,11 +236,12 @@ public class Databasehelper extends SQLiteOpenHelper {
         else
             return true;
     }
-   public boolean insertcomplete(String ticketid, String agentid, String capturedate) {
+   public boolean insertcomplete(String ticketid, String agentid, String capturedate,Context context) {
+       SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-       contentValues.put(COLUMN_INSTITUTION_CODE, Nibss.intitution_code);
-       contentValues.put(COLUMN_INSTITUTION_NAME, Nibss.institution_name);
+       contentValues.put(COLUMN_INSTITUTION_CODE, sharedpreferences.getString("intitution_code",""));
+       contentValues.put(COLUMN_INSTITUTION_NAME, sharedpreferences.getString("institution_name",""));
        contentValues.put(COLUMN_COMPLETED, "1");
        contentValues.put(COLUMN_AGENT_CODE, agentid);
        contentValues.put(COLUMN_TICKET_ID, ticketid);
@@ -252,7 +254,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         else
             return true;
     }
-    public void getcurrenttable(String surname, String firstname, String middlename){
+    public void getcurrenttable(String surname, String firstname, String middlename, Context context){
         List<Datamodel> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + DATA_TABLE +" WHERE "+ COLUMN_SURNAME + " =? AND " +COLUMN_FIRSTNAME + " =? AND " + COLUMN_MIDDLENAME + " =?";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -264,7 +266,10 @@ public class Databasehelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString,selectargs);
         Log.e("TAG", "getcurrenttable: " + cursor.getCount());
         if (cursor.moveToNext()){
-            Constant.table_id = String.valueOf(cursor.getString(0));
+            SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("table_id", String.valueOf(cursor.getString(0)));
+            editor.commit();
             Log.e("TAG", "getcurrenttable return: " + cursor.getString(0));
         }
 //        returnList = cursor(cursor);

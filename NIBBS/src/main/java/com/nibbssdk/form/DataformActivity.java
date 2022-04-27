@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +36,12 @@ public class DataformActivity extends AppCompatActivity {
     ArrayList<String> day = new ArrayList<>();
     int number  = 32;
     Databasehelper databasehelper;
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dataform);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         databasehelper = new Databasehelper(getApplicationContext());
         dateico = findViewById(R.id.dateofbirthEditText);
         dateico.setOnClickListener(new View.OnClickListener() {
@@ -294,7 +298,7 @@ public class DataformActivity extends AppCompatActivity {
             boolean addone = databasehelper.insertdataformactivity(stringtitle,stringsurname,stringfirstname,
                     stringmiddle,stringdateico,stringgender,stringmarital,stringnationality,stringsoo, stringlga);
             if (addone) {
-                databasehelper.getcurrenttable(stringsurname, stringfirstname,stringmiddle);
+                databasehelper.getcurrenttable(stringsurname, stringfirstname,stringmiddle,getApplicationContext());
                 Intent in = new Intent(getApplicationContext(), DatacaptureActivity.class);
                 startActivity(in);
             }else {
@@ -305,16 +309,18 @@ public class DataformActivity extends AppCompatActivity {
     }
 
     void savedata(){
-        Constant.title = title.getText().toString();
-        Constant.surname = surname.getText().toString();
-        Constant.firstname = firstname.getText().toString();
-        Constant.middlename = middle.getText().toString();
-        Constant.dob = dateico.getText().toString();
-        Constant.gender = gender.getText().toString();
-        Constant.maritalstatus = marital.getText().toString();
-        Constant.nationality = nationality.getText().toString();
-        Constant.soo = soo.getText().toString();
-        Constant.lga = lga.getText().toString();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("title",title.getText().toString());
+        editor.putString("surname",surname.getText().toString());
+        editor.putString("firstname",firstname.getText().toString());
+        editor.putString("middlename",middle.getText().toString());
+        editor.putString("dob",dateico.getText().toString());
+        editor.putString("gender",gender.getText().toString());
+        editor.putString("maritalstatus",marital.getText().toString());
+        editor.putString("nationality",nationality.getText().toString());
+        editor.putString("soo",soo.getText().toString());
+        editor.putString("lga",lga.getText().toString());
+        editor.apply();
     }
 
 }

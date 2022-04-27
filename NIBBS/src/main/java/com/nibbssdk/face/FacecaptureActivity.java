@@ -2,7 +2,9 @@ package com.nibbssdk.face;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +44,10 @@ public class FacecaptureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_facecapture);
         databasehelper = new Databasehelper(getApplicationContext());
         image = findViewById(R.id.imageview);
-        Bitmap b = Constant.loadImageFromStorage(Constant.faceimage, Constant.faceimagename);
+        SharedPreferences sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String faceimage = sharedpreferences.getString("faceimage","");
+        String faceimagename = sharedpreferences.getString("faceimagename","");
+        Bitmap b = Constant.loadImageFromStorage(faceimage, faceimagename);
 //        Matrix matrix = new Matrix();
 //        image.setScaleType(ImageView.ScaleType.MATRIX);   //required
 //        matrix.postRotate((float) -45, 0, 0);
@@ -60,7 +65,7 @@ public class FacecaptureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                boolean addone = databasehelper.insertface(Constant.faceimage,Constant.faceimagename);
+                boolean addone = databasehelper.insertface(faceimage,faceimagename);
                 if (addone) {
                     Intent in = new Intent(getApplicationContext(), BeginfingerprintActivity.class);
                     startActivity(in);

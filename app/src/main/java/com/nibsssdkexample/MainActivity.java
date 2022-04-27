@@ -9,8 +9,10 @@ import android.widget.TextView;
 //import com.nibbssdk.fingerprint.SimpleScanActivity;
 import com.nibbssdk.Nibss;
 import com.nibbssdk.PreviewActivity;
+import com.nibbssdk.database.Databasehelper;
 import com.nibbssdk.face.BeginfaceActivity;
 import com.nibbssdk.fingerprint.BeginfingerprintActivity;
+import com.nibbssdk.fingerprint.SimpleScanActivity;
 import com.nibbssdk.form.BegincaptureActivity;
 import com.nibbssdk.signature.BeginsignatureActivity;
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Nibss.startuploading(getApplicationContext());
+        Nibss.destination = MainActivity.class;
+        Nibss.databasehelper(getApplicationContext());
         TextView ade = findViewById(R.id.hello);
         ade.setOnClickListener(new View.OnClickListener() {
             @Override

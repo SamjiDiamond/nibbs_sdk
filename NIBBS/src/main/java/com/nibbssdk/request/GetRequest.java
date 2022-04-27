@@ -1,6 +1,7 @@
 package com.nibbssdk.request;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
@@ -27,6 +28,8 @@ public abstract class GetRequest {
     public abstract void onSuccess(JSONObject jSONObject) throws JSONException;
 
     public void requestDisplay(String str, Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String agent_code = sharedpreferences.getString("agent_code","");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(0, Constant.baseurl +"enrollment/"+ str, null, new Response.Listener<JSONObject>() {
             /* class com.ugswitch.simhost.request.GetRequest.AnonymousClass1 */
 
@@ -60,7 +63,7 @@ public abstract class GetRequest {
             @Override // com.android.volley.Request
             public Map<String, String> getParams() {
                 HashMap hashMap = new HashMap();
-                hashMap.put("agent_id", Nibss.agent_code);
+                hashMap.put("agent_id", agent_code);
                 return hashMap;
             }
         };

@@ -35,6 +35,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -210,6 +211,9 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 	Bundle extras;
 	TextView fingertext;
 	private ImageView captureImage;
+	SharedPreferences sharedpreferences;
+	String fingerprintname = "";
+	String fingerprintimage = "";
 	/* *********************************************************************************************
 	 * PRIVATE FIELDS
 	 ******************************************************************************************** */
@@ -288,17 +292,11 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 		m_ibScan = IBScan.getInstance(this.getApplicationContext());
 		m_ibScan.setScanListener(this);
 
-		Resources r = Resources.getSystem();
-		Configuration config = r.getConfiguration();
-
-//		if (config.orientation == Configuration.ORIENTATION_PORTRAIT)
-//		{
-//			setContentView(R.layout.ib_scan_port);
-//		}
-//		else
-//		{
 			setContentView(R.layout.activity_capturefingerprint);
-//		}
+
+		sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+		Constant.table_id = sharedpreferences.getString("table_id","");
+
 
 //		/* Initialize UI fields. */
 
@@ -315,6 +313,7 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 		captureImage.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				if (!fingertext.getText().toString().equals("Right Thumb Finger.")) {
 					startscanning();
 //					in = new Intent(getApplicationContext(), SimpleScanActivity.class);
 					switch (fingertext.getText().toString()) {
@@ -322,13 +321,13 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 							fingertext.setText("Left Middle Finger.");
 							break;
 						case "Left Middle Finger.":
-							fingertext.setText( "Left Ring Finger.");
+							fingertext.setText("Left Ring Finger.");
 							break;
 						case "Left Ring Finger.":
-							fingertext.setText( "Left Little Finger.");
+							fingertext.setText("Left Little Finger.");
 							break;
 						case "Left Little Finger.":
-							fingertext.setText( "Right Index Finger.");
+							fingertext.setText("Right Index Finger.");
 							break;
 						case "Right Index Finger.":
 							fingertext.setText("Right Middle Finger.");
@@ -351,6 +350,14 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 							break;
 
 					}
+				}else {
+					SharedPreferences.Editor editor = sharedpreferences.edit();
+					editor.putString("fingerprintimage",fingerprintimage);
+					editor.putString("fingerprintname",fingerprintname);
+					editor.apply();
+					Intent in = new Intent(getApplicationContext(), FingerprintActivity.class);
+					startActivity(in);
+				}
 			}
 		});
 
@@ -2243,19 +2250,19 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 
 			@SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 			String imageFileName = "fingerprint" + timeStamp + "_";
-			if (Constant.fingerprintname.isEmpty()){
-				Constant.fingerprintname= imageFileName;
+			if (fingerprintname.isEmpty()){
+				fingerprintname= imageFileName;
 			}else{
-				Constant.fingerprintname += ";"+imageFileName;
+				fingerprintname += ";"+imageFileName;
 			}
 			String path = Constant.saveToInternalStorage(image.toBitmap(), getApplicationContext(), imageFileName);
-			if (Constant.fingerprintimage.isEmpty()){
-				Constant.fingerprintimage= path;
+			if (fingerprintimage.isEmpty()){
+				fingerprintimage= path;
 			}else{
-				Constant.fingerprintimage += ";"+path;
+				fingerprintimage += ";"+path;
 			}
-			Log.d("TAG", "onClick: "+Constant.fingerprintimage);
-			Log.d("TAG", "onClick: "+Constant.fingerprintname);
+			Log.d("TAG", "onClick: "+fingerprintimage);
+			Log.d("TAG", "onClick: "+fingerprintname);
 
 
 /* This code works well, but decided to exclude the code in v3.7.2 release (commented by Wade on 6/23/2021

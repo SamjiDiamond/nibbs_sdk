@@ -3,7 +3,9 @@ package com.nibbssdk.signature;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -20,10 +22,13 @@ public class SigningpageActivity extends AppCompatActivity {
 
     ImageView savebutton;
     SignaturePad mSignaturePad;
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signingpage);
+        sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        Constant.table_id = sharedpreferences.getString("table_id","");
         mSignaturePad = (SignaturePad) findViewById(R.id.signature_pad);
         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
 
@@ -52,12 +57,14 @@ public class SigningpageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "signature" + timeStamp + "_";
-                Constant.signatureimagename = imageFileName;
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 String path = Constant.saveToInternalStorage(signatureBitmap,getApplicationContext(),imageFileName);
                 if (path !=null) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("signatureimagename",imageFileName);
+                    editor.putString("signatureimage",path);
+                    editor.apply();
                     Intent in = new Intent(getApplicationContext(), SignatureActivity.class);
-                    Constant.signatureimage = path;
                     in.putExtra("data", path);
                     startActivity(in);
 //                Intent intent = new Intent();

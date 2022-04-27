@@ -2,6 +2,7 @@ package com.nibbssdk.services;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Build;

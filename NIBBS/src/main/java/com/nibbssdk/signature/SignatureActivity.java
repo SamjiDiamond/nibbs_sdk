@@ -2,7 +2,9 @@ package com.nibbssdk.signature;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -24,12 +26,15 @@ Databasehelper databasehelper;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
+        SharedPreferences sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String signatureimagename = sharedpreferences.getString("signatureimagename","");
+        String signatureimage = sharedpreferences.getString("signatureimage","");
         databasehelper = new Databasehelper(getApplicationContext());
         signature = findViewById(R.id.signaturepreview);
         extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("data");
-            Bitmap b = Constant.loadImageFromStorage(value,Constant.signatureimagename);
+            Bitmap b = Constant.loadImageFromStorage(value,signatureimagename);
             signature.setImageBitmap(b);
             //The key argument here must match that used in the other activity
         }
@@ -44,7 +49,7 @@ Databasehelper databasehelper;
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean addone = databasehelper.insertsignature(Constant.signatureimage,Constant.signatureimagename);
+                boolean addone = databasehelper.insertsignature(signatureimage,signatureimagename);
                 if (addone) {
                     Intent in = new Intent(getApplicationContext(), PreviewActivity.class);
                     startActivity(in);

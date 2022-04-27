@@ -2,7 +2,9 @@ package com.nibbssdk.fingerprint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +25,11 @@ public class FingerprintActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fingerprint);
         databasehelper = new Databasehelper(getApplicationContext());
         ImageView leftindex = findViewById(R.id.leftindex);
-        String[] fingerprintimage = Constant.fingerprintimage.split(";");
-        String[] fingerprintname = Constant.fingerprintname.split(";");
+        SharedPreferences sharedpreferences = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        String stringfingerprintname = sharedpreferences.getString("fingerprintname","");
+        String stringfingerprintimage = sharedpreferences.getString("fingerprintimage","");
+        String[] fingerprintimage = stringfingerprintimage.split(";");
+        String[] fingerprintname = stringfingerprintname.split(";");
         Bitmap b = Constant.loadImageFromStorage(fingerprintimage[0], fingerprintname[0]);
         leftindex.setImageBitmap(b);
         ImageView leftmiddle = findViewById(R.id.leftmiddle);
@@ -66,7 +71,7 @@ public class FingerprintActivity extends AppCompatActivity {
         nextlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean addone = databasehelper.insertfingerprint(Constant.fingerprintimage,Constant.fingerprintname);
+                boolean addone = databasehelper.insertfingerprint(stringfingerprintimage,stringfingerprintname);
                 if (addone) {
                     Intent in = new Intent(getApplicationContext(), BeginsignatureActivity.class);
                     startActivity(in);

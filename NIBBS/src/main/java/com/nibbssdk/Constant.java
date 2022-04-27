@@ -97,35 +97,4 @@ public class Constant {
         Toast.makeText(context, "Incorrect "+word, Toast.LENGTH_LONG).show();
     }
     public static String table_id = "";
-    public static String title = "";
-    public static String surname = "";
-    public static String firstname = "";
-    public static String middlename = "";
-    public static String dob = "";
-    public static String maritalstatus = "";
-    public static String gender = "";
-    public static String nationality = "";
-    public static String soo = "";
-    public static String lga = "";
-    public static String residentialaddress = "";
-    public static String stateofresidence = "";
-    public static String lgaofresidence = "";
-    public static String landmarks = "";
-    public static String email = "";
-    public static String phonenumber = "";
-    public static String phonenumber2 = "";
-    public static String accountlevel = "";
-    public static String nin = "";
-    public static String selectbank = "";
-    public static String stateofcapture = "";
-    public static String lgaofcapture = "";
-    public static String signatureimage = "";
-    public static String signatureimagename = "";
-    public static String faceimage = "";
-    public static String faceimagename = "";
-    public static String institutioncode = "";
-    public static String institutionname = "";
-//    public static String agentcode = "";
-    public static String fingerprintname = "";
-    public static String fingerprintimage = "";
 }
