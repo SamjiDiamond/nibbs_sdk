@@ -68,8 +68,7 @@ public class Databasehelper extends SQLiteOpenHelper {
         String createtablestatement = "CREATE TABLE " + DATA_TABLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " " + COLUMN_TITLE + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_FIRSTNAME + " TEXT, " +
                 COLUMN_MIDDLENAME + " TEXT,  " + COLUMN_DATEOFBIRTH + " TEXT, " + " " + COLUMN_GENDER +
-                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT," + COLUMN_UPLOADSTATUS + " TEXT DEFAULT 0,"
-                + COLUMN_INSTITUTION_CODE + " TEXT," + COLUMN_INSTITUTION_NAME + " TEXT," + COLUMN_AGENT_CODE + " TEXT,"
+                " TEXT,  " + COLUMN_MARITALSTATUS + " TEXT," + COLUMN_UPLOADSTATUS + " TEXT DEFAULT 0," + COLUMN_AGENT_CODE + " TEXT,"
                 + COLUMN_TICKET_ID + " TEXT," + COLUMN_VALIDATION_STATUS + " TEXT DEFAULT 0," + COLUMN_CAPTURE_DATE + " TEXT,"
                 + COLUMN_SYNC_DATE + " TEXT," + COLUMN_VALIDATION_DATE + " TEXT," + COLUMN_STATE_OF_CAPTURE + " TEXT,"
                 + COLUMN_STATE_OF_SYNC + " TEXT DEFAULT 0," + COLUMN_COMPLETED + " TEXT DEFAULT 0," + COLUMN_STATE_OF_ORIGIN + " TEXT," + COLUMN_LGA + " TEXT,"
@@ -99,8 +98,6 @@ public class Databasehelper extends SQLiteOpenHelper {
         cv.put(COLUMN_GENDER, datamodel.getGender());
         cv.put(COLUMN_MARITALSTATUS, datamodel.getMaritalstatus());
         cv.put(COLUMN_UPLOADSTATUS, datamodel.getUploadstatus());
-        cv.put(COLUMN_INSTITUTION_CODE, datamodel.getInstitutioncode());
-        cv.put(COLUMN_INSTITUTION_NAME, datamodel.getInstitutionname());
         cv.put(COLUMN_AGENT_CODE, datamodel.getAgentcode());
         cv.put(COLUMN_TICKET_ID, datamodel.getTicketid());
         cv.put(COLUMN_VALIDATION_STATUS, datamodel.getValidationstatus());
@@ -240,8 +237,6 @@ public class Databasehelper extends SQLiteOpenHelper {
        SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-       contentValues.put(COLUMN_INSTITUTION_CODE, sharedpreferences.getString("intitution_code",""));
-       contentValues.put(COLUMN_INSTITUTION_NAME, sharedpreferences.getString("institution_name",""));
        contentValues.put(COLUMN_COMPLETED, "1");
        contentValues.put(COLUMN_AGENT_CODE, agentid);
        contentValues.put(COLUMN_TICKET_ID, ticketid);
@@ -383,41 +378,38 @@ public class Databasehelper extends SQLiteOpenHelper {
                 String datagender = cursor.getString(6);
                 String datamaritalstatus = cursor.getString(7);
                 String datauploadstatus = cursor.getString(8);
-                String datainstitutioncode = cursor.getString(9);
-                String datainstitutionname = cursor.getString(10);
-                String dataagentcode = cursor.getString(11);
-                String dataticketid = cursor.getString(12);
-                String datavalidationstatus = cursor.getString(13);
-                String datacapturedate = cursor.getString(14);
-                String datasyncdate = cursor.getString(15);
-                String datavalidationdate = cursor.getString(16);
-                String datastateofcapture = cursor.getString(17);
-                String datastateofsyn = cursor.getString(18);
-                String completed = cursor.getString(19);
-                String datasoo = cursor.getString(20);
-                String datalga = cursor.getString(21);
-                String dataresidentialaddress = cursor.getString(22);
-                String datastateofresidence = cursor.getString(23);
-                String datalgaofresisdence = cursor.getString(24);
-                String datalandmarks = cursor.getString(25);
-                String dataemail = cursor.getString(26);
-                String dataphonenumber = cursor.getString(27);
-                String dataphonenumber2 = cursor.getString(28);
-                String dataaccountlevel = cursor.getString(29);
-                String datanin = cursor.getString(30);
-                String dataselectbank = cursor.getString(31);
-                String datalgaofcapture = cursor.getString(32);
-                String datasignatureimage = cursor.getString(33);
-                String datasignatureimagename = cursor.getString(34);
-                String datafaceimage = cursor.getString(35);
-                String datafaceimagename = cursor.getString(36);
-                String datanationality = cursor.getString(37);
-                String datafingerimage = cursor.getString(38);
-                String datafingerimagename = cursor.getString(39);
+                String dataagentcode = cursor.getString(9);
+                String dataticketid = cursor.getString(10);
+                String datavalidationstatus = cursor.getString(11);
+                String datacapturedate = cursor.getString(12);
+                String datasyncdate = cursor.getString(13);
+                String datavalidationdate = cursor.getString(14);
+                String datastateofcapture = cursor.getString(15);
+                String datastateofsyn = cursor.getString(16);
+                String completed = cursor.getString(17);
+                String datasoo = cursor.getString(18);
+                String datalga = cursor.getString(19);
+                String dataresidentialaddress = cursor.getString(20);
+                String datastateofresidence = cursor.getString(21);
+                String datalgaofresisdence = cursor.getString(22);
+                String datalandmarks = cursor.getString(23);
+                String dataemail = cursor.getString(24);
+                String dataphonenumber = cursor.getString(25);
+                String dataphonenumber2 = cursor.getString(26);
+                String dataaccountlevel = cursor.getString(27);
+                String datanin = cursor.getString(28);
+                String dataselectbank = cursor.getString(29);
+                String datalgaofcapture = cursor.getString(30);
+                String datasignatureimage = cursor.getString(31);
+                String datasignatureimagename = cursor.getString(32);
+                String datafaceimage = cursor.getString(33);
+                String datafaceimagename = cursor.getString(34);
+                String datanationality = cursor.getString(35);
+                String datafingerimage = cursor.getString(36);
+                String datafingerimagename = cursor.getString(37);
                 Datamodel newdata = new Datamodel(dataid,datatitle,
                         datasurname,datafirstname,datamiddlename,
-                        datadob,datagender,datamaritalstatus,
-                        datainstitutioncode,datainstitutionname,dataagentcode,
+                        datadob,datagender,datamaritalstatus,dataagentcode,
                         dataticketid,datacapturedate,datastateofcapture,
                         datasoo,datanationality,datalga,dataresidentialaddress,datastateofresidence,
                         datalgaofresisdence,datalandmarks,dataemail,

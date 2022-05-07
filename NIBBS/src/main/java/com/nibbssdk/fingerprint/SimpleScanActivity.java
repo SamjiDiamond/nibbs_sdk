@@ -2261,8 +2261,6 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 			}else{
 				fingerprintimage += ";"+path;
 			}
-			Log.d("TAG", "onClick: "+fingerprintimage);
-			Log.d("TAG", "onClick: "+fingerprintname);
 
 
 /* This code works well, but decided to exclude the code in v3.7.2 release (commented by Wade on 6/23/2021

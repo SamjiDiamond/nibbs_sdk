@@ -86,12 +86,15 @@ public class Uploadservice extends JobService {
                         @Override // com.ugswitch.simhost.request.PostRequest
                         public void onError(String str) {
                             Log.d("TAG", "onError: " + str);
+
+                            getrequest();
                         }
 
                         @Override // com.ugswitch.simhost.request.PostRequest
                         public void onSuccess(String str) {
 //                            databasehelper.updatesync(databasehelper.COLUMN_SYNC_DATE, "1", String.valueOf(notuploaded.get(finalI).getId()));
 //                            uploading = true;
+                            getrequest();
                             Log.d("TAG", "onSuccess: " + str);
                             if (Constant.logstatus(str).equals("true")) {
 //                                uploadfingerprint(finalI);
@@ -108,8 +111,6 @@ public class Uploadservice extends JobService {
             } catch (Exception e) {
                 Log.d("Exception caught",e.getMessage());
             }
-
-        getrequest();
 
         return true;
     }

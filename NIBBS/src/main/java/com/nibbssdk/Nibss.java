@@ -51,16 +51,6 @@ public class Nibss {
         storedata("agent_code", value,context );
         return value;
     }
-    public static String intitution_code (String data,Context context){
-        String value = "";
-        if(data == null){
-            value ="66519437";
-        }else{
-            value = data;
-        }
-        storedata("intitution_code", value,context );
-        return value;
-    }
      public static String agent_name (String data,Context context){
         String value = "";
         if(data == null){
@@ -69,16 +59,6 @@ public class Nibss {
             value = data;
         }
         storedata("agent_name", value,context );
-        return value;
-    }
-    public static String institution_name (String data,Context context){
-        String value = "";
-        if(data == null){
-            value ="Eyowo Sample Agent";
-        }else{
-            value = data;
-        }
-        storedata("institution_name", value,context );
         return value;
     }
     public static Class destination = BegincaptureActivity.class;
