@@ -51,6 +51,16 @@ public class Nibss {
         storedata("agent_code", value,context );
         return value;
     }
+    public static String agent_uuid (String data,Context context){
+        String value = "";
+        if(data == null){
+            value ="1385455b-12b7-42ec-bcf3-6feb765d36f9";
+        }else{
+            value = data;
+        }
+        storedata("agent_uuid", value,context );
+        return value;
+    }
      public static String agent_name (String data,Context context){
         String value = "";
         if(data == null){

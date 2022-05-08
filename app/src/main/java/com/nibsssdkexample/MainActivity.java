@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Nibss.destination = MainActivity.class;
         Nibss.databasehelper(getApplicationContext());
         Nibss.agent_code("66519437",getApplicationContext());
+        Nibss.agent_uuid("1385455b-12b7-42ec-bcf3-6feb765d36f9",getApplicationContext());
         Nibss.agent_name("Eyowo Sample Agent",getApplicationContext());
         TextView ade = findViewById(R.id.hello);
         ade.setOnClickListener(new View.OnClickListener() {

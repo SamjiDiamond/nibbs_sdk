@@ -31,7 +31,7 @@ public abstract class PostRequest {
                                 String phone_number_1, String phone_number_2, String sign_image, String face_image, List<String> finger_image, String bankname, Context context) {
 
         SharedPreferences sharedpreferences = context.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
-        String agent_code = sharedpreferences.getString("agent_code","");
+        String agent_code = sharedpreferences.getString("agent_uuid","");
         StringRequest r12 = new StringRequest(Request.Method.POST, Constant.baseurl+"enrollment", new Response.Listener<String>() {
             /* class com.ugswitch.simhost.request.PostRequest.AnonymousClass4 */
 
@@ -103,6 +103,11 @@ public abstract class PostRequest {
                 hashMap.put("finger_image9", finger_image.get(9));
                 hashMap.put("bankname", bankname);
                 Log.e(TAG, "data getParams: "+hashMap );
+//                SharedPreferences.Editor editor = sharedpreferences.edit();
+//                editor.clear();
+//                editor.apply();
+//                editor.putString("payload", hashMap.toString());
+//                editor.apply();
                 return hashMap;
             }
         };

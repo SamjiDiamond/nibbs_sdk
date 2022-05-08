@@ -958,15 +958,15 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 		{
 
 
-			final int devIndex = 0;
+			final int devIndex = getIBScan().getDeviceCount();
 			IBScan.DeviceDesc devDesc = null;
-			if (devIndex > -1)
+			if (devIndex > 0)
 			{
-				devDesc = getIBScan().getDeviceDescription(devIndex);
+				devDesc = getIBScan().getDeviceDescription(devIndex-1);
 
 			}
 
-			if (devIndex >=0 )
+			if (devIndex >=1 )
 			{
 				if (devDesc.isLocked == true)
 				{
@@ -1574,20 +1574,15 @@ public class SimpleScanActivity extends Activity implements IBScanListener, IBSc
 					boolean idle = (!m_bInitializing && (m_nCurrentCaptureStep == -1)) ||
 							(bConfigurationChanged);
 
-
-					//store currently selected device
-					String strSelectedText = "";
-					int selectedDev = 1;
-					if (selectedDev > -1)
-						strSelectedText = "tolu finger print";
-
 					// populate combo box
 					int devices = getIBScan().getDeviceCount();
-					IBScan.DeviceDesc devDesc = getIBScan().getDeviceDescription(0);
-					String strDevice;
-					strDevice = devDesc.productName + "_v"+ devDesc.fwVersion + " (" + devDesc.serialNumber + ")";
-					Log.e(TAG, "run: gfhjguytdrsxrty "+ strDevice );
-
+					Log.e(TAG, "run: devices "+devices );
+					if (devices !=0) {
+						IBScan.DeviceDesc devDesc = getIBScan().getDeviceDescription(0);
+						String strDevice;
+						strDevice = devDesc.productName + "_v" + devDesc.fwVersion + " (" + devDesc.serialNumber + ")";
+						Log.e(TAG, "run: gfhjguytdrsxrty " + strDevice);
+					}
 					if (idle)
 					{
 						OnMsg_cboUsbDevice_Changed();
